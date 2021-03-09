@@ -86,5 +86,9 @@ data_combined <- data_combined %>% select(all_of(select_cols))
 head(data_combined)
 ```
 
+```{r}
+#Creating plost to visualise the data
+
+```
 
 
