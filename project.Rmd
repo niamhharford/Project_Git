@@ -7,11 +7,11 @@ output: html_document
 
 The explanatory variables I want:
 
-(1) Age - transform from continues features to Categorical features to understand the relationship among the features
+(1) Age - Age in years of the participant at the time of screening. Individuals 80 and over are topcoded at 80 years of age. (RIDAGEYR) Transform from continues features to Categorical features to understand the relationship among the features.
 
-(2) Gender
+(2) Gender (RIAGENDR)
 
-(3) Race
+(3) Race - Recode of reported race and ethnicity information (RIDRETH1)
 
 (4) Smoking - Smokers defined as individuals having smoked ≥ 100 cigarettes during their lifetime (SMQ020) and currently smoke some days or every day (SMQ040) 
 
@@ -19,16 +19,17 @@ The explanatory variables I want:
 
 (6) Diabetes - Participants admit to have diabetes if the answer presents “Yes or “Borderline” to the question “Doctor told that you have diabetes?” (DIQ010) and {Is SP/Are you} now taking insulin (DIQ050)
 
-(7) BMI (Body Mass Index) - transform from continues features to Categorical features to understand the relationship among the features. Body Mass Index (kg/m**2) (BMXBMI)
+(7) BMI (Body Mass Index) - Transform from continues features to Categorical features to understand the relationship among the features. Body Mass Index (kg/m**2) (BMXBMI)
 
 The response variable:
+
 (1) Blood pressure is utilized to generate the dependent feature.
 Hypertension category designated as systolic blood pressure of ≥ 130 mmHg, previously define as ≥ 140 mmHg by the American Heart Association. {Have you/Has SP} ever been told by a doctor or other health professional that {you/s/he} had hypertension, also called high blood pressure? - (BPQ020)
 
 ```{r}
 suppressMessages(library(nhanesA))
 suppressMessages(library(tidyverse))
-
+suppressMessages(library(ggplot2))
 
 # nhanesTableVars('DEMO', 'DEMO_I')
 # nhanesTableVars('Q', 'SMQ_J') 
@@ -39,20 +40,11 @@ suppressMessages(library(tidyverse))
 ```
 
 
-DEMO_I
-
-(1) RIAGENDR - Gender of participant
-
-(2) RIDAGEYR - Age in years of the participant at the time of screening. Individuals 80 and over are topcoded at 80 years of age.
-
-
-(3) RIDRETH1 - Recode of reported race and ethnicity information.
-
 ```{r}
 #2015/2016 data
 smq_i <- nhanes('SMQ_I') 
 demo_i <- nhanes('DEMO_I')
-diq_i <- nhanes('DIQ_I')
+diq_i <- nhanes('DIQ_I') 
 kiq_u_i <- nhanes('KIQ_U_I')
 bmx_i <- nhanes('BMX_I')
 bpq_i <- nhanes('BPQ_I')
@@ -60,7 +52,7 @@ bpq_i <- nhanes('BPQ_I')
 
 ```{r}
 #Translate
-demo_i <- nhanesTranslate('DEMO_I', c('RIAGENDR', 'RIDRETH1'), data=demo_i)
+demo_i <- nhanesTranslate('DEMO_I', c('RIAGENDR', 'RIDRETH1', 'RIDAGEYR'), data=demo_i)
 bmx_i <- nhanesTranslate('BMX_I', 'BMXBMI', data=bmx_i) #no columns translated
 smq_i <- nhanesTranslate('SMQ_I', c('SMQ020','SMQ040'), data=smq_i)
 diq_i <- nhanesTranslate('DIQ_I', c('DIQ010', 'DIQ050'), data=diq_i)
@@ -76,19 +68,49 @@ comb3 <- merge(comb2, kiq_u_i)
 comb4 <- merge(comb3, bmx_i)
 comb5 <- merge(comb4, bpq_i)
 select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020','SMQ040', 'DIQ010', 'DIQ050', 'KIQ022', 'KIQ025', 'BMXBMI')
-combined_data <- comb5 %>% select(all_of(select_cols))
+comb_data <- comb5 %>% select(all_of(select_cols))
 ```
 
 ```{r}
 #Another way to join data
-data_combined <- Reduce(merge, list(demo_i, smq_i, diq_i, kiq_u_i, bmx_i, bpq_i))
-data_combined <- data_combined %>% select(all_of(select_cols))
-head(data_combined)
+all_dat <- Reduce(merge, list(demo_i, smq_i, diq_i, kiq_u_i, bmx_i, bpq_i))
+all_dat <- all_dat %>% select(all_of(select_cols))
+head(all_dat)
 ```
 
 ```{r}
-#Creating plost to visualise the data
-
+table(all_dat$BPQ020)
 ```
 
 
+
+```{r}
+#Creating plots to visualise the data
+
+
+ggplot(all_dat) +
+      geom_bar(aes(x = SMQ020, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + xlab("Smoking") + labs(fill= " Have You Ever\n Been Told You\n Have Hypertension")
+#in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
+
+
+ggplot(all_dat) +
+      geom_bar(aes(x = DIQ010, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Diabetes") + labs(fill="Hypertension")
+#it seems as though hypertension is more common for people who do not have diabetes, however for those that do have diabetes, there is a higher proportion of people who have hypertension
+
+
+ggplot(all_dat) +
+      geom_bar(aes(x = KIQ022, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Kidney Failure") + labs(fill="Hypertension")
+#it seems as though hypertension is more common for people who do not have kidney disease
+
+
+ggplot(all_dat) +
+      geom_boxplot(aes(x = BMXBMI, y = BPQ020)) + facet_wrap(~RIAGENDR) + labs(x="BMI", y = "Hypertension") + coord_flip()
+#there is a big overlap between the median BMI value for both male and females that both have heard from a doctor that they have hypertension and those that have not
+```
+
+NEXT:
+Limit it to just have one variable for smoking, kidney disease, diabetes?
+Should I limit the smoking variable (SMQ020) to just yes / no ?
+Should I limit the response variable (BPQ020) to just yes / no ? 
+Should I limit the response variable (DIQ010) to just yes / no / borderline ? 
+Should I limit the response variable (KIQ022) to just yes / no ? 
