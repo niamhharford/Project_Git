@@ -1,0 +1,15 @@
+---
+title: "Nhanes"
+author: "Niamh Harford 20251644"
+date: "3/15/2021"
+output: html_document
+---
+
+How did I get the NHANES data?
+
+https://cran.r-project.org/web/packages/nhanesA/vignettes/Introducing_nhanesA.html
+https://www.nature.com/articles/s41598-020-67640-z#Sec13
+
+I obtained the variables I required from the nhanes data set, primarily from following the introductory nhanesA vignette. This vignette allowed me to follow along and successfully download many variables from the nhanesA package. Firstly, I installed the package "nhanesA" using install.packages("nhanesA") and then loaded the packages using library(nhanesA). Following this, I proceeded to import five data files, four of these came from the Questionnaire data (SMQ_I, DIQ_I, KIQ_I, BPQ_I) while the fifth came from the Examination data (BMX_I). Along with these I also imported the demographics table (DEMO_I). I merged all of these data files together to form one data set, where I then choose nine explanatory variables, in addition to one response variables. The explanatory variables are as follows; RIAGENDR, RIDAGEYR, RIDRETH1, SMQ020, SMQ040, DIQ010, DIQ050, KIQ022, BMXBMI. The response variable is as follows; BPQ020. The variable RIAGENDR is the gender of the participants of the nhanes data set. RIDAGEYR is the age in years of the participant at the time of screening. Individuals 80 and over are topcoded at 80 years of age. RIDRETH1 is the recode of reported race and ethnicity information. These three variables have been taken from the demographic table. While looking at smoking as a potential factor causing hypertension, I thought it was important to factor in two variables, these include; SMQ020, which is where a smoker is defined as individuals having smoked ≥ 100 cigarettes during their lifetime and SMQ040, which is whether the participants currently smoke some days or every day. I then looked at diabetes as a potential cause of hypertension. I chose two variables that might show a potential cause of hypertension, these include; DIQ010, where participants have diabetes if the answer presents “Yes or “Borderline” to the question “Doctor told you that you have diabetes?” and  DIQ050 are you now taking insulin. There may be an effect of taking insulin which would be an interesting variable to further analyise. Another potenial factor that may cause hypertension is chronic kidney disease (CKD) which is defined as “yes” response to the question “Have you ever told by a health care provider you have weak or failing kidneys?”, Do not include kidney stones, bladder infections, or incontinence, the variable for the nhanes data set for this question is KIQ022. The final variable I chose the explore as a pontenial cause of hypertension is BMXBMI, Body Mass Index (kg/m**2). 
+
+
