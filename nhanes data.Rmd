@@ -5,11 +5,68 @@ date: "3/15/2021"
 output: html_document
 ---
 
+What is NHANES data?
+
+https://www.cdc.gov/nchs/nhanes/about_nhanes.htm
+
+The National Health and Nutrition Examination Survey (NHANES) is a program of studies designed to assess the health and nutritional status of adults and children in the United States. The survey is unique in that it combines interviews and physical examinations. NHANES is a major program of the National Center for Health Statistics (NCHS). The NHANES program began in the early 1960s and has been conducted as a series of surveys focusing on different population groups or health topics. In 1999, the survey became a continuous program that has a changing focus on a variety of health and nutrition measurements to meet emerging needs. The survey examines a nationally representative sample of about 5,000 persons each year. The NHANES interview includes demographic, socioeconomic, dietary, and health-related questions. The examination component consists of medical, dental, and physiological measurements, as well as laboratory tests administered by highly trained medical personnel. Findings from this survey will be used to determine the prevalence of major diseases and risk factors for diseases.
+
+https://www.cdc.gov/nchs/data/nhanes/nhanes_13_14/2013-14_overview_brochure.pdf
+
+National programs to reduce hypertension and cholesterol levels continue to depend on NHANES data to steer education and prevention programs toward those at risk and to measure success in curtailing risk factors associated with heart disease, the Nation’s number one cause of death.
+
+
+
 How did I get the NHANES data?
 
 https://cran.r-project.org/web/packages/nhanesA/vignettes/Introducing_nhanesA.html
 https://www.nature.com/articles/s41598-020-67640-z#Sec13
 
-I obtained the variables I required from the nhanes data set, primarily from following the introductory nhanesA vignette. This vignette allowed me to follow along and successfully download many variables from the nhanesA package. Firstly, I installed the package "nhanesA" using install.packages("nhanesA") and then loaded the packages using library(nhanesA). Following this, I proceeded to import five data files, four of these came from the Questionnaire data (SMQ_I, DIQ_I, KIQ_I, BPQ_I) while the fifth came from the Examination data (BMX_I). Along with these I also imported the demographics table (DEMO_I). I merged all of these data files together to form one data set, where I then choose nine explanatory variables, in addition to one response variables. The explanatory variables are as follows; RIAGENDR, RIDAGEYR, RIDRETH1, SMQ020, SMQ040, DIQ010, DIQ050, KIQ022, BMXBMI. The response variable is as follows; BPQ020. The variable RIAGENDR is the gender of the participants of the nhanes data set. RIDAGEYR is the age in years of the participant at the time of screening. Individuals 80 and over are topcoded at 80 years of age. RIDRETH1 is the recode of reported race and ethnicity information. These three variables have been taken from the demographic table. While looking at smoking as a potential factor causing hypertension, I thought it was important to factor in two variables, these include; SMQ020, which is where a smoker is defined as individuals having smoked ≥ 100 cigarettes during their lifetime and SMQ040, which is whether the participants currently smoke some days or every day. I then looked at diabetes as a potential cause of hypertension. I chose two variables that might show a potential cause of hypertension, these include; DIQ010, where participants have diabetes if the answer presents “Yes or “Borderline” to the question “Doctor told you that you have diabetes?” and  DIQ050 are you now taking insulin. There may be an effect of taking insulin which would be an interesting variable to further analyse. Another potential factor that may cause hypertension is chronic kidney disease (CKD) which is defined as “yes” response to the question “Have you ever told by a health care provider you have weak or failing kidneys?”, Do not include kidney stones, bladder infections, or incontinence, the variable for the nhanes data set for this question is KIQ022. The final variable I chose the explore as a potential cause of hypertension is BMXBMI, Body Mass Index (kg/m**2). 
+I obtained the variables I required from the nhanes data set, primarily from following the introductory nhanesA vignette. This vignette allowed me to follow along and successfully download many variables from the nhanesA package. Firstly, I installed the package "nhanesA" using install.packages("nhanesA") and then loaded the packages using library(nhanesA). Following this, I proceeded to import five data files, four of these came from the Questionnaire data (SMQ_I, DIQ_I, KIQ_I, BPQ_I) while the fifth came from the Examination data (BMX_I). Along with these I also imported the demographics table (DEMO_I). I merged all of these data files together to form one data set, where I then choose nine explanatory variables, in addition to one response variables. The explanatory variables are as follows; RIAGENDR, RIDAGEYR, RIDRETH1, SMQ020, SMQ040, DIQ010, DIQ050, KIQ022, BMXBMI. The response variable is as follows; BPQ020. The variable RIAGENDR is the gender of the participants of the nhanes data set. RIDAGEYR is the age in years of the participant at the time of screening. Individuals 80 and over are topcoded at 80 years of age. RIDRETH1 is the recode of reported race and ethnicity information. These three variables have been taken from the demographic table. While looking at smoking as a possible factor causing hypertension, I thought it was important to factor in two variables, these include; SMQ020, which is where a smoker is defined as individuals having smoked ≥ 100 cigarettes during their lifetime and SMQ040, which is whether the participants currently smoke some days or every day. I then looked at diabetes as a possible cause of hypertension. I chose two variables that might show a possible cause of hypertension, these include; DIQ010, where participants have diabetes if the answer presents “Yes or “Borderline” to the question “Doctor told you that you have diabetes?” and  DIQ050 are you now taking insulin. There may be an effect of taking insulin which would be an interesting variable to further analyse. Another possible factor that may cause hypertension is chronic kidney disease (CKD) which is defined as “yes” response to the question “Have you ever told by a health care provider you have weak or failing kidneys?”, Do not include kidney stones, bladder infections, or incontinence, the variable for the nhanes data set for this question is KIQ022. The final variable I chose the explore as a possible cause of hypertension is BMXBMI, Body Mass Index (kg/m**2). 
 
 
+https://www.mayoclinic.org/diseases-conditions/high-blood-pressure/symptoms-causes/syc-20373410
+
+Primary (essential) hypertension:
+For most adults, there's no identifiable cause of high blood pressure. This type of high blood pressure, called primary (essential) hypertension, tends to develop gradually over many years.
+
+Secondary hypertension:
+Some people have high blood pressure caused by an underlying condition. This type of high blood pressure, called secondary hypertension, tends to appear suddenly and cause higher blood pressure than does primary hypertension. Various conditions and medications can lead to secondary hypertension, including:
+* Obstructive sleep apnea
+
+* Kidney disease
+
+* Adrenal gland tumors
+
+* Thyroid problems
+
+* Certain defects you're born with (congenital) in blood vessels
+
+* Certain medications, such as birth control pills, cold remedies, decongestants, over-the-counter pain relievers and some prescription drugs
+
+* Illegal drugs, such as cocaine and amphetamines
+
+  
+Hypertension / high blood pressure has many risk factors:
+
+(1) Age. The risk of high blood pressure increases as you age. Until about age 64, high blood pressure is more common in men. Women are more likely to develop high blood pressure after age 65.
+
+(2) Race. High blood pressure is particularly common among people of African heritage, often developing at an earlier age than it does in whites. Serious complications, such as stroke, heart attack and kidney failure, also are more common in people of African heritage.
+
+(3) Family history. High blood pressure tends to run in families.
+
+(4) Being overweight or obese. The more you weigh, the more blood you need to supply oxygen and nutrients to your tissues. As the amount of blood blow through your blood vessels increases, so does the pressure on your artery walls.
+
+(5) Not being physically active. People who are inactive tend to have higher heart rates. The higher your heart rate, the harder your heart must work with each contraction and the stronger the force on your arteries. Lack of physical activity also increases the risk of being overweight.
+
+(6) Using tobacco. Not only does smoking or chewing tobacco immediately raise your blood pressure temporarily, but the chemicals in tobacco can damage the lining of your artery walls. This can cause your arteries to narrow and increase your risk of heart disease. Secondhand smoke also can increase your heart disease risk.
+
+(7) Too much salt (sodium) in your diet. Too much sodium in your diet can cause your body to retain fluid, which increases blood pressure.
+
+(8) Too little potassium in your diet. Potassium helps balance the amount of sodium in your cells. A proper balance of potassium is critical for good heart health. If you don't get enough potassium in your diet, or you lose too much potassium due to dehydration or other health conditions, sodium can build up in your blood.
+
+(9) Drinking too much alcohol. Over time, heavy drinking can damage your heart. Having more than one drink a day for women and more than two drinks a day for men may affect your blood pressure.If you drink alcohol, do so in moderation. For healthy adults, that means up to one drink a day for women and two drinks a day for men. One drink equals 12 ounces of beer, 5 ounces of wine or 1.5 ounces of 80-proof liquor.
+
+(10) Stress. High levels of stress can lead to a temporary increase in blood pressure. Stress-related habits such as eating more, using tobacco or drinking alcohol can lead to further increases in blood pressure.
+
+(11) Certain chronic conditions. Certain chronic conditions also may increase your risk of high blood pressure, including kidney disease, diabetes and sleep apnea.
