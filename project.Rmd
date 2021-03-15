@@ -7,7 +7,7 @@ output: html_document
 
 The explanatory variables I want:
 
-(1) Age - Age in years of the participant at the time of screening. Individuals 80 and over are topcoded at 80 years of age. (RIDAGEYR) Transform from continues features to Categorical features to understand the relationship among the features.
+(1) Age - Age in years of the participant at the time of screening. Individuals 80 and over are topcoded at 80 years of age. (RIDAGEYR) 
 
 (2) Gender (RIAGENDR)
 
@@ -15,11 +15,11 @@ The explanatory variables I want:
 
 (4) Smoking - Smokers defined as individuals having smoked ≥ 100 cigarettes during their lifetime (SMQ020) and currently smoke some days or every day (SMQ040) 
 
-(5) Kidney disease - Chronic kidney disease (CKD) defined as “yes” response to the question “Have you ever told by a health care provider you have weak or failing kidneys?”, Do not include kidney stones, bladder infections, or incontinence (KIQ022) and In the past 12 months, {Have you/Has SP} had difficult controlling {you/his/her} bladder, including leaking small amounts of urine when {you/s/he} cough {s} or sneeze {s}? {Do not include bladder control difficulties during pregnancy or recovery from childbirth.} (KIQ025)
+(5) Kidney disease - Chronic kidney disease (CKD) defined as “yes” response to the question “Have you ever told by a health care provider you have weak or failing kidneys?”, Do not include kidney stones, bladder infections, or incontinence (KIQ022)
 
 (6) Diabetes - Participants admit to have diabetes if the answer presents “Yes or “Borderline” to the question “Doctor told that you have diabetes?” (DIQ010) and {Is SP/Are you} now taking insulin (DIQ050)
 
-(7) BMI (Body Mass Index) - Transform from continues features to Categorical features to understand the relationship among the features. Body Mass Index (kg/m**2) (BMXBMI)
+(7) BMI (Body Mass Index) -  Body Mass Index (kg/m**2) (BMXBMI)
 
 The response variable:
 
@@ -56,7 +56,7 @@ demo_i <- nhanesTranslate('DEMO_I', c('RIAGENDR', 'RIDRETH1', 'RIDAGEYR'), data=
 bmx_i <- nhanesTranslate('BMX_I', 'BMXBMI', data=bmx_i) #no columns translated
 smq_i <- nhanesTranslate('SMQ_I', c('SMQ020','SMQ040'), data=smq_i)
 diq_i <- nhanesTranslate('DIQ_I', c('DIQ010', 'DIQ050'), data=diq_i)
-kiq_u_i <- nhanesTranslate('KIQ_U_I', c('KIQ022', 'KIQ025'), data=kiq_u_i)
+kiq_u_i <- nhanesTranslate('KIQ_U_I', c('KIQ022'), data=kiq_u_i)
 bpq_i <- nhanesTranslate('BPQ_I', 'BPQ020', data=bpq_i)
 ```
 
@@ -67,7 +67,7 @@ comb2 <- merge(comb1, diq_i)
 comb3 <- merge(comb2, kiq_u_i)
 comb4 <- merge(comb3, bmx_i)
 comb5 <- merge(comb4, bpq_i)
-select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020','SMQ040', 'DIQ010', 'DIQ050', 'KIQ022', 'KIQ025', 'BMXBMI')
+select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020','SMQ040', 'DIQ010', 'DIQ050', 'KIQ022', 'BMXBMI')
 comb_data <- comb5 %>% select(all_of(select_cols))
 ```
 
@@ -77,6 +77,13 @@ all_dat <- Reduce(merge, list(demo_i, smq_i, diq_i, kiq_u_i, bmx_i, bpq_i))
 all_dat <- all_dat %>% select(all_of(select_cols))
 head(all_dat)
 ```
+
+```{r}
+#Save the file locally
+save(all_dat, file = "all_dat.RData")
+load("all_dat.RData")
+```
+
 
 ```{r}
 table(all_dat$BPQ020)
