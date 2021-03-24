@@ -1,42 +1,26 @@
 ---
-title: "Selecting Variables"
+title: "Dissertation"
 author: "Niamh Harford 20251644"
 date: "3/4/2021"
 output: html_document
 ---
 
-The explanatory variables I want:
-
-(1) Age - Age in years of the participant at the time of screening. Individuals 80 and over are topcoded at 80 years of age. (RIDAGEYR) 
-
-(2) Gender (RIAGENDR)
-
-(3) Race - Recode of reported race and ethnicity information (RIDRETH1)
-
-(4) Smoking - Smokers defined as individuals having smoked ≥ 100 cigarettes during their lifetime (SMQ020) and currently smoke some days or every day (SMQ040) 
-
-(5) Kidney disease - Chronic kidney disease (CKD) defined as “yes” response to the question “Have you ever told by a health care provider you have weak or failing kidneys?”, Do not include kidney stones, bladder infections, or incontinence (KIQ022)
-
-(6) Diabetes - Participants admit to have diabetes if the answer presents “Yes or “Borderline” to the question “Doctor told that you have diabetes?” (DIQ010) and {Is SP/Are you} now taking insulin (DIQ050)
-
-(7) BMI (Body Mass Index) -  Body Mass Index (kg/m**2) (BMXBMI)
-
-The response variable:
-
-(1) Blood pressure is utilized to generate the dependent feature.
-Hypertension category designated as systolic blood pressure of ≥ 130 mmHg, previously define as ≥ 140 mmHg by the American Heart Association. {Have you/Has SP} ever been told by a doctor or other health professional that {you/s/he} had hypertension, also called high blood pressure? - (BPQ020)
 
 ```{r}
+#Packages I need
 suppressMessages(library(nhanesA))
 suppressMessages(library(tidyverse))
 suppressMessages(library(ggplot2))
+```
 
+```{r}
+#Here I am seraching through the data file names to file the variables I require
 # nhanesTableVars('DEMO', 'DEMO_I')
 # nhanesTableVars('Q', 'SMQ_J') 
 # nhanesTableVars('Q', 'DIQ_J')  
 # nhanesTableVars('Q', 'KIQ_U_J') 
 # nhanesTableVars('Q','BPQ_I')
-
+# nhanesTableVars('DIET', 'DR1TOT_I')
 ```
 
 
@@ -48,6 +32,9 @@ diq_i <- nhanes('DIQ_I')
 kiq_u_i <- nhanes('KIQ_U_I')
 bmx_i <- nhanes('BMX_I')
 bpq_i <- nhanes('BPQ_I')
+paq_i <- nhanes('PAQ_I')
+alq_i <- nhanes('ALQ_I')
+dr1tot_i <- nhanes('DR1TOT_I') #salt and potassium
 ```
 
 ```{r}
@@ -58,6 +45,9 @@ smq_i <- nhanesTranslate('SMQ_I', c('SMQ020','SMQ040'), data=smq_i)
 diq_i <- nhanesTranslate('DIQ_I', c('DIQ010', 'DIQ050'), data=diq_i)
 kiq_u_i <- nhanesTranslate('KIQ_U_I', c('KIQ022'), data=kiq_u_i)
 bpq_i <- nhanesTranslate('BPQ_I', 'BPQ020', data=bpq_i)
+paq_i <- nhanesTranslate('PAQ_I', 'PAD675', data = paq_i)
+alq_i <- nhanesTranslate('ALQ_I', 'ALQ120Q', data = alq_i)
+dr1tot_i <- nhanesTranslate('DR1TOT_I', c('DBD100','DR1TPOTA'), data = dr1tot_i)
 ```
 
 ```{r}
@@ -67,27 +57,153 @@ comb2 <- merge(comb1, diq_i)
 comb3 <- merge(comb2, kiq_u_i)
 comb4 <- merge(comb3, bmx_i)
 comb5 <- merge(comb4, bpq_i)
-select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020','SMQ040', 'DIQ010', 'DIQ050', 'KIQ022', 'BMXBMI')
-comb_data <- comb5 %>% select(all_of(select_cols))
+comb6 <- merge(comb5, paq_i)
+comb7 <- merge(comb6, alq_i)
+comb8 <- merge(comb7, dr1tot_i)
+select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020','SMQ040', 'DIQ010', 'DIQ050', 'KIQ022', 'BMXBMI', 'PAD675', 'ALQ120Q', 'DBD100', 'DR1TPOTA')
+comb_data <- comb8 %>% select(all_of(select_cols))
 ```
 
 ```{r}
 #Another way to join data
-all_dat <- Reduce(merge, list(demo_i, smq_i, diq_i, kiq_u_i, bmx_i, bpq_i))
+all_dat <- Reduce(merge, list(demo_i, smq_i, diq_i, kiq_u_i, bmx_i, bpq_i, paq_i, alq_i,dr1tot_i))
 all_dat <- all_dat %>% select(all_of(select_cols))
 head(all_dat)
 ```
 
 ```{r}
 #Save the file locally
-save(all_dat, file = "all_dat.RData")
+#save(all_dat, file = "all_dat.RData")
 load("all_dat.RData")
 ```
 
 
 ```{r}
-table(all_dat$BPQ020)
+table(all_dat$BPQ020) # 5 don't know
+table(all_dat$RIAGENDR)
+table(all_dat$RIDAGEYR)
+table(all_dat$RIDRETH1)
+table(all_dat$SMQ020) # 8 don't know
+table(all_dat$SMQ040)
+table(all_dat$DIQ010) # 3 don't know
+table(all_dat$DIQ050) # 2 don't know
+table(all_dat$KIQ022) # 7 don't know
+table(all_dat$BMXBMI)
+table(all_dat$PAD675)
+table(all_dat$ALQ120Q)
+table(all_dat$DBD100) # 10 don't know
+table(all_dat$DR1TPOTA)
+
+
+# 25 don't know values
 ```
+
+
+WHAT I NEED TO DO:
+Look at each categorical variables and potentially limit the answers
+Look at new variables
+AIC limit model?
+Try out a logistic regression
+
+
+```{r}
+#Adjust the structure of the data
+glimpse(all_dat)
+head(all_dat)
+all_dat$RIDAGEYR <- as.numeric(all_dat$RIDAGEYR)
+all_dat$BMXBMI <- as.numeric(all_dat$BMXBMI)
+all_dat$PAD675 <- as.numeric(all_dat$PAD675)
+all_dat$ALQ120Q <- as.numeric(all_dat$ALQ120Q)
+all_dat$DR1TPOTA <- as.numeric(all_dat$DR1TPOTA)
+glimpse(all_dat)
+```
+
+
+```{r}
+#checking the responses for each factor variables
+levels(all_dat$RIDRETH1) #dont need to fix anything
+levels(all_dat$SMQ020) #need to remove dont knows
+levels(all_dat$SMQ040) #dont need to fix anything
+levels(all_dat$DIQ010) #need to remove dont knows
+levels(all_dat$DIQ050) #need to remove dont knows
+levels(all_dat$KIQ022) #need to remove dont knows
+levels(all_dat$DBD100) #need to remove dont knows
+```
+
+```{r}
+#removing the unknown "dont know" answers from the data
+
+hyp <- all_dat %>% filter(BPQ020 != "Don't know") %>% filter(SMQ020 != "Don't know") %>% 
+    filter(DIQ010 != "Don't know") %>% filter(DIQ050 != "Don't know") %>% 
+        filter(KIQ022 != "Don't know") %>% filter(DBD100 != "Don't know")
+```
+
+```{r}
+#readjusting the levels for each factor variable
+
+hyp$BPQ020<- factor(hyp$BPQ020, levels=c("Yes", "No"))
+hyp$SMQ020<- factor(hyp$SMQ020, levels=c("Yes", "No","Refused"))
+hyp$DIQ010<- factor(hyp$DIQ010, levels=c("Yes", "No","Borderline"))
+hyp$DIQ050<- factor(hyp$DIQ050, levels=c("Yes", "No","Refused"))
+hyp$KIQ022<- factor(hyp$KIQ022, levels=c("Yes", "No"))
+hyp$DBD100<- factor(hyp$DBD100, levels=c("Rarely","Occasionally","Very often"))
+```
+
+```{r}
+#checking the levels are adjusted correctly
+
+levels(hyp$SMQ020)
+levels(hyp$DIQ010)
+levels(hyp$DIQ050)
+levels(hyp$KIQ022)
+levels(hyp$DBD100)
+
+head(hyp)
+table(hyp$BPQ020)
+```
+
+```{r}
+#Save the file locally
+#save(all_dat, file = "hyp.RData")
+load("hyp.RData")
+```
+
+```{r}
+glimpse(hyp)
+```
+
+
+```{r}
+#Linear regression
+
+#I am not sure whether the response should be changed into numeric??
+# hyp <- hyp %>% mutate(BPQ020=ifelse(BPQ020=="Yes",1,0))
+# hyp$BPQ020 <- as.numeric(hyp$BPQ020)
+
+slr <- lm(BPQ020 ~ ., data = hyp)
+slr <- summary(lm(BPQ020 ~ SMQ020, data = hyp))
+```
+
+
+```{r}
+#Logistic regression
+hyp <- hyp %>% mutate(BPQ020=ifelse(BPQ020=="Yes",1,0))
+
+(l <- sapply(hyp, function(x) is.factor(x)))
+m <- hyp[, l]
+sapply(m, function(x) length(levels(x)))
+
+
+
+log_reg <- glm(BPQ020 ~ ., data = all_dat, family = binomial())
+summary(log_reg)
+
+
+#Error in `contrasts<-`(`*tmp*`, value = contr.funs[1 + isOF[nn]]) : contrasts can be applied only to factors with 2 or more levels
+```
+
+
+
 
 
 
@@ -95,29 +211,22 @@ table(all_dat$BPQ020)
 #Creating plots to visualise the data
 
 
-ggplot(all_dat) +
+ggplot(hyp) +
       geom_bar(aes(x = SMQ020, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + xlab("Smoking") + labs(fill= " Have You Ever\n Been Told You\n Have Hypertension")
 #in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
 
 
-ggplot(all_dat) +
+ggplot(hyp) +
       geom_bar(aes(x = DIQ010, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Diabetes") + labs(fill="Hypertension")
 #it seems as though hypertension is more common for people who do not have diabetes, however for those that do have diabetes, there is a higher proportion of people who have hypertension
 
 
-ggplot(all_dat) +
+ggplot(hyp) +
       geom_bar(aes(x = KIQ022, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Kidney Failure") + labs(fill="Hypertension")
 #it seems as though hypertension is more common for people who do not have kidney disease
 
 
-ggplot(all_dat) +
+ggplot(hyp) +
       geom_boxplot(aes(x = BMXBMI, y = BPQ020)) + facet_wrap(~RIAGENDR) + labs(x="BMI", y = "Hypertension") + coord_flip()
 #there is a big overlap between the median BMI value for both male and females that both have heard from a doctor that they have hypertension and those that have not
 ```
-
-NEXT:
-Limit it to just have one variable for smoking, kidney disease, diabetes?
-Should I limit the smoking variable (SMQ020) to just yes / no ?
-Should I limit the response variable (BPQ020) to just yes / no ? 
-Should I limit the response variable (DIQ010) to just yes / no / borderline ? 
-Should I limit the response variable (KIQ022) to just yes / no ? 
