@@ -140,18 +140,12 @@ hyp <- all_dat %>% filter(BPQ020 != "Don't know") %>% filter(SMQ020 != "Don't kn
 
 ```{r}
 #readjusting the levels for each factor variable
-
-hyp$BPQ020<- factor(hyp$BPQ020, levels=c("Yes", "No"))
-hyp$SMQ020<- factor(hyp$SMQ020, levels=c("Yes", "No","Refused"))
-hyp$DIQ010<- factor(hyp$DIQ010, levels=c("Yes", "No","Borderline"))
-hyp$DIQ050<- factor(hyp$DIQ050, levels=c("Yes", "No","Refused"))
-hyp$KIQ022<- factor(hyp$KIQ022, levels=c("Yes", "No"))
-hyp$DBD100<- factor(hyp$DBD100, levels=c("Rarely","Occasionally","Very often"))
+hyp <- hyp %>% droplevels()
 ```
 
 ```{r}
 #checking the levels are adjusted correctly
-
+levels(hyp1$DIQ010)
 levels(hyp$SMQ020)
 levels(hyp$DIQ010)
 levels(hyp$DIQ050)
@@ -174,28 +168,53 @@ glimpse(hyp)
 
 
 ```{r}
+nrow(hyp)
+#3458
+hyp1 <- na.omit(hyp)
+nrow(hyp1)
+#558
+sapply(hyp, function(x) if (is.factor(x)) length(levels(x)) else NA)
+sapply(droplevels(hyp1), function(x) if (is.factor(x)) length(levels(x)) else NA)
+```
+
+I think I might be taking away too much observations from the dataset!
+
+
+```{r}
+#I am going to try this code for the all_dat dataset (no levels have been altered)
+nrow(all_dat)
+#5464
+all_dat1 <- na.omit(all_dat)
+nrow(all_dat1)
+#561
+```
+
+
+So there seems to be no major difference between the two datasets (hyp, with levels altered and all_dat) when I omit the NA values
+
+```{r}
 #Linear regression
 
 #I am not sure whether the response should be changed into numeric??
 # hyp <- hyp %>% mutate(BPQ020=ifelse(BPQ020=="Yes",1,0))
 # hyp$BPQ020 <- as.numeric(hyp$BPQ020)
 
-slr <- lm(BPQ020 ~ ., data = hyp)
-slr <- summary(lm(BPQ020 ~ SMQ020, data = hyp))
+slr <- lm(BPQ020 ~ ., data = hyp1)
+slr <- summary(lm(BPQ020 ~ SMQ020, data = hyp1))
 ```
 
 
 ```{r}
 #Logistic regression
-hyp <- hyp %>% mutate(BPQ020=ifelse(BPQ020=="Yes",1,0))
+hyp1 <- hyp1 %>% mutate(BPQ020=ifelse(BPQ020=="Yes",1,0))
+
 
 (l <- sapply(hyp, function(x) is.factor(x)))
 m <- hyp[, l]
 sapply(m, function(x) length(levels(x)))
 
 
-
-log_reg <- glm(BPQ020 ~ ., data = all_dat, family = binomial())
+log_reg <- glm(BPQ020 ~ ., data = hyp1, family = binomial())
 summary(log_reg)
 
 
@@ -211,22 +230,22 @@ summary(log_reg)
 #Creating plots to visualise the data
 
 
-ggplot(hyp) +
+ggplot(hyp1) +
       geom_bar(aes(x = SMQ020, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + xlab("Smoking") + labs(fill= " Have You Ever\n Been Told You\n Have Hypertension")
 #in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
 
 
-ggplot(hyp) +
+ggplot(hyp1) +
       geom_bar(aes(x = DIQ010, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Diabetes") + labs(fill="Hypertension")
 #it seems as though hypertension is more common for people who do not have diabetes, however for those that do have diabetes, there is a higher proportion of people who have hypertension
 
 
-ggplot(hyp) +
+ggplot(hyp1) +
       geom_bar(aes(x = KIQ022, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Kidney Failure") + labs(fill="Hypertension")
 #it seems as though hypertension is more common for people who do not have kidney disease
 
 
-ggplot(hyp) +
+ggplot(hyp1) +
       geom_boxplot(aes(x = BMXBMI, y = BPQ020)) + facet_wrap(~RIAGENDR) + labs(x="BMI", y = "Hypertension") + coord_flip()
 #there is a big overlap between the median BMI value for both male and females that both have heard from a doctor that they have hypertension and those that have not
 ```
