@@ -5,119 +5,53 @@ date: "3/4/2021"
 output: html_document
 ---
 
+This week:
+
+I removed three variables due to a large amount of NA values : SMQ040 (smoking), PAD675 (physical activity) and ALQ120Q (alcohol use)
+
+I added two new variables in replace of PAD675 (physical ativity) and ALQ120Q (alcohol use):
+* PAQ665 which is:	In a typical week {do you/does SP} do any moderate-intensity sports, fitness, or recreational activities that cause a small increase in breathing or heart rate such as brisk walking, bicycling, swimming, or volleyball for at least 10 minutes continuously?
+* ALQ101 which is : In any one year, {have you/has SP} had at least 12 drinks of any type of alcoholic beverage? By a drink, I mean a 12 oz. beer, a 5 oz. glass of wine, or a one and a half ounces of liquor.
+
+I renamed all my variables.
+
+Created plots for every variable - Look at physactivity and alcohol variables
+
+
+
 
 ```{r}
 #Packages I need
-suppressMessages(library(nhanesA))
 suppressMessages(library(tidyverse))
 suppressMessages(library(ggplot2))
 ```
 
-```{r}
-#Here I am seraching through the data file names to file the variables I require
-# nhanesTableVars('DEMO', 'DEMO_I')
-# nhanesTableVars('Q', 'SMQ_J') 
-# nhanesTableVars('Q', 'DIQ_J')  
-# nhanesTableVars('Q', 'KIQ_U_J') 
-# nhanesTableVars('Q','BPQ_I')
-# nhanesTableVars('DIET', 'DR1TOT_I')
-```
-
 
 ```{r}
-#2015/2016 data
-smq_i <- nhanes('SMQ_I') 
-demo_i <- nhanes('DEMO_I')
-diq_i <- nhanes('DIQ_I') 
-kiq_u_i <- nhanes('KIQ_U_I')
-bmx_i <- nhanes('BMX_I')
-bpq_i <- nhanes('BPQ_I')
-paq_i <- nhanes('PAQ_I')
-alq_i <- nhanes('ALQ_I')
-dr1tot_i <- nhanes('DR1TOT_I') #salt and potassium
-```
-
-```{r}
-#Translate
-demo_i <- nhanesTranslate('DEMO_I', c('RIAGENDR', 'RIDRETH1', 'RIDAGEYR'), data=demo_i)
-bmx_i <- nhanesTranslate('BMX_I', 'BMXBMI', data=bmx_i) #no columns translated
-smq_i <- nhanesTranslate('SMQ_I', c('SMQ020','SMQ040'), data=smq_i)
-diq_i <- nhanesTranslate('DIQ_I', c('DIQ010', 'DIQ050'), data=diq_i)
-kiq_u_i <- nhanesTranslate('KIQ_U_I', c('KIQ022'), data=kiq_u_i)
-bpq_i <- nhanesTranslate('BPQ_I', 'BPQ020', data=bpq_i)
-paq_i <- nhanesTranslate('PAQ_I', 'PAD675', data = paq_i)
-alq_i <- nhanesTranslate('ALQ_I', 'ALQ120Q', data = alq_i)
-dr1tot_i <- nhanesTranslate('DR1TOT_I', c('DBD100','DR1TPOTA'), data = dr1tot_i)
-```
-
-```{r}
-#merging the data
-comb1 <- merge(demo_i, smq_i)
-comb2 <- merge(comb1, diq_i)
-comb3 <- merge(comb2, kiq_u_i)
-comb4 <- merge(comb3, bmx_i)
-comb5 <- merge(comb4, bpq_i)
-comb6 <- merge(comb5, paq_i)
-comb7 <- merge(comb6, alq_i)
-comb8 <- merge(comb7, dr1tot_i)
-select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020','SMQ040', 'DIQ010', 'DIQ050', 'KIQ022', 'BMXBMI', 'PAD675', 'ALQ120Q', 'DBD100', 'DR1TPOTA')
-comb_data <- comb8 %>% select(all_of(select_cols))
-```
-
-```{r}
-#Another way to join data
+#Merging the data 
+select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020', 'DIQ010', 'DIQ050', 'KIQ022', 'BMXBMI', 'PAQ665','ALQ101', 'DBD100', 'DR1TPOTA')
 all_dat <- Reduce(merge, list(demo_i, smq_i, diq_i, kiq_u_i, bmx_i, bpq_i, paq_i, alq_i,dr1tot_i))
 all_dat <- all_dat %>% select(all_of(select_cols))
 head(all_dat)
 ```
 
-```{r}
-#Save the file locally
-#save(all_dat, file = "all_dat.RData")
-load("all_dat.RData")
-```
-
-
-```{r}
-table(all_dat$BPQ020) # 5 don't know
-table(all_dat$RIAGENDR)
-table(all_dat$RIDAGEYR)
-table(all_dat$RIDRETH1)
-table(all_dat$SMQ020) # 8 don't know
-table(all_dat$SMQ040)
-table(all_dat$DIQ010) # 3 don't know
-table(all_dat$DIQ050) # 2 don't know
-table(all_dat$KIQ022) # 7 don't know
-table(all_dat$BMXBMI)
-table(all_dat$PAD675)
-table(all_dat$ALQ120Q)
-table(all_dat$DBD100) # 10 don't know
-table(all_dat$DR1TPOTA)
-
-
-# 25 don't know values
-```
-
-
-WHAT I NEED TO DO:
-Look at each categorical variables and potentially limit the answers
-Look at new variables
-AIC limit model?
-Try out a logistic regression
-
 
 ```{r}
 #Adjust the structure of the data
 glimpse(all_dat)
-head(all_dat)
 all_dat$RIDAGEYR <- as.numeric(all_dat$RIDAGEYR)
 all_dat$BMXBMI <- as.numeric(all_dat$BMXBMI)
-all_dat$PAD675 <- as.numeric(all_dat$PAD675)
-all_dat$ALQ120Q <- as.numeric(all_dat$ALQ120Q)
+all_dat$PAQ665 <- as.numeric(all_dat$PAQ665)
+all_dat$ALQ101 <- as.numeric(all_dat$ALQ101)
 all_dat$DR1TPOTA <- as.numeric(all_dat$DR1TPOTA)
 glimpse(all_dat)
 ```
 
+```{r}
+#Save the file locally
+save(all_dat, file = "all_dat.RData")
+load("all_dat.RData")
+```
 
 ```{r}
 #checking the responses for each factor variables
@@ -145,7 +79,7 @@ hyp <- hyp %>% droplevels()
 
 ```{r}
 #checking the levels are adjusted correctly
-levels(hyp1$DIQ010)
+levels(hyp$DIQ010)
 levels(hyp$SMQ020)
 levels(hyp$DIQ010)
 levels(hyp$DIQ050)
@@ -168,13 +102,32 @@ glimpse(hyp)
 
 
 ```{r}
+#Count how much Na values in each variable
+
+hyp %>%
+  summarise(count_hyp = sum(is.na(BPQ020)),
+            count_gender = sum(is.na(RIAGENDR)),
+            count_age = sum(is.na(RIDAGEYR)),
+            count_race = sum(is.na(RIDRETH1)),
+            count_smoke20 = sum(is.na(SMQ020)),
+            count_diabetes10 = sum(is.na(DIQ010)),
+            count_diabetes50 = sum(is.na(DIQ050)),
+            count_kidney = sum(is.na(KIQ022)),
+            count_age = sum(is.na(RIDAGEYR)),
+            count_bmi = sum(is.na(BMXBMI)),
+            count_activity = sum(is.na(PAQ665)),
+            count_alcohol = sum(is.na(ALQ101)),
+            count_salt = sum(is.na(DBD100)),
+            count_potassium = sum(is.na(DR1TPOTA)))
+```
+
+
+```{r}
 nrow(hyp)
 #3458
 hyp1 <- na.omit(hyp)
 nrow(hyp1)
-#558
-sapply(hyp, function(x) if (is.factor(x)) length(levels(x)) else NA)
-sapply(droplevels(hyp1), function(x) if (is.factor(x)) length(levels(x)) else NA)
+#3267
 ```
 
 I think I might be taking away too much observations from the dataset!
@@ -186,66 +139,138 @@ nrow(all_dat)
 #5464
 all_dat1 <- na.omit(all_dat)
 nrow(all_dat1)
-#561
+#3289
 ```
 
-
-So there seems to be no major difference between the two datasets (hyp, with levels altered and all_dat) when I omit the NA values
+There seems to be no major difference between the two datasets (hyp, with levels altered and all_dat) when I omit the NA values
 
 ```{r}
-#Linear regression
-
-#I am not sure whether the response should be changed into numeric??
-# hyp <- hyp %>% mutate(BPQ020=ifelse(BPQ020=="Yes",1,0))
-# hyp$BPQ020 <- as.numeric(hyp$BPQ020)
-
-slr <- lm(BPQ020 ~ ., data = hyp1)
-slr <- summary(lm(BPQ020 ~ SMQ020, data = hyp1))
+#Rename the variables to meaningful names
+hyp2 <- hyp1 %>% rename(Hypertension = BPQ020,
+                        Gender = RIAGENDR,
+                        Age = RIDAGEYR,
+                        Race = RIDRETH1,
+                        Smoking = SMQ020,
+                        Diabetes = DIQ010,
+                        Insulin = DIQ050,
+                        KidneyF = KIQ022,
+                        BMI = BMXBMI,
+                        PhysActivity = PAQ665,
+                        Alcohol = ALQ101,
+                        Salt = DBD100,
+                        Potassium = DR1TPOTA
+                        )
 ```
 
-
 ```{r}
-#Logistic regression
-hyp1 <- hyp1 %>% mutate(BPQ020=ifelse(BPQ020=="Yes",1,0))
-
-
-(l <- sapply(hyp, function(x) is.factor(x)))
-m <- hyp[, l]
-sapply(m, function(x) length(levels(x)))
-
-
-log_reg <- glm(BPQ020 ~ ., data = hyp1, family = binomial())
-summary(log_reg)
-
-
-#Error in `contrasts<-`(`*tmp*`, value = contr.funs[1 + isOF[nn]]) : contrasts can be applied only to factors with 2 or more levels
-```
-
-
-
-
-
-
-```{r}
-#Creating plots to visualise the data
-
+#Creating plots to visualise the original data with all observations and levels
 
 ggplot(hyp1) +
+      geom_bar(aes(x = SMQ020, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + xlab("Smoking") + labs(fill= " Have You Ever\n Been Told You\n Have Hypertension")
+
+ ggplot(all_dat) +
+  geom_boxplot(aes(x= RIDAGEYR, y = BPQ020)) + facet_wrap(~RIAGENDR) + labs(x="Age", y = "Hypertension") + coord_flip()
+#hypertension seems to be affecting older people in both genders
+
+ggplot(all_dat) +
+  geom_boxplot(aes(x= RIDAGEYR, y = BPQ020)) + facet_wrap(~RIDRETH1) + labs(x="Age", y = "Hypertension") + coord_flip()
+#in all ethnicities hypertension seems to be affecting older people
+
+ggplot(all_dat) +
       geom_bar(aes(x = SMQ020, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + xlab("Smoking") + labs(fill= " Have You Ever\n Been Told You\n Have Hypertension")
 #in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
 
 
-ggplot(hyp1) +
+ggplot(all_dat) +
       geom_bar(aes(x = DIQ010, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Diabetes") + labs(fill="Hypertension")
 #it seems as though hypertension is more common for people who do not have diabetes, however for those that do have diabetes, there is a higher proportion of people who have hypertension
 
+ggplot(all_dat) +
+      geom_bar(aes(x = DIQ050, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Insulin Intake") + labs(fill="Hypertension")
+#it appears that hypertension is more common for people who are not taking insulin
 
-ggplot(hyp1) +
+ggplot(all_dat) +
       geom_bar(aes(x = KIQ022, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Kidney Failure") + labs(fill="Hypertension")
 #it seems as though hypertension is more common for people who do not have kidney disease
 
 
-ggplot(hyp1) +
+ggplot(all_dat) +
       geom_boxplot(aes(x = BMXBMI, y = BPQ020)) + facet_wrap(~RIAGENDR) + labs(x="BMI", y = "Hypertension") + coord_flip()
 #there is a big overlap between the median BMI value for both male and females that both have heard from a doctor that they have hypertension and those that have not
+
+ggplot(all_dat) +
+  geom_jitter(aes(x = PhysActivity, y = BPQ020)) + facet_wrap(~RIAGENDR) + labs(x="Physical Activity") + coord_flip() 
+
+ggplot(all_dat) +
+  geom_jitter(aes(x = ALQ101, y = BPQ020)) + facet_wrap(~RIAGENDR) + labs(x="Alcohol") + coord_flip() 
+
+ggplot(all_dat) +
+      geom_bar(aes(x = DBD100, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Salt") + labs(fill="Hypertension")
+#it appears in both males and females, hypertension is more common when salt is "rarely" added to meals
+
+ggplot(all_dat) +
+      geom_boxplot(aes(x = DR1TPOTA, y = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Potassium") + labs(fill="Hypertension") + coord_flip()
 ```
+
+```{r}
+#Creating plots to visualise the data
+
+ggplot(hyp2) +
+  geom_boxplot(aes(x= Age, y = Hypertension)) + facet_wrap(~Gender) + labs(x="Age", y = "Hypertension") + coord_flip()
+#hypertension seems to be affecting older people in both genders
+
+ggplot(hyp2) +
+  geom_boxplot(aes(x= Age, y = Hypertension)) + facet_wrap(~Race) + labs(x="Age", y = "Hypertension") + coord_flip()
+#in all ethnicities hypertension seems to be affecting older people
+
+ggplot(hyp2) +
+      geom_bar(aes(x = Smoking, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + xlab("Smoking") + labs(fill= " Have You Ever\n Been Told You\n Have Hypertension")
+#in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
+
+
+ggplot(hyp2) +
+      geom_bar(aes(x = Diabetes, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Diabetes") + labs(fill="Hypertension")
+#it seems as though hypertension is more common for people who do not have diabetes, however for those that do have diabetes, there is a higher proportion of people who have hypertension
+
+ggplot(hyp2) +
+      geom_bar(aes(x = Insulin, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Insulin Intake") + labs(fill="Hypertension")
+#it appears that hypertension is more common for people who are not taking insulin
+
+ggplot(hyp2) +
+      geom_bar(aes(x = KidneyF, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Kidney Failure") + labs(fill="Hypertension")
+#it seems as though hypertension is more common for people who do not have kidney disease
+
+
+ggplot(hyp2) +
+      geom_boxplot(aes(x = BMI, y = Hypertension)) + facet_wrap(~Gender) + labs(x="BMI", y = "Hypertension") + coord_flip()
+#there is a big overlap between the median BMI value for both male and females that both have heard from a doctor that they have hypertension and those that have not
+
+ggplot(hyp2) +
+  geom_jitter(aes(x = PhysActivity, y = Hypertension)) + facet_wrap(~Gender) + labs(x="Physical Activity") + coord_flip() 
+
+ggplot(hyp2) +
+  geom_jitter(aes(x = Alcohol, y = Hypertension)) + facet_wrap(~Gender) + labs(x="Alcohol") + coord_flip() 
+
+ggplot(hyp2) +
+      geom_bar(aes(x = Salt, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Salt") + labs(fill="Hypertension")
+#it appears in both males and females, hypertension is more common when salt is "rarely" added to meals
+
+ggplot(hyp2) +
+      geom_boxplot(aes(x = Potassium, y = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Potassium") + labs(fill="Hypertension") + coord_flip()
+```
+
+
+
+```{r}
+#Logistic regression
+
+log_reg <- glm(Hypertension ~ ., data = hyp2, family = binomial())
+summary(log_reg)
+
+```
+
+
+
+
+
+
