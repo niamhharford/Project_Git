@@ -1,0 +1,198 @@
+---
+title: "Project with SMQ040"
+author: "Niamh Harford 20251644"
+date: "4/7/2021"
+output: html_document
+---
+
+```{r}
+#Packages I need
+suppressMessages(library(nhanesA))
+suppressMessages(library(tidyverse))
+suppressMessages(library(ggplot2))
+```
+
+```{r}
+#Here I am seraching through the data file names to file the variables I require
+nhanesTableVars('DEMO', 'DEMO_I')
+nhanesTableVars('Q', 'SMQ_J')
+nhanesTableVars('Q', 'DIQ_J')
+nhanesTableVars('Q', 'KIQ_U_J')
+nhanesTableVars('Q','BPQ_I')
+nhanesTableVars('DIET', 'DR1TOT_I')
+```
+
+
+```{r}
+#2015/2016 data
+smq_i <- nhanes('SMQ_I') 
+demo_i <- nhanes('DEMO_I')
+diq_i <- nhanes('DIQ_I') 
+kiq_u_i <- nhanes('KIQ_U_I')
+bmx_i <- nhanes('BMX_I')
+bpq_i <- nhanes('BPQ_I')
+paq_i <- nhanes('PAQ_I')
+alq_i <- nhanes('ALQ_I')
+dr1tot_i <- nhanes('DR1TOT_I') #salt and potassium
+```
+
+```{r}
+#Translate
+demo_i <- nhanesTranslate('DEMO_I', c('RIAGENDR', 'RIDRETH1', 'RIDAGEYR'), data=demo_i)
+bmx_i <- nhanesTranslate('BMX_I', 'BMXBMI', data=bmx_i) #no columns translated
+smq_i <- nhanesTranslate('SMQ_I', c('SMQ020','SMQ040'), data=smq_i)
+diq_i <- nhanesTranslate('DIQ_I', c('DIQ010', 'DIQ050'), data=diq_i)
+kiq_u_i <- nhanesTranslate('KIQ_U_I', c('KIQ022'), data=kiq_u_i)
+bpq_i <- nhanesTranslate('BPQ_I', 'BPQ020', data=bpq_i)
+paq_i <- nhanesTranslate('PAQ_I', 'PAD675', data = paq_i)
+alq_i <- nhanesTranslate('ALQ_I', 'ALQ101', data = alq_i)
+dr1tot_i <- nhanesTranslate('DR1TOT_I', c('DBD100','DR1TPOTA'), data = dr1tot_i)
+```
+
+```{r}
+#merging the data
+comb1 <- merge(demo_i, smq_i)
+comb2 <- merge(comb1, diq_i)
+comb3 <- merge(comb2, kiq_u_i)
+comb4 <- merge(comb3, bmx_i)
+comb5 <- merge(comb4, bpq_i)
+comb6 <- merge(comb5, paq_i)
+comb7 <- merge(comb6, alq_i)
+comb8 <- merge(comb7, dr1tot_i)
+select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020', 'SMQ040', 'DIQ010', 'DIQ050', 'KIQ022', 'BMXBMI', 'PAQ665', 'ALQ101', 'DBD100', 'DR1TPOTA')
+data_with_SMQ040 <- comb8 %>% select(all_of(select_cols))
+```
+
+```{r}
+#Adjust the structure of the data
+glimpse(data_with_SMQ040)
+data_with_SMQ040$RIDAGEYR <- as.numeric(data_with_SMQ040$RIDAGEYR)
+data_with_SMQ040$BMXBMI <- as.numeric(data_with_SMQ040$BMXBMI)
+data_with_SMQ040$PAQ665 <- as.numeric(data_with_SMQ040$PAQ665)
+data_with_SMQ040$ALQ101 <- as.numeric(data_with_SMQ040$ALQ101)
+data_with_SMQ040$DR1TPOTA <- as.numeric(data_with_SMQ040$DR1TPOTA)
+glimpse(data_with_SMQ040)
+
+
+#save the file locally
+save(all_dat, file = "data_with_SMQ040.RData")
+load("data_with_SMQ040.RData")
+```
+
+
+```{r}
+
+hyp_with_SMQ040 <- data_with_SMQ040 %>% filter(BPQ020 != "Don't know") %>% filter(SMQ020 != "Don't know")%>% filter(DIQ010 != "Don't know") %>% filter(DIQ050 != "Don't know") %>%  filter(KIQ022 != "Don't know") %>% filter(DBD100 != "Don't know")
+
+hyp_with_SMQ040 <- hyp_with_SMQ040 %>% droplevels()
+```
+
+```{r}
+#save the file locally
+save(all_dat, file = "hyp_with_SMQ040.RData")
+load("hyp_with_SMQ040.RData")
+```
+
+
+```{r}
+#Count how much Na values in each variable
+
+
+data_with_SMQ040 %>%
+  summarise(count_hyp = sum(is.na(BPQ020)),
+            count_gender = sum(is.na(RIAGENDR)),
+            count_age = sum(is.na(RIDAGEYR)),
+            count_race = sum(is.na(RIDRETH1)),
+            count_smoke20 = sum(is.na(SMQ020)),
+            count_smoke40 = sum(is.na(SMQ040)),
+            count_diabetes10 = sum(is.na(DIQ010)),
+            count_diabetes50 = sum(is.na(DIQ050)),
+            count_kidney = sum(is.na(KIQ022)),
+            count_age = sum(is.na(RIDAGEYR)),
+            count_bmi = sum(is.na(BMXBMI)),
+            count_activity = sum(is.na(PAQ665)),
+            count_alcohol = sum(is.na(ALQ101)),
+            count_salt = sum(is.na(DBD100)),
+            count_potassium = sum(is.na(DR1TPOTA)))
+
+
+hyp_with_SMQ040 %>%
+  summarise(count_hyp = sum(is.na(BPQ020)),
+            count_gender = sum(is.na(RIAGENDR)),
+            count_age = sum(is.na(RIDAGEYR)),
+            count_race = sum(is.na(RIDRETH1)),
+            count_smoke20 = sum(is.na(SMQ020)),
+            count_smoke40 = sum(is.na(SMQ040)),
+            count_diabetes10 = sum(is.na(DIQ010)),
+            count_diabetes50 = sum(is.na(DIQ050)),
+            count_kidney = sum(is.na(KIQ022)),
+            count_age = sum(is.na(RIDAGEYR)),
+            count_bmi = sum(is.na(BMXBMI)),
+            count_activity = sum(is.na(PAQ665)),
+            count_alcohol = sum(is.na(ALQ101)),
+            count_salt = sum(is.na(DBD100)),
+            count_potassium = sum(is.na(DR1TPOTA)))
+```
+
+
+```{r}
+#Visualise the number of missing values
+
+library(naniar)
+gg_miss_var(data_with_SMQ040) + theme_bw() #All data
+gg_miss_var(hyp_with_SMQ040) + theme_bw() #Data with dont know responses removed
+#DBD100 now has 0 missing values after removing dont know responses
+```
+
+```{r}
+nrow(hyp_with_SMQ040)
+#3458
+hyp1_with_SMQ040 <- na.omit(hyp_with_SMQ040)
+nrow(hyp1_with_SMQ040)
+#1435
+```
+
+```{r}
+#I am going to try this code for the all_dat dataset (no levels have been altered)
+nrow(data_with_SMQ040)
+#5464
+data1_with_SMQ040 <- na.omit(data_with_SMQ040)
+nrow(data1_with_SMQ040)
+#1443
+```
+
+
+```{r}
+hyp2_with_SMQ040 <- hyp1_with_SMQ040 %>% rename(Hypertension = BPQ020,
+                        Gender = RIAGENDR,
+                        Age = RIDAGEYR,
+                        Race = RIDRETH1,
+                        Smoking = SMQ020,
+                        Currently_Smoke = SMQ040,
+                        Diabetes = DIQ010,
+                        Insulin = DIQ050,
+                        KidneyF = KIQ022,
+                        BMI = BMXBMI,
+                        PhysActivity = PAQ665,
+                        Alcohol = ALQ101,
+                        Salt = DBD100,
+                        Potassium = DR1TPOTA
+                        )
+
+save(all_dat, file = "hyp2_with_SMQ040.RData")
+load("hyp2_with_SMQ040.RData")
+
+glimpse(hyp2_with_SMQ040)
+```
+
+
+
+
+```{r}
+#Logistic regression
+
+log_reg <- glm(Hypertension ~ ., data = hyp2_with_SMQ040[,-5], family = binomial())
+summary(log_reg)
+
+```
+
