@@ -9,14 +9,18 @@ This week:
 
 I removed three variables due to a large amount of NA values : SMQ040 (smoking), PAD675 (physical activity) and ALQ120Q (alcohol use)
 
-I added two new variables in replace of PAD675 (physical ativity) and ALQ120Q (alcohol use):
-* PAQ665 which is:	In a typical week {do you/does SP} do any moderate-intensity sports, fitness, or recreational activities that cause a small increase in breathing or heart rate such as brisk walking, bicycling, swimming, or volleyball for at least 10 minutes continuously?
-* ALQ101 which is : In any one year, {have you/has SP} had at least 12 drinks of any type of alcoholic beverage? By a drink, I mean a 12 oz. beer, a 5 oz. glass of wine, or a one and a half ounces of liquor.
+I added two new variables in replace of PAQ665 (physical activity) and ALQ101 (alcohol use):
 
-I renamed all my variables.
+• PAQ665 which is:	In a typical week {do you/does SP} do any moderate-intensity sports, fitness, or recreational activities that cause a small increase in breathing or heart rate such as brisk walking, bicycling, swimming, or volleyball for at least 10 minutes continuously?
+• ALQ101 which is : In any one year, {have you/has SP} had at least 12 drinks of any type of alcoholic beverage? By a drink, I mean a 12 oz. beer, a 5 oz. glass of wine, or a one and a half ounces of liquor.
 
-Created plots for every variable - Look at physactivity and alcohol variables
+I used 'naniar' package to visualise the missing values in my full data set and the data set where I have removed the don't know response
 
+I renamed all my variables to give meaningful names.
+
+Created plots for every variable against the response, I used the variable Gender to look for any differences between genders - Look at physical activity and alcohol variables
+
+In the paper they used 'Artificial Neural Networks'. A single perceptron (or neuron) can be imagined as a Logistic Regression. Artificial Neural Network, or ANN, is a group of multiple perceptrons/ neurons at each layer.
 
 
 
@@ -92,7 +96,7 @@ table(hyp$BPQ020)
 
 ```{r}
 #Save the file locally
-#save(all_dat, file = "hyp.RData")
+#save(hyp, file = "hyp.RData")
 load("hyp.RData")
 ```
 
@@ -123,6 +127,17 @@ hyp %>%
 
 
 ```{r}
+#Visualise the number of missing values
+
+library(naniar)
+gg_miss_var(all_dat) + theme_bw() #All data
+gg_miss_var(hyp) + theme_bw() #Data with dont know responses removed
+
+#DBD100 now has 0 missing values after removing dont know responses
+```
+
+
+```{r}
 nrow(hyp)
 #3458
 hyp1 <- na.omit(hyp)
@@ -130,7 +145,6 @@ nrow(hyp1)
 #3267
 ```
 
-I think I might be taking away too much observations from the dataset!
 
 
 ```{r}
@@ -162,102 +176,13 @@ hyp2 <- hyp1 %>% rename(Hypertension = BPQ020,
                         )
 ```
 
-```{r}
-#Creating plots to visualise the original data with all observations and levels
-
-ggplot(hyp1) +
-      geom_bar(aes(x = SMQ020, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + xlab("Smoking") + labs(fill= " Have You Ever\n Been Told You\n Have Hypertension")
-
- ggplot(all_dat) +
-  geom_boxplot(aes(x= RIDAGEYR, y = BPQ020)) + facet_wrap(~RIAGENDR) + labs(x="Age", y = "Hypertension") + coord_flip()
-#hypertension seems to be affecting older people in both genders
-
-ggplot(all_dat) +
-  geom_boxplot(aes(x= RIDAGEYR, y = BPQ020)) + facet_wrap(~RIDRETH1) + labs(x="Age", y = "Hypertension") + coord_flip()
-#in all ethnicities hypertension seems to be affecting older people
-
-ggplot(all_dat) +
-      geom_bar(aes(x = SMQ020, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + xlab("Smoking") + labs(fill= " Have You Ever\n Been Told You\n Have Hypertension")
-#in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
-
-
-ggplot(all_dat) +
-      geom_bar(aes(x = DIQ010, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Diabetes") + labs(fill="Hypertension")
-#it seems as though hypertension is more common for people who do not have diabetes, however for those that do have diabetes, there is a higher proportion of people who have hypertension
-
-ggplot(all_dat) +
-      geom_bar(aes(x = DIQ050, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Insulin Intake") + labs(fill="Hypertension")
-#it appears that hypertension is more common for people who are not taking insulin
-
-ggplot(all_dat) +
-      geom_bar(aes(x = KIQ022, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Kidney Failure") + labs(fill="Hypertension")
-#it seems as though hypertension is more common for people who do not have kidney disease
-
-
-ggplot(all_dat) +
-      geom_boxplot(aes(x = BMXBMI, y = BPQ020)) + facet_wrap(~RIAGENDR) + labs(x="BMI", y = "Hypertension") + coord_flip()
-#there is a big overlap between the median BMI value for both male and females that both have heard from a doctor that they have hypertension and those that have not
-
-ggplot(all_dat) +
-  geom_jitter(aes(x = PhysActivity, y = BPQ020)) + facet_wrap(~RIAGENDR) + labs(x="Physical Activity") + coord_flip() 
-
-ggplot(all_dat) +
-  geom_jitter(aes(x = ALQ101, y = BPQ020)) + facet_wrap(~RIAGENDR) + labs(x="Alcohol") + coord_flip() 
-
-ggplot(all_dat) +
-      geom_bar(aes(x = DBD100, fill = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Salt") + labs(fill="Hypertension")
-#it appears in both males and females, hypertension is more common when salt is "rarely" added to meals
-
-ggplot(all_dat) +
-      geom_boxplot(aes(x = DR1TPOTA, y = BPQ020),position = "dodge") + facet_wrap(~RIAGENDR) + labs(x="Potassium") + labs(fill="Hypertension") + coord_flip()
-```
 
 ```{r}
-#Creating plots to visualise the data
-
-ggplot(hyp2) +
-  geom_boxplot(aes(x= Age, y = Hypertension)) + facet_wrap(~Gender) + labs(x="Age", y = "Hypertension") + coord_flip()
-#hypertension seems to be affecting older people in both genders
-
-ggplot(hyp2) +
-  geom_boxplot(aes(x= Age, y = Hypertension)) + facet_wrap(~Race) + labs(x="Age", y = "Hypertension") + coord_flip()
-#in all ethnicities hypertension seems to be affecting older people
-
-ggplot(hyp2) +
-      geom_bar(aes(x = Smoking, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + xlab("Smoking") + labs(fill= " Have You Ever\n Been Told You\n Have Hypertension")
-#in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
-
-
-ggplot(hyp2) +
-      geom_bar(aes(x = Diabetes, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Diabetes") + labs(fill="Hypertension")
-#it seems as though hypertension is more common for people who do not have diabetes, however for those that do have diabetes, there is a higher proportion of people who have hypertension
-
-ggplot(hyp2) +
-      geom_bar(aes(x = Insulin, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Insulin Intake") + labs(fill="Hypertension")
-#it appears that hypertension is more common for people who are not taking insulin
-
-ggplot(hyp2) +
-      geom_bar(aes(x = KidneyF, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Kidney Failure") + labs(fill="Hypertension")
-#it seems as though hypertension is more common for people who do not have kidney disease
-
-
-ggplot(hyp2) +
-      geom_boxplot(aes(x = BMI, y = Hypertension)) + facet_wrap(~Gender) + labs(x="BMI", y = "Hypertension") + coord_flip()
-#there is a big overlap between the median BMI value for both male and females that both have heard from a doctor that they have hypertension and those that have not
-
-ggplot(hyp2) +
-  geom_jitter(aes(x = PhysActivity, y = Hypertension)) + facet_wrap(~Gender) + labs(x="Physical Activity") + coord_flip() 
-
-ggplot(hyp2) +
-  geom_jitter(aes(x = Alcohol, y = Hypertension)) + facet_wrap(~Gender) + labs(x="Alcohol") + coord_flip() 
-
-ggplot(hyp2) +
-      geom_bar(aes(x = Salt, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Salt") + labs(fill="Hypertension")
-#it appears in both males and females, hypertension is more common when salt is "rarely" added to meals
-
-ggplot(hyp2) +
-      geom_boxplot(aes(x = Potassium, y = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Potassium") + labs(fill="Hypertension") + coord_flip()
+save(hyp2, file = "hyp2.RData")
+load("hyp2.RData")
+glimpse(hyp2)
 ```
+
 
 
 
@@ -268,6 +193,8 @@ log_reg <- glm(Hypertension ~ ., data = hyp2, family = binomial())
 summary(log_reg)
 
 ```
+
+
 
 
 
