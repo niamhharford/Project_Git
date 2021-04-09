@@ -1,5 +1,5 @@
 ---
-title: "Dissertation"
+title: "Dissertation 2015/2016 Data"
 author: "Niamh Harford 20251644"
 date: "3/4/2021"
 output: html_document
@@ -21,6 +21,8 @@ I renamed all my variables to give meaningful names.
 Created plots for every variable against the response, I used the variable Gender to look for any differences between genders - Look at physical activity and alcohol variables
 
 In the paper they used 'Artificial Neural Networks'. A single perceptron (or neuron) can be imagined as a Logistic Regression. Artificial Neural Network, or ANN, is a group of multiple perceptrons/ neurons at each layer.
+
+I set up a new dataset with a different year (2009/2010).
 
 
 
@@ -61,7 +63,6 @@ load("all_dat.RData")
 #checking the responses for each factor variables
 levels(all_dat$RIDRETH1) #dont need to fix anything
 levels(all_dat$SMQ020) #need to remove dont knows
-levels(all_dat$SMQ040) #dont need to fix anything
 levels(all_dat$DIQ010) #need to remove dont knows
 levels(all_dat$DIQ050) #need to remove dont knows
 levels(all_dat$KIQ022) #need to remove dont knows
@@ -198,6 +199,10 @@ summary(log_reg)
 
 
 
+
+WHAT NEXT:
+
+• LOOK UP THE OUTOUT OF LOGISTIC REGRESSION TO TRY UNDERSTAND 
 
 
 
