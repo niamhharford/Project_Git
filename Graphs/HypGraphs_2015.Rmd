@@ -1,0 +1,61 @@
+---
+title: "Hyp Data 2015/2016 - Graphs"
+author: "Niamh Harford 20251644"
+date: "4/7/2021"
+output: html_document
+---
+
+```{r, eval=TRUE}
+load("~/Documents/Masters/Dissertation/Project_Git/Data/hyp2.RData") 
+library(ggplot2)
+```
+
+
+```{r, eval=TRUE}
+#Creating plots to visualise the data
+ggplot(hyp2) + geom_boxplot(aes(x= Age, y = Hypertension)) + facet_wrap(~Gender) + labs(x="Age", y = "Hypertension") + coord_flip()
+
+#hypertension seems to be affecting older people in both genders
+
+ggplot(hyp2) +
+  geom_boxplot(aes(x= Age, y = Hypertension)) + facet_wrap(~Race) + labs(x="Age", y = "Hypertension") + coord_flip()
+#in all ethnic groups, hypertension seems to be affecting older people
+
+ggplot(hyp2) +
+      geom_bar(aes(x = Smoking, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + xlab("Smoking") + labs(fill= " Have You Ever\n Been Told You\n Have Hypertension")
+#in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
+
+
+ggplot(hyp2) +
+      geom_bar(aes(x = Diabetes, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Diabetes") + labs(fill="Hypertension")
+#it seems as though hypertension is more common for people who do not have diabetes, however for those that do have diabetes, there is a higher proportion of people who have hypertension
+
+ggplot(hyp2) +
+      geom_bar(aes(x = Insulin, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Insulin Intake") + labs(fill="Hypertension")
+#it appears that hypertension is more common for people who are not taking insulin
+
+ggplot(hyp2) +
+      geom_bar(aes(x = KidneyF, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Kidney Failure") + labs(fill="Hypertension")
+#it seems as though hypertension is more common for people who do not have kidney disease
+
+
+ggplot(hyp2) +
+      geom_boxplot(aes(x = BMI, y = Hypertension)) + facet_wrap(~Gender) + labs(x="BMI", y = "Hypertension") + coord_flip()
+#there is a big overlap between the median BMI value for both male and females that both have heard from a doctor that they have hypertension and those that have not
+
+ggplot(hyp2) +
+  geom_jitter(aes(x = PhysActivity, y = Hypertension)) + facet_wrap(~Gender) + labs(x="Physical Activity") + coord_flip() 
+
+ggplot(hyp2) +
+  geom_jitter(aes(x = Alcohol, y = Hypertension)) + facet_wrap(~Gender) + labs(x="Alcohol") + coord_flip() 
+
+ggplot(hyp2) +
+      geom_bar(aes(x = Salt, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Salt") + labs(fill="Hypertension")
+#it appears in both males and females, hypertension is more common when salt is "rarely" added to meals
+
+
+ggplot(hyp2) +
+      geom_boxplot(aes(x = Potassium, y = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Potassium") + labs(fill="Hypertension") + coord_flip()
+```
+
+
