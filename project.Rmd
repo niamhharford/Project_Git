@@ -28,10 +28,36 @@ I set up a new dataset with a different year (2009/2010).
 
 ```{r}
 #Packages I need
+suppressMessages(library(nhanesA))
 suppressMessages(library(tidyverse))
 suppressMessages(library(ggplot2))
 ```
 
+```{r, results='hide'}
+#2015/2016 data
+smq_i <- nhanes('SMQ_I') 
+demo_i <- nhanes('DEMO_I')
+diq_i <- nhanes('DIQ_I') 
+kiq_u_i <- nhanes('KIQ_U_I')
+bmx_i <- nhanes('BMX_I')
+bpq_i <- nhanes('BPQ_I')
+paq_i <- nhanes('PAQ_I')
+alq_i <- nhanes('ALQ_I')
+dr1tot_i <- nhanes('DR1TOT_I') #salt and potassium
+```
+
+```{r, results='hide'}
+#Translate
+demo_i <- nhanesTranslate('DEMO_I', c('RIAGENDR', 'RIDRETH1', 'RIDAGEYR'), data=demo_i)
+bmx_i <- nhanesTranslate('BMX_I', 'BMXBMI', data=bmx_i) #no columns translated
+smq_i <- nhanesTranslate('SMQ_I', 'SMQ020', data=smq_i)
+diq_i <- nhanesTranslate('DIQ_I', c('DIQ010', 'DIQ050'), data=diq_i)
+kiq_u_i <- nhanesTranslate('KIQ_U_I', c('KIQ022'), data=kiq_u_i)
+bpq_i <- nhanesTranslate('BPQ_I', 'BPQ020', data=bpq_i)
+paq_i <- nhanesTranslate('PAQ_I', 'PAD675', data = paq_i)
+alq_i <- nhanesTranslate('ALQ_I', 'ALQ101', data = alq_i)
+dr1tot_i <- nhanesTranslate('DR1TOT_I', c('DBD100','DR1TPOTA'), data = dr1tot_i)
+```
 
 ```{r}
 #Merging the data 
@@ -53,7 +79,7 @@ all_dat$DR1TPOTA <- as.numeric(all_dat$DR1TPOTA)
 glimpse(all_dat)
 ```
 
-```{r}
+```{r, eval=FALSE}
 #Save the file locally
 save(all_dat, file = "all_dat.RData")
 load("all_dat.RData")
@@ -91,13 +117,12 @@ levels(hyp$DIQ050)
 levels(hyp$KIQ022)
 levels(hyp$DBD100)
 
-head(hyp)
 table(hyp$BPQ020)
 ```
 
-```{r}
+```{r, eval=FALSE}
 #Save the file locally
-#save(hyp, file = "hyp.RData")
+save(hyp, file = "hyp.RData")
 load("hyp.RData")
 ```
 
@@ -178,9 +203,12 @@ hyp2 <- hyp1 %>% rename(Hypertension = BPQ020,
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 save(hyp2, file = "hyp2.RData")
 load("hyp2.RData")
+```
+
+```{r}
 glimpse(hyp2)
 ```
 
@@ -196,13 +224,57 @@ summary(log_reg)
 ```
 
 
+```{r}
+coefficients(log_reg) %>% exp() %>% round(digits = 5)
+```
+
+#### **Interpretation:**
++ The odds of having hypertension if you're a female is expected to decrease by roughly 9%. 
+
++ For a one unit increase in age you would expect your odds of having hypertension to decrease by roughly 5%. 
+
++ When you move from American Mexican race to Other Hispanic, the odds of having hypertension decreases by roughly 24%.
+
++ When you move from American Mexican race to Non-Hispanic White, the odds of having hypertension decreases by roughly 24%.
+
++ When you move from American Mexican race to Non-Hispanic Black, the odds of having hypertension decreases by roughly 58%.
+
++ When you move from American Mexican race to Other Race including multi-race, the odds of having hypertension decreases by roughly 48%.
+
++ When you move from smoking to not smoking, the odds of having hypertension increases by roughly 32%.
+
++ **When you move from smoking to refused smoking, the odds of having hypertension increases by roughly  324829.71%. **
+
++ When you move from having diabetes to not having diabetes, the odds of having hypertension is roughly **2.32 times higher.**
+
++ When you move from having diabetes to borderline having diabetes, the odds of having hypertension increases by roughly 18%.
+
++ When you move from taking insulin to not taking insulin, the odds of having hypertension increases by roughly 10%.
+
++ When you move from having chronic kidney disease to not having chronic kidney disease, the odds of having hypertension  is roughly **2.88 times higher.**
+
++ For a one unit increase in BMI you would expect your odds of having hypertension to decrease by roughly 6%. 
+
++ For a one unit increase in physical activity you would expect your odds of having hypertension to be equally likely.
+
++ For a one unit increase in alcohol you would expect your odds of having hypertension to increase roughly by 1%.
+
++ When you move from using salt rarely to occasionally, the odds of having hypertension decreases by roughly 8%.
+
++ When you move from using salt rarely to very often, the odds of having hypertension decreases by roughly 15%.
+
++ For a one unit increase in potassium you would expect your odds of having hypertension to be equally likely.
 
 
+**Variables that have a negative effect on Hypertension **
 
-
-WHAT NEXT:
-
-• LOOK UP THE OUTOUT OF LOGISTIC REGRESSION TO TRY UNDERSTAND 
-
-
++ GenderFemale                         
++ Age     
++ RaceOther Hispanic 
++ RaceNon-Hispanic White
++ RaceNon-Hispanic Black 
++ RaceOther Race - Including Multi-Race
++ BMI
++ Salt Ocassionally
++ Salt very often
 
