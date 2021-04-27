@@ -1,0 +1,274 @@
+---
+title: "Dissertation 2015/2016 Data"
+author: "Niamh Harford 20251644"
+date: "3/4/2021"
+output: html_document
+---
+
+
+```{r}
+#Packages I need
+suppressMessages(library(nhanesA))
+suppressMessages(library(tidyverse))
+suppressMessages(library(ggplot2))
+```
+
+```{r, results='hide'}
+#2015/2016 data
+smq_i <- nhanes('SMQ_I') 
+demo_i <- nhanes('DEMO_I')
+diq_i <- nhanes('DIQ_I') 
+kiq_u_i <- nhanes('KIQ_U_I')
+bmx_i <- nhanes('BMX_I')
+bpq_i <- nhanes('BPQ_I')
+paq_i <- nhanes('PAQ_I')
+alq_i <- nhanes('ALQ_I')
+dr1tot_i <- nhanes('DR1TOT_I') #salt and potassium
+```
+
+```{r, results='hide'}
+#Translate
+demo_i <- nhanesTranslate('DEMO_I', c('RIAGENDR', 'RIDRETH1', 'RIDAGEYR'), data=demo_i)
+bmx_i <- nhanesTranslate('BMX_I', 'BMXBMI', data=bmx_i) #no columns translated
+smq_i <- nhanesTranslate('SMQ_I', 'SMQ020', data=smq_i)
+diq_i <- nhanesTranslate('DIQ_I', c('DIQ010', 'DIQ050'), data=diq_i)
+kiq_u_i <- nhanesTranslate('KIQ_U_I', c('KIQ022'), data=kiq_u_i)
+bpq_i <- nhanesTranslate('BPQ_I', 'BPQ020', data=bpq_i)
+paq_i <- nhanesTranslate('PAQ_I', 'PAD675', data = paq_i)
+alq_i <- nhanesTranslate('ALQ_I', 'ALQ101', data = alq_i)
+dr1tot_i <- nhanesTranslate('DR1TOT_I', c('DBD100','DR1TPOTA'), data = dr1tot_i)
+```
+
+```{r}
+#Merging the data 
+select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020', 'DIQ010', 'DIQ050', 'KIQ022', 'BMXBMI', 'PAQ665','ALQ101', 'DBD100', 'DR1TPOTA')
+all_dat <- Reduce(merge, list(demo_i, smq_i, diq_i, kiq_u_i, bmx_i, bpq_i, paq_i, alq_i,dr1tot_i))
+all_dat <- all_dat %>% select(all_of(select_cols))
+head(all_dat)
+```
+
+
+```{r}
+#Adjust the structure of the data
+glimpse(all_dat)
+all_dat$RIDAGEYR <- as.numeric(all_dat$RIDAGEYR)
+all_dat$BMXBMI <- as.numeric(all_dat$BMXBMI)
+all_dat$PAQ665 <- as.numeric(all_dat$PAQ665)
+all_dat$ALQ101 <- as.numeric(all_dat$ALQ101)
+all_dat$DR1TPOTA <- as.numeric(all_dat$DR1TPOTA)
+glimpse(all_dat)
+```
+
+```{r}
+#checking the responses for each factor variables
+levels(all_dat$RIDRETH1) #dont need to fix anything
+levels(all_dat$SMQ020) #need to remove dont knows
+levels(all_dat$DIQ010) #need to remove dont knows
+levels(all_dat$DIQ050) #need to remove dont knows
+levels(all_dat$KIQ022) #need to remove dont knows
+levels(all_dat$DBD100) #need to remove dont knows
+```
+
+```{r}
+#Rename the variables to meaningful names
+all_dat <- all_dat %>% rename(Hypertension = BPQ020,
+                        Gender = RIAGENDR,
+                        Age = RIDAGEYR,
+                        Race = RIDRETH1,
+                        Smoking = SMQ020,
+                        Diabetes = DIQ010,
+                        Insulin = DIQ050,
+                        KidneyF = KIQ022,
+                        BMI = BMXBMI,
+                        PhysActivity = PAQ665,
+                        Alcohol = ALQ101,
+                        Salt = DBD100,
+                        Potassium = DR1TPOTA
+                        )
+```
+
+
+```{r}
+#Count how much Na values in each variable
+
+all_dat %>%
+  summarise(count_hyp = sum(is.na(Hypertension)),
+            count_gender = sum(is.na(Gender)),
+            count_age = sum(is.na(Age)),
+            count_race = sum(is.na(Race)),
+            count_smoke20 = sum(is.na(Smoking)),
+            count_diabetes10 = sum(is.na(Diabetes)),
+            count_diabetes50 = sum(is.na(Insulin)),
+            count_kidney = sum(is.na(KidneyF)),
+            count_bmi = sum(is.na(BMI)),
+            count_activity = sum(is.na(PhysActivity)),
+            count_alcohol = sum(is.na(Alcohol)),
+            count_salt = sum(is.na(Salt)),
+            count_potassium = sum(is.na(Potassium)))
+```
+
+```{r, eval=FALSE}
+#Save the file locally
+save(all_dat, file = "all_dat.RData")
+load("all_dat.RData")
+```
+
+
+
+```{r}
+#removing the unknown "dont know" answers from the data
+
+hyp <- all_dat %>% filter(Hypertension != "Don't know") %>% filter(Smoking != "Don't know") %>% 
+    filter(Diabetes != "Don't know") %>% filter(Insulin != "Don't know") %>% 
+        filter(KidneyF != "Don't know") %>% filter(Salt != "Don't know")
+```
+
+```{r}
+#readjusting the levels for each factor variable
+hyp <- hyp %>% droplevels()
+```
+
+```{r}
+#checking the levels are adjusted correctly
+levels(hyp$Hypertension)
+levels(hyp$Smoking)
+levels(hyp$Diabetes)
+levels(hyp$Insulin)
+levels(hyp$KidneyF)
+levels(hyp$Salt)
+
+table(hyp$Hypertension)
+```
+
+```{r, eval=FALSE}
+#Save the file locally
+save(hyp, file = "hyp.RData")
+load("hyp.RData")
+```
+
+```{r}
+glimpse(hyp)
+```
+
+```{r}
+#Count how much Na values in each variable
+
+hyp %>%
+  summarise(count_hyp = sum(is.na(Hypertension)),
+            count_gender = sum(is.na(Gender)),
+            count_age = sum(is.na(Age)),
+            count_race = sum(is.na(Race)),
+            count_smoke20 = sum(is.na(Smoking)),
+            count_diabetes10 = sum(is.na(Diabetes)),
+            count_diabetes50 = sum(is.na(Insulin)),
+            count_kidney = sum(is.na(KidneyF)),
+            count_bmi = sum(is.na(BMI)),
+            count_activity = sum(is.na(PhysActivity)),
+            count_alcohol = sum(is.na(Alcohol)),
+            count_salt = sum(is.na(Salt)),
+            count_potassium = sum(is.na(Potassium)))
+```
+
+
+```{r}
+#Visualise the number of missing values
+
+library(naniar)
+gg_miss_var(all_dat) + theme_bw() #All data
+
+gg_miss_var(hyp) + theme_bw() #Data with don't know responses removed
+
+#DBD100 now has 0 missing values after removing don't know responses
+
+gg_miss_upset(data = all_dat, order.by = "freq")
+
+gg_miss_upset(data = hyp, order.by = "freq")
+
+
+n_var_miss(all_dat)
+
+
+suppressMessages(library(VIM))
+
+nhanes_plot <-aggr(all_dat, col=c('lightblue','red'), numbers=TRUE, sortVars=TRUE, labels=names(data), cex.axis=.7, gap=3, ylab=c("Histogram of missing data","Pattern")) 
+```
+
+
+```{r}
+nrow(hyp)
+#3460
+hyp1 <- na.omit(hyp)
+nrow(hyp1)
+#3269
+```
+
+
+
+```{r}
+#I am going to try this code for the all_dat dataset (no levels have been altered)
+nrow(all_dat)
+#5464
+all_dat1 <- na.omit(all_dat)
+nrow(all_dat1)
+#3289
+```
+
+There seems to be no major difference between the two datasets (hyp, with levels altered and all_dat) when I omit the NA values
+
+
+```{r}
+glimpse(hyp1)
+```
+
+
+```{r, eval=FALSE}
+#Save the file locally
+save(hyp1, file = "hyp1.RData")
+load("hyp1.RData")
+```
+
+
+
+```{r}
+# Dealing with missing values
+
+suppressMessages(library(mice))
+
+# Imputation
+ 
+impute = mice(all_dat, m=5, maxit = 40, seed=2525)
+
+# The output impute contains m=5 completed datasets. Each dataset can be analysed using function with().
+impute$method
+Imputed_data=complete(impute,5)
+Imputed_data %>%
+  summarise(count_hyp = sum(is.na(Hypertension)),
+            count_gender = sum(is.na(Gender)),
+            count_age = sum(is.na(Age)),
+            count_race = sum(is.na(Race)),
+            count_smoke20 = sum(is.na(Smoking)),
+            count_diabetes10 = sum(is.na(Diabetes)),
+            count_diabetes50 = sum(is.na(Insulin)),
+            count_kidney = sum(is.na(KidneyF)),
+            count_bmi = sum(is.na(BMI)),
+            count_activity = sum(is.na(PhysActivity)),
+            count_alcohol = sum(is.na(Alcohol)),
+            count_salt = sum(is.na(Salt)),
+            count_potassium = sum(is.na(Potassium)))
+
+
+densityplot(impute)
+
+
+all_dat$Salt %>% table()
+Imputed_data$Salt %>% table()
+
+Imputed_data$Hypertension <-ifelse(Imputed_data$Hypertension == "Yes", 1 ,0)
+Imputed_data$Hypertension %>% table
+log_reg_imppute <- glm(Hypertension ~ ., data = Imputed_data, family = binomial())
+summary(log_reg_imppute)
+coefficients(log_reg_imppute) %>% exp() %>% round(digits = 8)
+```
+
+
+
