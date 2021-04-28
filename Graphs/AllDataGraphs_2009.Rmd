@@ -7,6 +7,7 @@ output: html_document
 
 ```{r}
 load("~/Documents/Masters/Dissertation/Project_Git/Data/data_09_10.RData")
+load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_09_10.RData")
 library(ggplot2)
 ```
 
@@ -25,7 +26,7 @@ ggplot(data) +
 #in all ethnic groups hypertension seems to be affecting older people
 
 ggplot(data) +
-      geom_bar(aes(x = Smoking, fill = Hypertension),position = "dodge") + facet_wrap(~Age) + xlab("Smoking") + labs(fill= "Hypertension")
+      geom_bar(aes(x = Smoking, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + xlab("Smoking") + labs(fill= "Hypertension")
 #in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
 #for those that smoke, hypertension seems to be more common in males than females
 
@@ -61,10 +62,21 @@ ggplot(data) +
       geom_boxplot(aes(x = Potassium, y = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Potassium", y ="Hypertension") + coord_flip()
 ```
 
+
 ```{r}
-# Missing value
+#Visualise the number of missing values
 
 library(naniar)
+gg_miss_var(data) + theme_bw() #All data
+gg_miss_var(data1) + theme_bw() #Data with don't know responses removed
+
+#DBD100 now has 0 missing values after removing don't know responses
+
+
+gg_miss_upset(data = data, order.by = "freq")
+
+gg_miss_upset(data = data1, order.by = "freq")
+
 
 gg_miss_var(data, facet = Race)
 gg_miss_var(data, facet = Gender)
@@ -72,3 +84,7 @@ gg_miss_var(data, facet = Gender)
 #% of missing values for each variables
 gg_miss_fct(data, Gender)
 ```
+
+
+
+
