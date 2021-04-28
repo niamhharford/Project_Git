@@ -5,6 +5,35 @@ date: "3/15/2021"
 output: html_document
 ---
 
+**My Variables:**
+
++ **BPQ020 - Hypertension:** {Have you/Has SP} ever been told by a doctor or other health professional that {you/s/he} had hypertension, also called high blood pressure?
+
++ **RIAGENDR - Gender:** Gender of the participant.
+
++ **RIDAGEYR - Age:** Age in years of the participant at the time of screening. Individuals 80 and over are topcoded at 80 years of age.
+
++ **RIDRETH1 - Race:** Recode of reported race and Hispanic origin information.
+
++ **SMQ020 - Smoking:** {Have you/Has SP} smoked at least 100 cigarettes in {your/his/her} entire life?
+
++ **DIQ010 - Diabetes:** {Have you/Has SP}} ever been told by a doctor or health professional that {you have/{he/she/SP} has} diabetes or sugar diabetes?
+
++ **DIQ050 - Insulin** {Is SP/Are you} now taking insulin?
+
++ **KIQ022 - KidneyF:** {Have you/Has SP} ever been told by a doctor or other health professional that {you/s/he} had weak or failing kidneys? Do not include kidney stones, bladder infections, or incontinence.
+
++ **BMXBMI - BMI:** Body Mass Index (kg/m**2).
+
++ **PAQ665 - PhysActivity:** In a typical week {do you/does SP} do any moderate-intensity sports, fitness, or recreational activities that cause a small increase in breathing or heart rate such as brisk walking, bicycling, swimming, or volleyball for at least 10 minutes continuously?
+
++ **ALQ101 - Alcohol:** In any one year, {have you/has SP} had at least 12 drinks of any type of alcoholic beverage? By a drink, I mean a 12 oz. beer, a 5 oz. glass of wine, or one and half ounces of liquor.
+
++ **DRQSPREP - Salt:** How often is ordinary salt or seasoned salt added in cooking or preparing foods in your household? Is it never, rarely, occasionally, or very often?
+
++ **DR1TPOTA - Potassium:** Potassium (mg).
+
+
 What is NHANES data?
 
 https://www.cdc.gov/nchs/nhanes/about_nhanes.htm
@@ -24,11 +53,8 @@ https://www.nature.com/articles/s41598-020-67640-z#Sec13
 
 I obtained the variables I required from the nhanes data set, primarily from following the introductory nhanesA vignette. This vignette allowed me to follow along and successfully download many variables from the nhanesA package. Firstly, I installed the package "nhanesA" using install.packages("nhanesA") and then loaded the packages using library(nhanesA). Following this, I proceeded to import five data files, four of these came from the Questionnaire data (SMQ_I, DIQ_I, KIQ_I, BPQ_I) while the fifth came from the Examination data (BMX_I). Along with these I also imported the demographics table (DEMO_I). I merged all of these data files together to form one data set, where I then choose nine explanatory variables, in addition to one response variables. The explanatory variables are as follows; RIAGENDR, RIDAGEYR, RIDRETH1, SMQ020, SMQ040, DIQ010, DIQ050, KIQ022, BMXBMI. The response variable is as follows; BPQ020. The variable RIAGENDR is the gender of the participants of the nhanes data set. RIDAGEYR is the age in years of the participant at the time of screening. Individuals 80 and over are topcoded at 80 years of age. RIDRETH1 is the recode of reported race and ethnicity information. These three variables have been taken from the demographic table. While looking at smoking as a possible factor causing hypertension, I thought it was important to factor in two variables, these include; SMQ020, which is where a smoker is defined as individuals having smoked ≥ 100 cigarettes during their lifetime and SMQ040, which is whether the participants currently smoke some days or every day. I then looked at diabetes as a possible cause of hypertension. I chose two variables that might show a possible cause of hypertension, these include; DIQ010, where participants have diabetes if the answer presents “Yes or “Borderline” to the question “Doctor told you that you have diabetes?” and  DIQ050 are you now taking insulin. There may be an effect of taking insulin which would be an interesting variable to further analyse. Another possible factor that may cause hypertension is chronic kidney disease (CKD) which is defined as “yes” response to the question “Have you ever told by a health care provider you have weak or failing kidneys?”, Do not include kidney stones, bladder infections, or incontinence, the variable for the nhanes data set for this question is KIQ022. The next variable I chose the explore as a possible cause of hypertension is BMXBMI, Body Mass Index (kg/m**2). Being overweight is often a contributor to hypertension. I looked into potential dietary aspects that may contribute to causing hypertension. From here I chose the add two variables; DBD100, which is how often {do you/does SP} add ordinary salt to {your/his/her/SP's} food at the table? and DR1TPOTA, which is the measure of potassium. Too much salt can cause hypertension while too little potassium can cause it to occur. Not being physically active is also a contributor of hypertension, the next variable I chose is PAQ665, which is in a typical week {do you/does SP} do any moderate-intensity sports, fitness, or recreational activities that cause a small increase in breathing or heart rate such as brisk walking, bicycling, swimming, or volleyball for at least 10 minutes continuously. The final variable I chose is related to alcohol. Over time heavy drinking is known to damage the heart, the variable ALQ101 is in any one year, {have you/has SP} had at least 12 drinks of any type of alcoholic beverage? By a drink, I mean a 12 oz. beer, a 5 oz. glass of wine, or a one and a half ounces of liquor.
 
+How often is ordinary salt or seasoned salt added in cooking or preparing foods in your household? Is it never, rarely, occasionally, or very often? (DRQSPREP)
 
-Changing some variables;
-1) PAD675 to PAQ665 which is:	In a typical week {do you/does SP} do any moderate-intensity sports, fitness, or recreational activities that cause a small increase in breathing or heart rate such as brisk walking, bicycling, swimming, or volleyball for at least 10 minutes continuously?
-2) Removing SMQ040 too many Na values
-3) ALQ120Q to ALQ101 which is : In any one year, {have you/has SP} had at least 12 drinks of any type of alcoholic beverage? By a drink, I mean a 12 oz. beer, a 5 oz. glass of wine, or a one and a half ounces of liquor.
 
 https://www.mayoclinic.org/diseases-conditions/high-blood-pressure/symptoms-causes/syc-20373410
 
@@ -37,6 +63,7 @@ For most adults, there's no identifiable cause of high blood pressure. This type
 
 Secondary hypertension:
 Some people have high blood pressure caused by an underlying condition. This type of high blood pressure, called secondary hypertension, tends to appear suddenly and cause higher blood pressure than does primary hypertension. Various conditions and medications can lead to secondary hypertension, including:
+
 * Obstructive sleep apnea
 
 * Kidney disease
@@ -75,3 +102,17 @@ Hypertension / high blood pressure has many risk factors:
 (10) Stress. High levels of stress can lead to a temporary increase in blood pressure. Stress-related habits such as eating more, using tobacco or drinking alcohol can lead to further increases in blood pressure.
 
 (11) Certain chronic conditions. Certain chronic conditions also may increase your risk of high blood pressure, including kidney disease, diabetes and sleep apnea.
+
+
+
+From the paper : https://www.nature.com/articles/s41598-020-67640-z#Sec13
+
+Several studies in the US integrated healthcare system in cardiovascular research with incident hypertension showed association between race, age, smoking, BMI, diabetes, and kidney conditions with hypertension32,33,34. Among different cohorts of patients with hypertension, during the follow up, individuals present more kidney disease, diabetes problems and remarkable association with smoking habits. In addition, these studies shown that effective BMI management decrease the incidence of hypertension, hypertension prevalence increase with age, and race is a significant factor of prevalence of hypertension.
+
+
+Findings so far:
+
+2015/2016 Data:
+
+
+
