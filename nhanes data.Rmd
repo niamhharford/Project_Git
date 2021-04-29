@@ -110,9 +110,6 @@ From the paper : https://www.nature.com/articles/s41598-020-67640-z#Sec13
 Several studies in the US integrated healthcare system in cardiovascular research with incident hypertension showed association between race, age, smoking, BMI, diabetes, and kidney conditions with hypertension32,33,34. Among different cohorts of patients with hypertension, during the follow up, individuals present more kidney disease, diabetes problems and remarkable association with smoking habits. In addition, these studies shown that effective BMI management decrease the incidence of hypertension, hypertension prevalence increase with age, and race is a significant factor of prevalence of hypertension.
 
 
-Findings so far:
+https://www.sciencedirect.com/science/article/pii/S095741741830352X?via%3Dihub#sec0017
 
-2015/2016 Data:
-
-
-
+Kidney disease was not present in the Healthy People Initiative for heart disease and stroke, but the kidney plays a key role in keeping the blood pressure in a normal range
