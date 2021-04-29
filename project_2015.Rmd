@@ -42,9 +42,10 @@ all_dat %>%
 #removing the unknown "don't know" responses from the data
 #removing refused response for the smoking variable (2 observations)
 
-hyp <- all_dat %>% filter(Hypertension != "Don't know") %>% filter(Smoking != "Don't know") %>% filter(Diabetes != "Don't know") %>% filter(Insulin != "Don't know") %>% 
-        filter(KidneyF != "Don't know") %>% 
-  filter(Salt != "Don't know") %>%
+hyp <- all_dat %>% filter(Hypertension != "Don't know") %>% filter(Smoking != "Don't know") %>%
+  filter(Diabetes != "Don't know") %>% filter(Insulin != "Don't know") %>% 
+  filter(KidneyF != "Don't know") %>% filter(Salt != "Don't know") %>%
+  filter(Alcohol != "Don't know") %>% filter(PhysActivity != "Don't know") %>%
   filter(Smoking != "Refused")
 
 #readjusting the levels for each factor variable
@@ -59,6 +60,8 @@ levels(hyp$Diabetes)
 levels(hyp$Insulin)
 levels(hyp$KidneyF)
 levels(hyp$Salt)
+levels(hyp$PhysActivity)
+levels(hyp$Alcohol)
 table(hyp$Hypertension)
 ```
 
@@ -86,7 +89,7 @@ hyp %>%
             count_salt = sum(is.na(Salt)),
             count_potassium = sum(is.na(Potassium)))
 
-# 299 missing values in total
+# 45 missing values in total
 ```
 
 #### Check the number of observaions in each data set when NAs removed
@@ -102,10 +105,10 @@ nrow(all_dat1)
 
 ```{r}
 nrow(hyp)
-#4922
+#4667
 hyp1 <- na.omit(hyp)
 nrow(hyp1)
-#4628
+#4622
 ```
 
 
