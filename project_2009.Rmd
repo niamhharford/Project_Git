@@ -43,7 +43,9 @@ data %>%
 ```{r}
 #removing the unknown "don't know" responses from the data
 
-data1 <- data %>% filter(Hypertension != "Don't know") %>% filter(Diabetes != "Don't know") %>% filter(KidneyF != "Don't know") %>% filter(Salt != "Don't know")
+data1 <- data %>% filter(Hypertension != "Don't know") %>% filter(Diabetes != "Don't know") %>%
+  filter(KidneyF != "Don't know") %>% filter(Salt != "Don't know") %>%
+  filter(Alcohol != "Don't know") %>% filter(PhysActivity != "Don't know") 
 
 #readjusting the levels for each factor variable
 data1 <- data1 %>% droplevels()
@@ -55,6 +57,8 @@ levels(data1$Hypertension)
 levels(data1$Diabetes)
 levels(data1$KidneyF)
 levels(data1$Salt)
+levels(data1$PhysActivity)
+levels(data1$Alcohol)
 table(data1$Hypertension)
 ```
 
@@ -82,7 +86,7 @@ data1 %>%
             count_salt = sum(is.na(Salt)),
             count_potassium = sum(is.na(Potassium)))
 
-#530 missing values in total
+#42 missing values in total
 
 ```
 
@@ -98,10 +102,10 @@ nrow(data_a)
 
 ```{r}
 nrow(data1)
-#5654
+#5170
 data2 <- na.omit(data1)
 nrow(data2)
-#5132
+#5128
 ```
 
 
