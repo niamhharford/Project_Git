@@ -20,13 +20,15 @@ suppressMessages(library(tidyverse))
 
 #### What Have I Left Out of the Data Sets:
 
-I still have both full data sets for both years (2015-2016 and 2009-2010) but for the 2015-2016 data set there are 1453 missing values and for the 2009-2010 data set there are 1371 missing values. When I remove the 'Don't Know' responses, there are 299 missing values in the 2015-2016 data set and there are 530 missing values in the 2009-2010 data set.
+I still have both full data sets for both years (2015-2016 and 2009-2010) but for the 2015-2016 data set there are 5474 and for the 2009-2010 data set there are 1371 missing values. When I remove the 'Don't Know' responses, there are 45 missing values in the 2015-2016 data set and there are 42 missing values in the 2009-2010 data set.
 
-So if I use the reduced data sets (removing the don't know responses), for 2015-2016 data I will have 4628 observations and for 2009-2010 data I will have 5132 observations.
+In my Reduced Data Sets:
 
 + Removing Don't Know responses
 + Removing NA values
 + Removing Refused responses (only 2) from smoking variable (2015-2016 Reduced Data)
+
+So if I use the reduced data sets (removing the don't know responses), for 2015-2016 data I will have 4622 observations and for 2009-2010 data I will have 5128 observations.
 
 
 #### Logistic Regression
@@ -46,41 +48,45 @@ coefficients(log_reg_all_dat) %>% exp() %>% round(digits = 6)
 ```
 
 #### **Interpretation:**
-+ The odds of having hypertension if you're a female is expected to increase by roughly 4%. 
++ The odds of having hypertension if you're a female is expected to increase by roughly 5%. 
 
 + For a one unit increase in age you would expect your odds of having hypertension to increase by roughly 6%. 
-
 + When you move from American Mexican race to Other Hispanic, the odds of having hypertension increases by roughly 27%.
 
-+ When you move from American Mexican race to Non-Hispanic White, the odds of having hypertension increases by roughly 19%.
++ When you move from American Mexican race to Non-Hispanic White, the odds of having hypertension increases by roughly 20%.
 
-+ When you move from American Mexican race to Non-Hispanic Black, the odds of having hypertension is roughly 2.08 times higher.
++ When you move from American Mexican race to Non-Hispanic Black, the odds of having hypertension is roughly 2.11 times higher.
 
-+ When you move from American Mexican race to Other Race including multi-race, the odds of having hypertension increases by roughly 67%.
++ When you move from American Mexican race to Other Race including multi-racial, the odds of having hypertension increases by roughly 68%.
 
 + When you move from smoking to not smoking, the odds of having hypertension decreases by roughly 16%.
 
 + When you move from smoking to refused smoking, the odds of having hypertension decreases by roughly 0.0001%.
 
-+ When you move from smoking to don't know smoking, the odds of having hypertension increases by roughly 34%.
++ When you move from smoking to don't know smoking, the odds of having hypertension increases by roughly 36%.
 
 + When you move from having diabetes to not having diabetes, the odds of having hypertension decreases by roughly 57%.
 
 + When you move from having diabetes to borderline having diabetes, the odds of having hypertension decreases by roughly 14%.
 
-+ When you move from taking insulin to not taking insulin, the odds of having hypertension increases by roughly 4%.
++ When you move from having diabetes to don't know, the odds of having hypertension increases by **70669** times.
 
-+ When you move from taking insulin to don't know, the odds of having hypertension decreases by roughly 61%.
++ When you move from taking insulin to not taking insulin, the odds of having hypertension increases by roughly 1%.
+
++ When you move from taking insulin to don't know, the odds of having hypertension decreases by roughly 63%.
 
 + When you move from having chronic kidney disease to not having chronic kidney disease, the odds of having hypertension decreases by roughly 66%.
 
-+ When you move from having chronic kidney disease to don't know if you have chronic kidney disease, the odds of having hypertension decreases by roughly 51%.
++ When you move from having chronic kidney disease to don't know if you have chronic kidney disease, the odds of having hypertension decreases by roughly 50%.
 
 + For a one unit increase in BMI you would expect your odds of having hypertension to increase by roughly 7%. 
++ When you move from being physically active to not being physically active, the odds of having hypertension increases by roughly 8%.
 
-+ For a one unit increase in physical activity you would expect your odds of having hypertension to increase roughly by 2%.
++ When you move from being physically active to don't know, the odds of having hypertension decreases by roughly 90%.
 
-+ For a one unit increase in alcohol you would expect your odds of having hypertension to decreases roughly by 12%.
++ When you move from drinking at least 12 alcoholic drinks in a year to not, the odds of having hypertension decreases by roughly 13%.
+
++ When you move from drinking at least 12 alcoholic drinks in a year to don't know, the odds of having hypertension increases are expected to be roughly 3.15 times higher.
 
 + When you move from never using salt to rarely, the odds of having hypertension decreases by roughly 19%.
 
@@ -88,7 +94,7 @@ coefficients(log_reg_all_dat) %>% exp() %>% round(digits = 6)
 
 + When you move from never using salt to very often, the odds of having hypertension decreases by roughly 26%.
 
-+ When you move from never using salt rarely to don't know, the odds of having hypertension decreases by roughly 58%.
++ When you move from never using salt rarely to don't know, the odds of having hypertension decreases by roughly 57%.
 
 + For a one unit increase in potassium you would expect your odds of having hypertension to be equally likely.
 
@@ -99,10 +105,9 @@ coefficients(log_reg_all_dat) %>% exp() %>% round(digits = 6)
 + Not Having Diabetes
 + Borderline Having Diabetes
 + Not Taking Insulin
-+ Don't Know Insulin Intake
 + Not Having Chronic Kidney Disease
 + Don't Know Chronic Kidney Disease
-+ Alcohol
++ Not drinking 12 alcoholic drinks in a year
 + Use of Salt in Food Prep
 
 
@@ -110,6 +115,8 @@ coefficients(log_reg_all_dat) %>% exp() %>% round(digits = 6)
 
 ```{r, results='hide'}
 #Logistic regression
+hyp1 <- hyp1 %>% filter(Hypertension != "Don't know") %>% droplevels()
+hyp1$Hypertension <-ifelse(hyp1$Hypertension == "Yes", 1 ,0)
 hyp1$Hypertension %>% table
 log_reg <- glm(Hypertension ~ ., data = hyp1, family = binomial())
 summary(log_reg)
@@ -121,37 +128,36 @@ coefficients(log_reg) %>% exp() %>% round(digits = 6)
 ```
 
 #### **Interpretation:**
-+ The odds of having hypertension if you're a female is expected to increase by roughly 4%. 
++ The odds of having hypertension if you're a female is expected to increase by roughly 5%. 
 
 + For a one unit increase in age you would expect your odds of having hypertension to increase by roughly 6%. 
 
 + When you move from American Mexican race to Other Hispanic, the odds of having hypertension increases by roughly 26%.
 
-+ When you move from American Mexican race to Non-Hispanic White, the odds of having hypertension increases by roughly 18%.
++ When you move from American Mexican race to Non-Hispanic White, the odds of having hypertension increases by roughly 17%.
 
-+ When you move from American Mexican race to Non-Hispanic Black, the odds of having hypertension is roughly 2.07 times higher.
++ When you move from American Mexican race to Non-Hispanic Black, the odds of having hypertension is roughly 2.09 times higher.
 
-+ When you move from American Mexican race to Other Race including multi-race, the odds of having hypertension increases by roughly 62%.
++ When you move from American Mexican race to Other Race including multi-racial, the odds of having hypertension increases by roughly 63%.
 
-+ When you move from smoking to not smoking, the odds of having hypertension decreases by roughly 16%.
++ When you move from smoking to not smoking, the odds of having hypertension decreases by roughly 15%.
 
 + When you move from having diabetes to not having diabetes, the odds of having hypertension decreases by roughly 57%.
 
 + When you move from having diabetes to borderline having diabetes, the odds of having hypertension decreases by roughly 19%.
 
-+ When you move from taking insulin to not taking insulin, the odds of having hypertension increases by roughly 7%.
++ When you move from taking insulin to not taking insulin, the odds of having hypertension increases by roughly 6%.
 
-+ When you move from having chronic kidney disease to not having chronic kidney disease, the odds of having hypertension decreases by roughly 67%.
++ When you move from having chronic kidney disease to not having chronic kidney disease, the odds of having hypertension decreases by roughly 66%.
 
 + For a one unit increase in BMI you would expect your odds of having hypertension to increase by roughly 7%. 
++ When you move from being physically active to not being physically active, the odds of having hypertension increases by roughly 8%.
 
-+ For a one unit increase in physical activity you would expect your odds of having hypertension to increase by 4%.
++ When you move from drinking at least 12 alcoholic drinks in a year to not, the odds of having hypertension decreases by roughly 14%.
 
-+ For a one unit increase in alcohol you would expect your odds of having hypertension to decreases roughly by 13%.
++ When you move from never using salt to rarely, the odds of having hypertension decreases by roughly 18%.
 
-+ When you move from never using salt to rarely, the odds of having hypertension decreases by roughly 19%.
-
-+ When you move from never using salt to occasionally, the odds of having hypertension decreases by roughly 28%.
++ When you move from never using salt to occasionally, the odds of having hypertension decreases by roughly 27%.
 
 + When you move from never using salt to very often, the odds of having hypertension decreases by roughly 26%.
 
@@ -164,7 +170,7 @@ coefficients(log_reg) %>% exp() %>% round(digits = 6)
 + Not Having Diabetes
 + Borderline Having Diabetes
 + Not Having Chronic Kidney Disease
-+ Alcohol
++ Not drinking 12 alcoholic drinks in a year
 + Use of Salt in Food Prep
 
 
@@ -172,7 +178,6 @@ coefficients(log_reg) %>% exp() %>% round(digits = 6)
 
 ```{r, results='hide'}
 #Logistic regression
-
 data$Hypertension <-ifelse(data$Hypertension == "Yes", 1 ,0)
 data$Hypertension %>% table
 log_reg_all <- glm(Hypertension ~ ., data = data, family = binomial())
@@ -186,17 +191,16 @@ coefficients(log_reg_all) %>% exp() %>% round(digits = 5)
 
 
 #### **Interpretation:**
-+ The odds of having hypertension if you're a female is expected to increase by roughly 5%. 
++ The odds of having hypertension if you're a female is expected to increase by roughly 4%. 
 
 + For a one unit increase in age you would expect your odds of having hypertension to increase by roughly 7%. 
-
 + When you move from American Mexican race to Other Hispanic, the odds of having hypertension increases by roughly 23%.
 
 + When you move from American Mexican race to Non-Hispanic White, the odds of having hypertension increases by roughly 13%.
 
 + When you move from American Mexican race to Non-Hispanic Black, the odds of having hypertension is roughly 2.11 times higher.
 
-+ When you move from American Mexican race to Other Race including multi-race, the odds of having hypertension increases by roughly 77%.
++ When you move from American Mexican race to Other Race including multi-racial, the odds of having hypertension increases by roughly 77%.
 
 + When you move from smoking to not smoking, the odds of having hypertension decreases by roughly 12%.
 
@@ -213,10 +217,13 @@ coefficients(log_reg_all) %>% exp() %>% round(digits = 5)
 + When you move from having chronic kidney disease to don't know, the odds of having hypertension decreases by roughly 66%.
 
 + For a one unit increase in BMI you would expect your odds of having hypertension to increase by roughly 8%. 
++ When you move from being physically active to not being physically active, the odds of having hypertension increases by roughly 10%.
 
-+ For a one unit increase in physical activity you would expect your odds of having hypertension to increase by roughly 10%.
++ When you move from being physically active to don't know, the odds of having hypertension decreases by roughly 0.005%.
 
-+ For a one unit increase in alcohol you would expect your odds of having hypertension increases roughly by 3%.
++ When you move from drinking at least 12 alcoholic drinks in a year to not, the odds of having hypertension decreases by roughly 3%.
+
++ When you move from drinking at least 12 alcoholic drinks in a year to don't know, the odds of having hypertension decreases by roughly 38%.
 
 + When you move from never using salt to rarely, the odds of having hypertension decreases by roughly 24%.
 
@@ -244,10 +251,8 @@ coefficients(log_reg_all) %>% exp() %>% round(digits = 5)
 
 ```{r, results='hide'}
 #Logistic regression
-
 data2$Hypertension <-ifelse(data2$Hypertension == "Yes", 1 ,0)
 data2$Hypertension %>% table
-
 log_reg1 <- glm(Hypertension ~ ., data = data2, family = binomial())
 summary(log_reg1)
 
@@ -260,7 +265,7 @@ coefficients(log_reg1) %>% exp() %>% round(digits = 5)
 #### **Interpretation:**
 + The odds of having hypertension if you're a female is expected to increase by roughly 4%. 
 
-+ For a one unit increase in age you would expect your odds of having hypertension to increase by roughly 7%. 
++ For a one unit increase in age you would expect your odds of having hypertension to increase by roughly 7%.
 
 + When you move from American Mexican race to Other Hispanic, the odds of having hypertension increases by roughly 25%.
 
@@ -268,29 +273,28 @@ coefficients(log_reg1) %>% exp() %>% round(digits = 5)
 
 + When you move from American Mexican race to Non-Hispanic Black, the odds of having hypertension is expected to be roughly 2.07 times higher.
 
-+ When you move from American Mexican race to Other Race including multi-race, the odds of having hypertension increases by roughly 79%.
++ When you move from American Mexican race to Other Race including multi-race, the odds of having hypertension increases by roughly 77%.
 
 + When you move from smoking to not smoking, the odds of having hypertension decreases by roughly 13%.
 
 + When you move from having diabetes to not having diabetes, the odds of having hypertension decreases by roughly 68%.
 
-+ When you move from having diabetes to borderline having diabetes, the odds of having hypertension decreases by roughly 34%.
++ When you move from having diabetes to borderline having diabetes, the odds of having hypertension decreases by roughly 33%.
 
 + When you move from taking insulin to not taking insulin, the odds of having hypertension increases by roughly 38%.
 
 + When you move from having chronic kidney disease to not having chronic kidney disease, the odds of having hypertension decreases by roughly 78%.
 
 + For a one unit increase in BMI you would expect your odds of having hypertension to increase by roughly 8%. 
++ When you move from being physically active to not being physically active, the odds of having hypertension increases by roughly 9%.
 
-+ For a one unit increase in physical activity you would expect your odds of having hypertension to increase by roughly 9%. 
-
-+ For a one unit increase in alcohol you would expect your odds of having hypertension to increase roughly by 7%.
++ When you move from drinking at least 12 alcoholic drinks in a year to not, the odds of having hypertension increases by roughly 8%.
 
 + When you move from never using salt to rarely, the odds of having hypertension decreases by roughly 25%.
 
 + When you move from never using salt to occasionally, the odds of having hypertension decreases by roughly 12%.
 
-+ When you move from never using rarely to very often, the odds of having hypertension decreases by roughly 28%.
++ When you move from never using rarely to very often, the odds of having hypertension decreases by roughly 27%.
 
 + For a one unit increase in potassium you would expect your odds of having hypertension to be equally likely.
 
@@ -308,8 +312,9 @@ coefficients(log_reg1) %>% exp() %>% round(digits = 5)
 #### Key findings:
 
 + Salt regardless of frequency intake seems to decrease the odds of Hypertension
-+ Variables that increase the odds of hypertension include: being female, a unit increase in age, race (especially non-hispanic black), not taking insulin, a unit increase in BMI and a unit increase in physical activity.
-+ variables that decrease the odds of hypertension include: not smoking, not having diabetes, having borderline diabetes, not having chronic kidney disease, unit increase in alcohol (2015-2016 data only) and the use of salt in food prep.
++ Variables that increase the odds of hypertension include: being female, a unit increase in age, race (especially non-hispanic black), not taking insulin, a unit increase in BMI, no physical activity and not drinking 12 alcoholic drinks a year (2009-2010 data only).
++ variables that decrease the odds of hypertension include: not smoking, not having diabetes, having borderline diabetes, not having chronic kidney disease, not drinking 12 alcoholic drinks a year (2015-2016 data only) and the use of salt in food prep.
++ Potassium seems to have an equally likely odds ratios of hypertension.
 
 
 
