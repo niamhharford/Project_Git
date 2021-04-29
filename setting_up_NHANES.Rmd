@@ -35,7 +35,7 @@ smq_i <- nhanesTranslate('SMQ_I', 'SMQ020', data=smq_i)
 diq_i <- nhanesTranslate('DIQ_I', c('DIQ010', 'DIQ050'), data=diq_i)
 kiq_u_i <- nhanesTranslate('KIQ_U_I', c('KIQ022'), data=kiq_u_i)
 bpq_i <- nhanesTranslate('BPQ_I', 'BPQ020', data=bpq_i)
-paq_i <- nhanesTranslate('PAQ_I', 'PAD675', data = paq_i)
+paq_i <- nhanesTranslate('PAQ_I', 'PAQ665', data = paq_i)
 alq_i <- nhanesTranslate('ALQ_I', 'ALQ101', data = alq_i)
 dr1tot_i <- nhanesTranslate('DR1TOT_I', c('DRQSPREP','DR1TPOTA'), data = dr1tot_i)
 ```
@@ -44,7 +44,7 @@ dr1tot_i <- nhanesTranslate('DR1TOT_I', c('DRQSPREP','DR1TPOTA'), data = dr1tot_
 #Merging the data 
 select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020', 'DIQ010', 'DIQ050', 'KIQ022', 'BMXBMI', 'PAQ665','ALQ101', 'DRQSPREP', 'DR1TPOTA')
 all_dat <- Reduce(merge, list(demo_i, smq_i, diq_i, kiq_u_i, bmx_i, bpq_i, paq_i, alq_i,dr1tot_i))
-all_dat <- all_dat %>% select(all_of(select_cols))
+all_dat <- all_dat %>% dplyr::select(all_of(select_cols))
 head(all_dat)
 ```
 
@@ -53,8 +53,6 @@ head(all_dat)
 glimpse(all_dat)
 all_dat$RIDAGEYR <- as.numeric(all_dat$RIDAGEYR)
 all_dat$BMXBMI <- as.numeric(all_dat$BMXBMI)
-all_dat$PAQ665 <- as.numeric(all_dat$PAQ665)
-all_dat$ALQ101 <- as.numeric(all_dat$ALQ101)
 all_dat$DR1TPOTA <- as.numeric(all_dat$DR1TPOTA)
 glimpse(all_dat)
 ```
@@ -67,6 +65,8 @@ levels(all_dat$DIQ010) #need to remove dont knows
 levels(all_dat$DIQ050) #need to remove dont knows
 levels(all_dat$KIQ022) #need to remove dont knows
 levels(all_dat$DRQSPREP) #need to remove dont knows
+levels(all_dat$PAQ665) #need to remove dont knows
+levels(all_dat$ALQ101) #need to remove dont knows
 ```
 
 
@@ -89,7 +89,7 @@ all_dat <- all_dat %>% rename(Hypertension = BPQ020,
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 save(all_dat, file = "all_dat.RData")
 ```
 
@@ -150,8 +150,6 @@ head(data)
 glimpse(data)
 data$RIDAGEYR <- as.numeric(data$RIDAGEYR)
 data$BMXBMI <- as.numeric(data$BMXBMI)
-data$PAQ665 <- as.numeric(data$PAQ665)
-data$ALQ101 <- as.numeric(data$ALQ101)
 data$DR1TPOTA <- as.numeric(data$DR1TPOTA)
 glimpse(data)
 ```
@@ -166,6 +164,8 @@ levels(data$DIQ010) #need to remove dont knows
 levels(data$DIQ050) #dont need to remove dont knows
 levels(data$KIQ022) #need to remove dont knows
 levels(data$DRQSPREP) #need to remove dont knows
+levels(data$ALQ101) #need to remove dont knows
+levels(data$PAQ665) #need to remove dont knows
 ```
 
 ```{r}
@@ -188,7 +188,7 @@ data <- data %>% rename(Hypertension = BPQ020,
 
 
 
-```{r}
+```{r, eval=FALSE}
 save(data, file = "data_09_10.RData")
 ```
 
