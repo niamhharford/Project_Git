@@ -49,13 +49,15 @@ ggplot(data2) +
 
 ggplot(data2) +
   geom_bar(aes(x = PhysActivity, fill = Hypertension), position = "dodge") + facet_wrap(~Gender) + labs(x="Physical Activity", y = "Hypertension") 
+#It is obvious that people that do not exercise weekly have a higher proportion of hypertension cases among men and women.
 
 ggplot(data2) +
   geom_bar(aes(x = Alcohol, fill = Hypertension), position = "dodge") + facet_wrap(~Gender) + labs(x="Alcohol", y = "Hypertension") 
+#For both men and women with hypertension, it is clear that those who have had 12 alcoholic drinks in a year do have a higher proportion of hypertension cases.
 
 ggplot(data2) +
       geom_bar(aes(x = Salt, fill = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Salt",fill="Hypertension")
-#it appears in both males and females, hypertension is more common when salt is "rarely" added to meals
+# it appears that the number of hypertension cases rise as the level of salt added to a meal increases. There is a clear difference for females with hypertension, that there are more cases for when salt used very often compared to never.
 
 ggplot(data2) +
       geom_boxplot(aes(x = Potassium, y = Hypertension),position = "dodge") + facet_wrap(~Gender) + labs(x="Potassium", y ="Hypertension") + coord_flip()
