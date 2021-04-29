@@ -20,13 +20,13 @@ suppressMessages(library(tidyverse))
 
 #### What Have I Left Out of the Data Sets:
 
-I still have both full data sets for both years (2015-2016 and 2009-2010) but for the 2015-2016 data set there are 5474 and for the 2009-2010 data set there are 1371 missing values. When I remove the 'Don't Know' responses, there are 45 missing values in the 2015-2016 data set and there are 42 missing values in the 2009-2010 data set.
+I still have both full data sets for both years (2015-2016 and 2009-2010) but for the 2015-2016 data set there are 5474 observations (with 1453 missing values) and for the 2009-2010 data set there are 6059 observations (with 1371 missing values). When I remove the 'Don't Know' responses, there are 45 missing values in the 2015-2016 data set and there are 42 missing values in the 2009-2010 data set.
 
 In my Reduced Data Sets:
 
 + Removing Don't Know responses
 + Removing NA values
-+ Removing Refused responses (only 2) from smoking variable (2015-2016 Reduced Data)
++ Removing Refused response (only 2) from smoking variable (2015-2016 Reduced Data)
 
 So if I use the reduced data sets (removing the don't know responses), for 2015-2016 data I will have 4622 observations and for 2009-2010 data I will have 5128 observations.
 
