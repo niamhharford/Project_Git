@@ -321,7 +321,7 @@ coefficients(log_reg1) %>% exp() %>% round(digits = 5)
 
 **Plotting estimates of logistic regression models**
 
-```{r}
+```{r, eval=FALSE}
 #2015-2016 All Data
 suppressMessages(library(sjPlot))
 suppressMessages(library(sjlabelled))
@@ -332,7 +332,7 @@ plot_model(log_reg_all_dat, vline.color = "black", sort.est = TRUE)
 plot_model(log_reg_all_dat, show.values = TRUE, value.offset = .3, sort.est = T)
 ```
 
-```{r}
+```{r, eval =FALSE}
 #2015-2016 Reduced Data
 theme_set(theme_sjplot())
 plot_model(log_reg, vline.color = "black", sort.est = TRUE)
@@ -340,7 +340,7 @@ plot_model(log_reg, show.values = TRUE, value.offset = .3, sort.est = T)
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 #2009-2010 All Data
 theme_set(theme_sjplot())
 plot_model(log_reg_all, vline.color = "black", sort.est = TRUE)
@@ -367,10 +367,10 @@ plot(log_reg_all_dat)
 ```
 
 ```{r}
-# 2015-1016 All Data
+# 2009-2010 All Data
 library(arm)
-binnedplot(fitted(log_reg_all_dat), 
-           residuals(log_reg_all_dat, type = "response"), 
+binnedplot(fitted(log_reg1), 
+           residuals(log_reg1, type = "response"), 
            nclass = NULL, 
            xlab = "Expected Values", 
            ylab = "Average residual", 
@@ -384,23 +384,9 @@ binnedplot(fitted(log_reg_all_dat),
 ```
 
 ```{r}
-# 2015-2016 Reduced data
-binnedplot(fitted(log_reg), 
-           residuals(log_reg, type = "response"), 
-           nclass = NULL, 
-           xlab = "Expected Values", 
-           ylab = "Average residual", 
-           main = "Binned residual plot", 
-           cex.pts = 0.8, 
-           col.pts = 1, 
-           col.int = "gray")
-```
-
-
-```{r}
-prob <- predict(log_reg, type="response")
+prob <- predict(log_reg1, type="response")
 pred <- factor(ifelse(prob < .5, "No", "Yes"))
-table(hyp1$Hypertension, pred)
+table(data2$Hypertension, pred)
 ```
 
 
@@ -409,35 +395,39 @@ table(hyp1$Hypertension, pred)
 **Smoothing Spline For BMI and Age**
 
 ```{r}
+head(data2)
 # Hypertension vs BMI
 library(splines)
 
-f1 <- smooth.spline(hyp1$BMI,hyp1$Hypertension, cv = T)
+f1 <- smooth.spline(data2$BMI,data2$Hypertension, cv = T)
 # cross-validation with non-unique 'x' values seems doubtful
 
-ggplot(data=hyp1, aes(x=BMI, y=Hypertension))+ geom_point() +
+ggplot(data=data2, aes(x=BMI, y=Hypertension))+ geom_point() +
 geom_line(aes(y=fitted(f1)), color="green")
 
-f2 <- glm(Hypertension ~ bs(BMI,df=5), data=hyp1, family = binomial)
+f2 <- glm(Hypertension ~ bs(BMI,df=5), data=data2, family = binomial)
 attr(bs(hyp1$BMI, df=5), "knots")
 
-ggplot(data=hyp1, aes(x=BMI, y=Hypertension)) + geom_point() + 
-  geom_line(aes(y=fitted(f2)), color= "blue") + geom_vline(xintercept = attr(bs(hyp1$BMI, df=5), "knots"), colour = "magenta")
+ggplot(data=data2, aes(x=BMI, y=Hypertension)) + geom_point() + 
+  geom_line(aes(y=fitted(f2)), color= "blue") + geom_vline(xintercept = attr(bs(data2$BMI, df=5), "knots"), colour = "magenta")
 ```
 
 ```{r}
 library(gam)
-gam_logistic = gam(Hypertension ~ s(BMI,df = 3),
-                   family = binomial, data = hyp1)
-plot(gam_logistic, se = TRUE, col = "green")
+gam_logistic = gam(Hypertension ~ Gender + s(Age, df = 5) + Race + Smoking + Diabetes + 
+                     Insulin + KidneyF + s(BMI,df=5) + PhysActivity + Alcohol + Salt +
+                     Potassium, data=data2, family = binomial())
+par(mfrow = c(1,3))
+plot(gam_logistic, se = T, col = "green")
 ```
 
 
 **Random Forest**
 
 ```{r}
+load("~/Documents/Masters/Dissertation/Project_Git/Data/data2_09_10.RData")
 suppressMessages(library(randomForest))
-rf <- randomForest(Hypertension ~ .,data=hyp1, importance = T, ntree = 1000)
+rf <- randomForest(Hypertension ~ .,data=data2, importance = T, ntree = 1000)
 #The response has five or fewer unique values.  Are you sure you want to do regression?
 rf
 varImpPlot(rf)
@@ -446,13 +436,13 @@ varImpPlot(rf)
 #Decision Trees
 
 suppressMessages(library(tree))
-tree <- tree(Hypertension ~ BMI + Age, data=hyp1)
+tree <- tree(Hypertension ~ BMI + Age, data=data2)
 summary(tree)
 plot(tree)
 text(tree, cex=.5, pretty=0)
 
 library(rpart)
-f1 <- rpart(Hypertension ~ ., data=hyp1)
+f1 <- rpart(Hypertension ~ ., data=data2)
 plot(f1)
 text(f1, cex=.5, pretty = 0)
 ```
