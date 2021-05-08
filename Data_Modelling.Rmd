@@ -327,14 +327,13 @@ suppressMessages(library(sjPlot))
 suppressMessages(library(sjlabelled))
 suppressMessages(library(sjmisc))
 
-theme_set(theme_sjplot())
 plot_model(log_reg_all_dat, vline.color = "black", sort.est = TRUE)
 plot_model(log_reg_all_dat, show.values = TRUE, value.offset = .3, sort.est = T)
 ```
 
 ```{r, eval =FALSE}
 #2015-2016 Reduced Data
-theme_set(theme_sjplot())
+
 plot_model(log_reg, vline.color = "black", sort.est = TRUE)
 plot_model(log_reg, show.values = TRUE, value.offset = .3, sort.est = T)
 ```
@@ -342,14 +341,16 @@ plot_model(log_reg, show.values = TRUE, value.offset = .3, sort.est = T)
 
 ```{r, eval=FALSE}
 #2009-2010 All Data
-theme_set(theme_sjplot())
+
 plot_model(log_reg_all, vline.color = "black", sort.est = TRUE)
 plot_model(log_reg_all, show.values = TRUE, value.offset = .3, sort.est = T)
 ```
 
 ```{r}
 #2009-2010 Reduced Data
-theme_set(theme_sjplot())
+suppressMessages(library(sjPlot))
+suppressMessages(library(sjlabelled))
+suppressMessages(library(sjmisc))
 plot_model(log_reg1, vline.color = "black", sort.est = TRUE)
 plot_model(log_reg1, show.values = TRUE, value.offset = .3, sort.est = T)
 ```
@@ -363,12 +364,12 @@ plot_model(log_reg1, show.values = TRUE, value.offset = .3, sort.est = T)
 
 ```{r}
 # All data 2015-2016
-plot(log_reg_all_dat)
+plot(log_reg1)
 ```
 
 ```{r}
 # 2009-2010 All Data
-library(arm)
+suppressMessages(library(arm))
 binnedplot(fitted(log_reg1), 
            residuals(log_reg1, type = "response"), 
            nclass = NULL, 
@@ -397,7 +398,7 @@ table(data2$Hypertension, pred)
 ```{r}
 head(data2)
 # Hypertension vs BMI
-library(splines)
+suppressMessages(library(splines))
 
 f1 <- smooth.spline(data2$BMI,data2$Hypertension, cv = T)
 # cross-validation with non-unique 'x' values seems doubtful
@@ -413,7 +414,7 @@ ggplot(data=data2, aes(x=BMI, y=Hypertension)) + geom_point() +
 ```
 
 ```{r}
-library(gam)
+suppressMessages(library(gam))
 gam_logistic = gam(Hypertension ~ Gender + s(Age, df = 5) + Race + Smoking + Diabetes + 
                      Insulin + KidneyF + s(BMI,df=5) + PhysActivity + Alcohol + Salt +
                      Potassium, data=data2, family = binomial())
@@ -427,10 +428,13 @@ plot(gam_logistic, se = T, col = "green")
 ```{r}
 load("~/Documents/Masters/Dissertation/Project_Git/Data/data2_09_10.RData")
 suppressMessages(library(randomForest))
-rf <- randomForest(Hypertension ~ .,data=data2, importance = T, ntree = 1000)
-#The response has five or fewer unique values.  Are you sure you want to do regression?
+rf <- randomForest(Hypertension ~ .,data=data2)
+rf1 <- randomForest(Hypertension ~ .,data=data2, importance = T, ntree = 1000)
+
 rf
 varImpPlot(rf)
+rf1
+varImpPlot(rf1)
 
 
 #Decision Trees
@@ -441,11 +445,97 @@ summary(tree)
 plot(tree)
 text(tree, cex=.5, pretty=0)
 
+tree1 <- tree(Hypertension ~ ., data=data2)
+summary(tree1)
+plot(tree1)
+text(tree1, cex=.5, pretty=0)
+
 library(rpart)
 f1 <- rpart(Hypertension ~ ., data=data2)
 plot(f1)
 text(f1, cex=.5, pretty = 0)
 ```
 
+```{r, echo=FALSE}
+#Logistic Regression - Interaction with Gender
 
+data2$Hypertension <-ifelse(data2$Hypertension == "Yes", 1 ,0)
+data2$Hypertension %>% table
+log_reg_gender <- glm(Hypertension ~ .*Gender, data = data2, family = binomial())
+summary(log_reg_gender)
+```
 
+```{r}
+coefficients(log_reg_gender) %>% exp() %>% round(digits = 4)
+```
+
+#### **Interpretation:**
++ The odds of having hypertension if you're a female is expected to be 5.48 times higher. 
+
++ For a one unit increase in age if you are male, you would expect your odds of having hypertension to increase by roughly 6%.
+
++ When you move from American Mexican race to Other Hispanic if you are male, the odds of having hypertension increases by roughly 30%.
+
++ When you move from American Mexican race to Non-Hispanic White if you are male, the odds of having hypertension increases by roughly 39%.
+
++ When you move from American Mexican race to Non-Hispanic Black if you are male, the odds of having hypertension is expected to be roughly 2.49 times higher.
+
++ When you move from American Mexican race to Other Race including multi-race, the odds of having hypertension is expected to be roughly 2.09 times higher.
+
++ When you move from smoking to not smoking if you are male, the odds of having hypertension decreases by roughly 1%.
+
++ When you move from having diabetes to not having diabetes if you are male, the odds of having hypertension decreases by roughly 59%.
+
++ When you move from having diabetes to borderline having diabetes if you are male, the odds of having hypertension decreases by roughly 14%.
+
++ When you move from taking insulin to not taking insulin if you are male, the odds of having hypertension increases by roughly 37%.
+
++ When you move from having chronic kidney disease to not having chronic kidney disease if you are male, the odds of having hypertension decreases by roughly 77%.
+
++ For a one unit increase in BMI if you are male, you would expect your odds of having hypertension to increase by roughly 11%. 
+
++ When you move from being physically active to not being physically active if you are male, the odds of having hypertension increases by roughly 7%.
+
++ When you move from drinking at least 12 alcoholic drinks in a year to not if you are male, the odds of having hypertension decreases by roughly 13%.
+
++ When you move from never using salt to rarely if you are male, the odds of having hypertension decreases by roughly 30%.
+
++ When you move from never using salt to occasionally if you are male, the odds of having hypertension decreases by roughly 20%.
+
++ When you move from never using rarely to very often if you are male, the odds of having hypertension decreases by roughly 32%.
+
++ For a one unit increase in potassium if you are male, you would expect no change in your odds.
+
++ For a one unit increase in age if you are female, you would expect no change in your odds.
+
++ When you move from American Mexican race to Other Hispanic if you are female, the odds of having hypertension decreases by roughly 10%.
+
++ When you move from American Mexican race to Non-Hispanic White if you are female, the odds of having hypertension decreases by roughly 35%.
+
++ When you move from American Mexican race to Non-Hispanic Black if you are female, the odds of having hypertension decreases by roughly 27%.
+
++ When you move from American Mexican race to Other Race including multi-race, the odds of having hypertension decreases by roughly 23%.
+
++ When you move from smoking to not smoking if you are female, the odds of having hypertension decreases by roughly 29%.
+
++ When you move from having diabetes to not having diabetes if you are female, the odds of having hypertension decreases by roughly 38%.
+
++ When you move from having diabetes to borderline having diabetes if you are female, the odds of having hypertension decreases by roughly 38%.
+
++ When you move from taking insulin to not taking insulin if you are female, the odds of having hypertension decreases by roughly 18%.
+
++ When you move from having chronic kidney disease to not having chronic kidney disease if you are female, the odds of having hypertension decreases by roughly 15%.
+
++ For a one unit increase in BMI if you are female, you would expect your odds of having hypertension to decrease by roughly 4%. 
+
++ When you move from being physically active to not being physically active if you are female, the odds of having hypertension increases by roughly 4%.
+
++ When you move from drinking at least 12 alcoholic drinks in a year to not if you are female, the odds of having hypertension increases by roughly 37%.
+
++ When you move from never using salt to rarely if you are female, the odds of having hypertension increases by roughly 20%.
+
++ When you move from never using salt to occasionally if you are female, the odds of having hypertension increases by roughly 19%.
+
++ When you move from never using rarely to very often if you are female, the odds of having hypertension decreases by roughly 11%.
+
++ For a one unit increase in potassium if you are female, you would expect your odds to have no change.
