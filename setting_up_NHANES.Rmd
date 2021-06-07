@@ -159,7 +159,7 @@ glimpse(data)
 #checking the responses for each factor variables
 levels(data$BPQ020) #need to remove dont knows
 levels(data$RIDRETH1) #dont need to fix anything
-levels(data$SMQ020) #dont need to remove dont knows
+levels(data$SMQ020) #need to remove dont knows
 levels(data$DIQ010) #need to remove dont knows
 levels(data$DIQ050) #dont need to remove dont knows
 levels(data$KIQ022) #need to remove dont knows
@@ -197,7 +197,103 @@ save(data, file = "data_09_10.RData")
 
 
 
+### 2011-2012 Data Set-Up
 
+
+```{r, results='hide'}
+#2011/2012 data
+smq_f <- nhanes('SMQ_G') 
+demo_f <- nhanes('DEMO_G')
+diq_f <- nhanes('DIQ_G') 
+kiq_u_f <- nhanes('KIQ_U_G')
+bmx_f <- nhanes('BMX_G') 
+bpq_f<- nhanes('BPQ_G')
+paq_f <- nhanes('PAQ_G')
+alq_f <- nhanes('ALQ_G')
+dr1tot_f <- nhanes('DR1TOT_G') #salt and potassium
+```
+
+```{r , results='hide'}
+#Translate
+demo_f <- nhanesTranslate('DEMO_G', c('RIAGENDR', 'RIDRETH1', 'RIDAGEYR'), data=demo_f)
+bmx_f <- nhanesTranslate('BMX_G', 'BMXBMI', data=bmx_f)
+smq_f <- nhanesTranslate('SMQ_G', 'SMQ020', data=smq_f)
+diq_f <- nhanesTranslate('DIQ_G', c('DIQ010', 'DIQ050'), data=diq_f)
+kiq_u_f <- nhanesTranslate('KIQ_U_G', c('KIQ022'), data=kiq_u_f)
+bpq_f <- nhanesTranslate('BPQ_G', 'BPQ020', data=bpq_f)
+paq_f <- nhanesTranslate('PAQ_G', 'PAQ665', data = paq_f)
+alq_f <- nhanesTranslate('ALQ_G', 'ALQ101', data = alq_f)
+dr1tot_f <- nhanesTranslate('DR1TOT_G', c('DRQSPREP','DR1TPOTA'), data = dr1tot_f)
+```
+
+```{r, eval=FALSE}
+#merging the data
+comb1 <- merge(demo_f, smq_f)
+comb2 <- merge(comb1, diq_f)
+comb3 <- merge(comb2, kiq_u_f)
+comb4 <- merge(comb3, bmx_f)
+comb5 <- merge(comb4, bpq_f)
+comb6 <- merge(comb5, paq_f)
+comb7 <- merge(comb6, alq_f)
+comb8 <- merge(comb7, dr1tot_f)
+select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020', 'DIQ010', 'DIQ050', 'KIQ022', 'BMXBMI', 'PAQ665', 'ALQ101', 'DBD100', 'DR1TPOTA')
+comb_data <- comb8 %>% dplyr::select(all_of(select_cols))
+```
+
+```{r}
+#Another way to join data
+select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020', 'DIQ010', 'DIQ050', 'KIQ022', 'BMXBMI', 'PAQ665','ALQ101', 'DRQSPREP', 'DR1TPOTA')
+data_11 <- Reduce(merge, list(demo_f, smq_f, diq_f, kiq_u_f, bmx_f, bpq_f, paq_f, alq_f,dr1tot_f))
+data_11 <- data_11 %>% dplyr::select(all_of(select_cols))
+head(data_11)
+```
+
+```{r}
+#Adjust the structure of the data
+glimpse(data_11)
+data_11$RIDAGEYR <- as.numeric(data_11$RIDAGEYR)
+data_11$BMXBMI <- as.numeric(data_11$BMXBMI)
+data_11$DR1TPOTA <- as.numeric(data_11$DR1TPOTA)
+glimpse(data_11)
+```
+
+
+```{r}
+#checking the responses for each factor variables
+levels(data_11$BPQ020) #need to remove dont knows
+levels(data_11$RIDRETH1) #dont need to fix anything
+levels(data_11$SMQ020) #need to remove dont knows 
+levels(data_11$DIQ010) #need to remove dont knows 
+levels(data$DIQ050) #dont need to remove dont knows
+levels(data_11$KIQ022) #need to remove dont knows
+levels(data_11$DRQSPREP) #need to remove dont knows
+levels(data_11$ALQ101) #need to remove dont knows
+levels(data_11$PAQ665) #dont need to remove dont knows
+```
+
+```{r}
+#Rename the variables to meaningful names
+data_11 <- data_11 %>% rename(Hypertension = BPQ020,
+                        Gender = RIAGENDR,
+                        Age = RIDAGEYR,
+                        Race = RIDRETH1,
+                        Smoking = SMQ020,
+                        Diabetes = DIQ010,
+                        Insulin = DIQ050,
+                        KidneyF = KIQ022,
+                        BMI = BMXBMI,
+                        PhysActivity = PAQ665,
+                        Alcohol = ALQ101,
+                        Salt = DRQSPREP,
+                        Potassium = DR1TPOTA
+                        )
+```
+
+
+
+```{r, eval=FALSE}
+save(data_11, file = "data_11.RData")
+```
 
 
 
