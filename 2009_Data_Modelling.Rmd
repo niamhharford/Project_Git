@@ -8,6 +8,7 @@ output: html_document
 ```{r}
 # Load in all the data
 load("~/Documents/Masters/Dissertation/Project_Git/Data/data2_09_10.RData") 
+head(data)
 # Minus Don't Know and Nas 2009-2010
 ```
 
@@ -223,13 +224,7 @@ suppressMessages(library(devtools))
 suppressMessages(source_url('https://gist.githubusercontent.com/fawda123/7471137/raw/466c1474d0a505ff044412703516c34f1a4684a5/nnet_plot_update.r'))
  
 plot.nnet(nn)
-# 
-# 
-# wts.in<-nn$wts
-# struct<-nn$n
-# plot.nnet(wts.in,struct=struct)
 ```
-
 
 
 
