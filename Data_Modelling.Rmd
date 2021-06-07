@@ -11,6 +11,8 @@ load("~/Documents/Masters/Dissertation/Project_Git/Data/all_dat.RData") # All Da
 load("~/Documents/Masters/Dissertation/Project_Git/Data/data_09_10.RData") # All Data 2009-2010
 load("~/Documents/Masters/Dissertation/Project_Git/Data/hyp1.RData") # Minus Don't Know and Nas 2015-2016
 load("~/Documents/Masters/Dissertation/Project_Git/Data/data2_09_10.RData") # Minus Don't Know and Nas 2009-2010
+load("~/Documents/Masters/Dissertation/Project_Git/Data/data_11.RData")  # All Data 2011-2012
+load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData")
 ```
 
 ```{r}
