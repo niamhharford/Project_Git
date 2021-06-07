@@ -9,7 +9,8 @@ output: html_document
 # Load in all the data
 load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData") 
 head(data_11a)
-# Minus Don't Know and Nas 2009-2010
+nrow(data_11a)
+# Minus Don't Know and Nas 2011-2012
 ```
 
 ```{r}
@@ -217,10 +218,11 @@ nn
 head(data_11a$Hypertension)
 pred <- predict(nn, data_11a, type="class")
 head(pred)
-table(data_11a$Hypertension, pred)
-#error rate
-(593+499)/(2237+593+499+983)*100
+tab <- table(data_11a$Hypertension, pred)
+tab
 
+#error rate
+(tab[1,1]+tab[2,2])/(sum(tab))*100
 mean( data_11a$Hypertension != pred)
 
 
@@ -246,7 +248,7 @@ coefficients(log_reg_gender) %>% exp() %>% round(digits = 4)
 ```
 
 #### **Interpretation:**
-+ The odds of having hypertension if you're a female is expected to decrease by roughly 65%.. 
++ The odds of having hypertension if you're a female is expected to decrease by roughly 65%. 
 
 + For a one unit increase in age if you are male, you would expect your odds of having hypertension to increase by roughly 5%.
 
@@ -315,6 +317,29 @@ coefficients(log_reg_gender) %>% exp() %>% round(digits = 4)
 + When you move from never using salt to very often if you are female, the odds of having hypertension decreases by roughly 16%.
 
 + For a one unit increase in potassium if you are female, you would expect your odds to have no change.
+
+
+
+**Main Findings for this Logistic Regression**
+
++ Odds of hypertension expected to decrease if you are female (65%)
++ Odds of hypertension move from having diabetes to borderline having diabetes if you are male expected to increase (12%)
++ Odds of hypertension if you are female and any race are expected to decrease, whereas odds of hypertension if you are male and any race are expected to increase
++ Odds of hypertension expected to increase for females when they are not taking insulin, whereas odds of hypertension if you are male and not taking insulin are expected to decrease
+
+
+```{r}
+load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData") 
+
+data_11a %>% ggplot(aes(x = Hypertension, fill = Gender)) +  geom_bar(position = "dodge") + facet_wrap(~Race)
+```
+
+```{r}
+#2011-2012 Gender Interaction
+plot_model(log_reg_gender, vline.color = "black", sort.est = TRUE)
+plot_model(log_reg_gender, show.values = TRUE, value.offset = .3, sort.est = T)
+```
+
 
 ```{r}
 AIC(log_reg1)
