@@ -60,6 +60,17 @@ levels(data_11a$Salt)
 levels(data_11a$PhysActivity)
 levels(data_11a$Alcohol)
 table(data_11a$Hypertension)
+
+
+
+#Reorder levels 
+
+data_11a$Smoking <- relevel(data_11a$Smoking, "No")
+data_11a$Diabetes <- relevel(data_11a$Diabetes, "No")
+data_11a$Insulin <- relevel(data_11a$Insulin, "No")
+data_11a$KidneyF <- relevel(data_11a$KidneyF, "No")
+data_11a$PhysActivity <- relevel(data_11a$PhysActivity, "No")
+data_11a$Alcohol <- relevel(data_11a$Alcohol, "No")
 ```
 
 ```{r,eval=FALSE}
