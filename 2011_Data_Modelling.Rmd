@@ -8,10 +8,12 @@ output: html_document
 ```{r}
 # Load in all the data
 load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData") 
+
 head(data_11a)
 nrow(data_11a)
 # Minus Don't Know and Nas 2011-2012
 ```
+
 
 ```{r}
 # Load in necessary packages
@@ -21,12 +23,16 @@ suppressMessages(library(sjlabelled))
 suppressMessages(library(sjmisc))
 ```
 
-##### Data Minus Don't Know and NA Values 2009-2010
+
+
+##### Data Minus Don't Know and NA Values 2011-2012
 
 ```{r, results='hide'}
 #Logistic regression
 data_11a$Hypertension <-ifelse(data_11a$Hypertension == "Yes", 1 ,0)
+
 data_11a$Hypertension %>% table
+
 log_reg1 <- glm(Hypertension ~ ., data = data_11a, family = binomial())
 summary(log_reg1)
 ```
@@ -46,21 +52,21 @@ coefficients(log_reg1) %>% exp() %>% round(digits = 5)
 
 + When you move from American Mexican race to Non-Hispanic Black, the odds of having hypertension is expected to be roughly 2.21 times higher.
 
-+ When you move from American Mexican race to Other Race including multi-race, the odds of having hypertension increases by roughly 31%.
++ When you move from American Mexican race to Other Race including multi-racial, the odds of having hypertension increases by roughly 31%.
 
-+ When you move from smoking to not smoking, the odds of having hypertension decreases by roughly 20%.
++ When you move from not smoking to smoking, the odds of having hypertension increases by roughly 24%.
 
-+ When you move from having diabetes to not having diabetes, the odds of having hypertension decreases by roughly 46%.
++ When you move from having not diabetes to having diabetes, the odds of having hypertension increases by roughly 84%.
 
-+ When you move from having diabetes to borderline having diabetes, the odds of having hypertension increases by roughly 34%.
++ When you move from having not diabetes to borderline having diabetes, the odds of having hypertension is expected to be roughly 2.45 times higher.
 
-+ When you move from taking insulin to not taking insulin, the odds of having hypertension decreases by roughly 16%.
++ When you move from taking not insulin to taking insulin, the odds of having hypertension increases by roughly 18%.
 
-+ When you move from having chronic kidney disease to not having chronic kidney disease, the odds of having hypertension decreases by roughly 65%.
++ When you move from having chronic kidney disease to not having chronic kidney disease, the odds of having hypertension is expected to be roughly 2.86 times higher.
 
 + For a one unit increase in BMI you would expect your odds of having hypertension to increase by roughly 8%. 
 
-+ When you move from being physically active to not being physically active, the odds of having hypertension increases by roughly 11%.
++ When you move from not being physically active to being physically active, the odds of having hypertension decreases by roughly 10%.
 
 + When you move from drinking at least 12 alcoholic drinks in a year to not, you would expect your odds to have no change.
 
@@ -88,8 +94,22 @@ coefficients(log_reg1) %>% exp() %>% round(digits = 5)
 
 ```{r}
 #2011-2012 Reduced Data
-plot_model(log_reg1, vline.color = "black", sort.est = TRUE)
-plot_model(log_reg1, show.values = TRUE, value.offset = .3, sort.est = T)
+plot_model(log_reg1, vline.color = "black", sort.est = TRUE,colors = "Accent")
+
+
+plot_model(
+  log_reg1, 
+  colors = "Accent", 
+  show.values = TRUE,
+  value.offset = .4,
+  value.size = 4,
+  dot.size = 3,
+  line.size = 1.5,
+  vline.color = "blue",
+  width = 1.5,
+  sort.est = TRUE
+)
+# plot_model(log_reg1, show.values = TRUE, value.offset = .3, sort.est = T)
 ```
 
 
@@ -104,7 +124,7 @@ plot(log_reg1)
 ```
 
 ```{r, echo=FALSE, eval=FALSE}
-# 2009-2010 All Data
+# 2011-2012 All Data
 suppressMessages(library(arm))
 binnedplot(fitted(log_reg1), 
            residuals(log_reg1, type = "response"), 
@@ -169,6 +189,11 @@ gam_logistic = gam(Hypertension ~ Gender + s(Age, df = 5) + Race + Smoking + Dia
 
 plot(gam_logistic, se = T, col = "green")
 ```
+
+```{r}
+anova(log_reg1,gam_logistic)
+```
+
 
 
 **Random Forest**
@@ -236,6 +261,7 @@ plot.nnet(nn)
 
 ```{r, results='hide'}
 # Logistic Regression - Interaction with Gender
+load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData")
 
 data_11a$Hypertension <-ifelse(data_11a$Hypertension == "Yes", 1 ,0)
 data_11a$Hypertension %>% table
@@ -248,7 +274,7 @@ coefficients(log_reg_gender) %>% exp() %>% round(digits = 4)
 ```
 
 #### **Interpretation:**
-+ The odds of having hypertension if you're a female is expected to decrease by roughly 65%. 
++ The odds of having hypertension if you're a female is expected to decrease by roughly 73%. 
 
 + For a one unit increase in age if you are male, you would expect your odds of having hypertension to increase by roughly 5%.
 
@@ -260,21 +286,21 @@ coefficients(log_reg_gender) %>% exp() %>% round(digits = 4)
 
 + When you move from American Mexican race to Other Race including multi-racial, the odds of having hypertension is expected to increase by roughly 48%.
 
-+ When you move from smoking to not smoking if you are male, the odds of having hypertension decreases by roughly 19%.
++ When you move from not smoking to smoking if you are male, the odds of having hypertension increases by roughly 22%.
 
-+ When you move from having diabetes to not having diabetes if you are male, the odds of having hypertension decreases by roughly 44%.
++ When you move from not having diabetes to having diabetes if you are male, the odds of having hypertension increases by roughly 79%.
 
-+ When you move from having diabetes to borderline having diabetes if you are male, the odds of having hypertension increases by roughly 12%.
++ When you move from not having diabetes to borderline having diabetes if you are male, the odds of having hypertension is expected to be roughly 2 times higher.
 
-+ When you move from taking insulin to not taking insulin if you are male, the odds of having hypertension decreases by roughly 21%.
++ When you move from not taking insulin to taking insulin if you are male, the odds of having hypertension decreases by roughly 27%.
 
-+ When you move from having chronic kidney disease to not having chronic kidney disease if you are male, the odds of having hypertension decreases by roughly 62%.
++ When you move from not having chronic kidney disease to having chronic kidney disease if you are male, the odds of having hypertension is expected to be roughly 2 times higher.
 
 + For a one unit increase in BMI if you are male, you would expect your odds of having hypertension to increase by roughly 7%. 
 
-+ When you move from being physically active to not being physically active if you are male, the odds of having hypertension increases by roughly 10%.
++ When you move from being physically active to not being physically active if you are male, the odds of having hypertension decreases by roughly 9%.
 
-+ When you move from drinking at least 12 alcoholic drinks in a year to not if you are male, the odds of having hypertension inreases by roughly 2%.
++ When you move from not drinking at least 12 alcoholic drinks in a year to drinking at least 12 alcoholic drinks in a year if you are male, the odds of having hypertension decreases by roughly 2%.
 
 + When you move from never using salt to rarely if you are male, the odds of having hypertension decreases by roughly 8%.
 
@@ -294,21 +320,21 @@ coefficients(log_reg_gender) %>% exp() %>% round(digits = 4)
 
 + When you move from American Mexican race to Other Race including multi-racial if you are female, the odds of having hypertension decreases by roughly 24%.
 
-+ When you move from smoking to not smoking if you are female, the odds of having hypertension decreases by roughly 7%.
++ When you move from not smoking to smoking if you are female, the odds of having hypertension increases by roughly 8%.
 
-+ When you move from having diabetes to not having diabetes if you are female, the odds of having hypertension decreases by roughly 8%.
++ When you move from not having diabetes to having diabetes if you are female, the odds of having hypertension increases by roughly 9%.
 
-+ When you move from having diabetes to borderline having diabetes if you are female, the odds of having hypertension decreases by roughly 32%.
++ When you move from not having diabetes to borderline having diabetes if you are female, the odds of having hypertension decreases by roughly 44%.
 
-+ When you move from taking insulin to not taking insulin if you are female, the odds of having hypertension increases by roughly 19%.
++ When you move from not taking insulin to taking insulin if you are female, the odds of having hypertension decreases by roughly 17%.
 
-+ When you move from having chronic kidney disease to not having chronic kidney disease if you are female, the odds of having hypertension decreases by roughly 16%.
++ When you move from not having chronic kidney disease to having chronic kidney disease if you are female, the odds of having hypertension increases by roughly 18%.
 
-+ For a one unit increase in BMI if you are female, you would expect your odds of having hypertension to decrease by roughly 2%. 
++ For a one unit increase in BMI if you are female, you would expect your odds of having hypertension to increase by roughly 2%. 
 
 + When you move from being physically active to not being physically active if you are female, you would expect the odds to have no change.
 
-+ When you move from drinking at least 12 alcoholic drinks in a year to not if you are female, the odds of having hypertension decreases by roughly 10%.
++ When you move from not drinking at least 12 alcoholic drinks in a year to drinking at least 12 alcoholic drinks in a year if you are female, the odds of having hypertension increases by roughly 11%.
 
 + When you move from never using salt to rarely if you are female, the odds of having hypertension decreases by roughly 12%.
 
@@ -329,15 +355,28 @@ coefficients(log_reg_gender) %>% exp() %>% round(digits = 4)
 
 
 ```{r}
+#Colour-Blind friendly palette
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+# http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette
+
 load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData") 
 
-data_11a %>% ggplot(aes(x = Hypertension, fill = Gender)) +  geom_bar(position = "dodge") + facet_wrap(~Race)
+data_11a %>% ggplot(aes(x = Hypertension, fill = Gender)) +  geom_bar(position = "dodge") + facet_wrap(~Race) + scale_fill_manual(values=cbPalette[c(3,4)])
 ```
 
 ```{r}
 #2011-2012 Gender Interaction
-plot_model(log_reg_gender, vline.color = "black", sort.est = TRUE)
-plot_model(log_reg_gender, show.values = TRUE, value.offset = .3, sort.est = T)
+
+
+plot_model(log_reg_gender, vline.color = "black", sort.est = TRUE, colors = cbPalette[c(3,4)])
+
+par(mfrow=c(1,2))
+
+plot_model(log_reg_gender, sort.est = TRUE, vline.color = "black", colors = cbPalette[c(3,4)], terms = c("Age","Race [Other Hispanic]","Race [Non-Hispanic White]", "Race [Non-Hispanic Black]", "Race[Other Race - Including Muli-Rac]", "Smoking [Yes]", "Diabetes [Yes]", "Diabetes [Borderline]", "Insulin [Yes]", "KidneyF [Yes]", "BMI", "PhysActivity [Yes]", "Alcohol [Yes]", "Salt [Rarely]", "Salt [Occasionally]", "Salt [Very Often]", "Potassium"), title = "Male Odds of Hypertension")
+
+plot_model(log_reg_gender, sort.est = TRUE, vline.color = "black", colors = cbPalette[c(3,4)], rm.terms = c("Age","Race [Other Hispanic]","Race [Non-Hispanic White]", "Race [Non-Hispanic Black]", "Race[Other Race - Including Muli-Rac]", "Smoking [Yes]", "Diabetes [Yes]", "Diabetes [Borderline]", "Insulin [Yes]", "KidneyF [Yes]", "BMI", "PhysActivity [Yes]", "Alcohol [Yes]", "Salt [Rarely]", "Salt [Occasionally]", "Salt [Very Often]", "Potassium"), title = "Female Odds of Hypertension")
+
+#plot_model(log_reg_gender, show.values = TRUE, value.offset = .3, sort.est = T)
 ```
 
 
