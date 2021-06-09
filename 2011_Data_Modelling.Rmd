@@ -6,6 +6,12 @@ output: html_document
 ---
 
 ```{r}
+suppressMessages(library(devtools))
+data <- source_url('https://github.com/niamhharford/Project_Git/blob/master/data1_11a.RData')
+```
+
+
+```{r}
 # Load in all the data
 load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData") 
 
@@ -196,22 +202,6 @@ anova(log_reg1,gam_logistic)
 
 
 
-**Random Forest**
-
-```{r}
-load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData")
-suppressMessages(library(randomForest))
-rf <- randomForest(Hypertension ~ .,data=data_11a)
-rf1 <- randomForest(Hypertension ~ .,data=data_11a, importance = T, ntree = 1000)
-
-rf
-varImpPlot(rf)
-rf1
-varImpPlot(rf1)
-
-```
-
-
 ```{r}
 #Decision Trees
 
@@ -232,30 +222,6 @@ plot(f1)
 text(f1, cex=.5, pretty = 0)
 ```
 
-```{r}
-# Neural Networks
-load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData")
-
-suppressMessages(library(nnet))
-set.seed(1)
-nn <- nnet(Hypertension ~ ., data=data_11a, size=10)
-nn
-head(data_11a$Hypertension)
-pred <- predict(nn, data_11a, type="class")
-head(pred)
-tab <- table(data_11a$Hypertension, pred)
-tab
-
-#error rate
-(tab[1,1]+tab[2,2])/(sum(tab))*100
-mean( data_11a$Hypertension != pred)
-
-
-suppressMessages(library(devtools))
-suppressMessages(source_url('https://gist.githubusercontent.com/fawda123/7471137/raw/466c1474d0a505ff044412703516c34f1a4684a5/nnet_plot_update.r'))
- 
-plot.nnet(nn)
-```
 
 
 
@@ -385,25 +351,150 @@ AIC(log_reg1)
 AIC(log_reg_gender)
 ```
 
-```{r, echo=FALSE,eval=F}
-#Predict the model
-
-mean(log_reg1$residuals^2)
-mean(log_reg_gender$residuals^2)
-
-load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData") 
-
-data = data.frame(predicted = predict(log_reg1), actual = data_11a$Hypertension)
-
-ggplot(data = data, aes(x = predicted, y = actual)) + geom_point() + geom_smooth(method = lm, se = F) + labs(title = "Actual vs Predicted Mesostigmata Abundance Values")
 
 
+```{r}
+load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData")
 
-data1 = data.frame(predicted = predict(log_reg_gender), actual = 
-                    na.omit(data_11a$Hypertension))
+suppressMessages(library(randomForest))
+suppressMessages(library(DALEX))
+suppressMessages(library(e1071))
+suppressMessages(library(rms))
+suppressMessages(library(nnet))
+suppressMessages(library(devtools))
+suppressMessages(source_url('https://gist.githubusercontent.com/fawda123/7471137/raw/466c1474d0a505ff044412703516c34f1a4684a5/nnet_plot_update.r'))
+ 
 
 
-ggplot(data = data1, aes(x = predicted, y = actual)) + geom_point() + geom_smooth(method = lm, se = F) + labs(title = " Actual vs Predicted Mesostigmata Abundance Values,\n Minus outliers")
+
+# Random Forest
+
+model_rf <- randomForest(Hypertension ~ .,data_11a, importance = T)
+model_rf
+varImpPlot(model_rf)
+
+
+# Neural Networks
+
+
+set.seed(1)
+model_nn <- nnet(Hypertension ~ ., data=data_11a, size=14)
+model_nn
+head(data_11a$Hypertension)
+pred <- predict(model_nn, data_11a, type="class")
+head(pred)
+tab <- table(data_11a$Hypertension, pred)
+tab
+
+#error rate
+(tab[1,1]+tab[2,2])/(sum(tab))*100
+mean( data_11a$Hypertension != pred)
+
+
+plot.nnet(nn)
+
+# Logistic Regression
+
+model_log1 <- glm(Hypertension ~ ., data = data_11a, family = binomial())
+model_log2  <-glm(Hypertension ~ .*Gender, data = data_11a, family = binomial())
+
+
+# thanks to https://github.com/pbiecek/DALEX/issues/24
+## important setup step required for use of rms functions
+dd <- datadist(data_11a)
+options(datadist="dd")
+## add rcs terms to linear model
+## this is a very convenient, objective way to account for non-linearity
+## still a "linear" model because terms are linear combinations (additive)
+
+ex_rf <- explain(model_rf, data = data_11a, y = data_11a$Hypertension)
+ex_nn <- explain(model_nn, data = data_11a, y = data_11a$Hypertension)
+ex_log1<- explain(model_log1, data = data_11a, y = data_11a$Hypertension)
+ex_log2 <- explain(model_log2, data = data_11a, y = data_11a$Hypertension)
+
+
+plot(model_profile(ex_rf, "Gender"),
+     model_profile(ex_nn, "Gender"),
+     model_profile(ex_log1, "Gender"),
+     model_profile(ex_log2, "Gender")) +
+  ggtitle("Responses for Gender") 
+
+
+plot(model_profile(ex_rf, "Age"),
+     model_profile(ex_nn, "Age"),
+     model_profile(ex_log1, "Age"),
+     model_profile(ex_log2, "Age")) +
+  ggtitle("Responses for Age")
+
+
+plot(model_profile(ex_rf, "Race"),
+     model_profile(ex_nn, "Race"),
+     model_profile(ex_log1, "Race"),
+     model_profile(ex_log2, "Race")) +
+  ggtitle("Responses for Race")
+
+
+plot(model_profile(ex_rf, "Smoking"),
+     model_profile(ex_nn, "Smoking"),
+     model_profile(ex_log1, "Smoking"),
+     model_profile(ex_log2, "Smoking")) +
+  ggtitle("Responses for Smoking")
+
+
+plot(model_profile(ex_rf, "Diabetes"),
+     model_profile(ex_nn, "Diabetes"),
+     model_profile(ex_log1, "Diabetes"),
+     model_profile(ex_log2, "Diabetes")) +
+  ggtitle("Responses for Diabetes")
+
+
+plot(model_profile(ex_rf, "Insulin"),
+     model_profile(ex_nn, "Insulin"),
+     model_profile(ex_log1, "Insulin"),
+     model_profile(ex_log2, "Insulin")) +
+  ggtitle("Responses for Insulin") 
+
+
+plot(model_profile(ex_rf, "KidneyF"),
+     model_profile(ex_nn, "KidneyF"),
+     model_profile(ex_log1, "KidneyF"),
+     model_profile(ex_log2, "KidneyF")) +
+  ggtitle("Responses for KidneyF")
+
+
+plot(model_profile(ex_rf, "BMI"),
+     model_profile(ex_nn, "BMI"),
+     model_profile(ex_log1, "BMI"),
+     model_profile(ex_log2, "BMI")) +
+  ggtitle("Responses for BMI")
+
+
+plot(model_profile(ex_rf, "PhysActivity"),
+     model_profile(ex_nn, "PhysActivity"),
+     model_profile(ex_log1, "PhysActivity"),
+     model_profile(ex_log2, "PhysActivity")) +
+  ggtitle("Responses for PhysActivity")
+
+
+plot(model_profile(ex_rf, "Alcohol"),
+     model_profile(ex_nn, "Alcohol"),
+     model_profile(ex_log1, "Alcohol"),
+     model_profile(ex_log2, "Alcohol")) +
+  ggtitle("Responses for Alcohol")
+
+plot(model_profile(ex_rf, "Salt"),
+     model_profile(ex_nn, "Salt"),
+     model_profile(ex_log1, "Salt"),
+     model_profile(ex_log2, "Salt")) +
+  ggtitle("Responses for Salt")
+
+
+plot(model_profile(ex_rf, "Potassium"),
+     model_profile(ex_nn, "Potassium"),
+     model_profile(ex_log1, "Potassium"),
+     model_profile(ex_log2, "Potassium")) +
+  ggtitle("Responses for Potassium")
+
 ```
 
 
