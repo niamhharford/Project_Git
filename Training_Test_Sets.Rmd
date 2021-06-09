@@ -1,0 +1,143 @@
+---
+title: "Training / Test Sets"
+author: "Niamh Harford 20251644"
+date: "6/8/2021"
+output: html_document
+---
+
+```{r}
+# Load in 2011/2012 data
+load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData") 
+
+# Load in 2013/2016 Data
+load("~/Documents/Masters/Dissertation/Project_Git/Data/hyp1.RData") 
+```
+
+
+```{r}
+# Load in necessary packages
+suppressMessages(library(tidyverse))
+suppressMessages(library(sjPlot))
+suppressMessages(library(sjlabelled))
+suppressMessages(library(sjmisc))
+suppressMessages(library(randomForest))
+```
+
+
+**Things to note **
+
++ 2011/2012 Data set will be my training and validation set
+
++ 2015/2016 Data set will be my test set
+
++ Training set where I am fitting the model 
+
++ Validation set where I am comparing results of the fit 
+
++ Test set is used to evaluate a model fit in the form of the test error rate
+
+
+**Setting up the data **
+
+```{r}
+# Training Data
+s <- sample(nrow(data_11a), round(.75*nrow(data_11a))) #2011/2012 data
+Train <- data_11a[s,]
+  
+#Validation Data
+Validation <- data_11a[-s,]
+  
+#Test Data
+Test <- hyp1 #2015/2016 Data
+
+#OR should I have it so both validation and test have similar observations
+p <- sample(nrow(hyp1), round(.25*nrow(hyp1)))
+Test <- hyp1[p,]
+```
+
+
+
+**Logistic Regression 1**
+
+```{r}
+Train$Hypertension <-ifelse(Train$Hypertension == "Yes", 1 ,0)
+
+f1 <- glm(Hypertension~.,family="binomial",
+          data=Train)
+pred1 <- predict(f1, Test, type="response")
+pred1 <- factor(ifelse(pred1 < .5, "No", "Yes"))
+tab1 <- table(Test$Hypertension, pred1)
+tab1
+
+# Logistic Regression 1 Error rate
+(tab1[1]+tab1[4]) / sum(tab1) *100 # around 26-27%
+```
+
+
+**Logistic Regression 2**
+
+```{r}
+f2 <- glm(Hypertension~.*Gender,family="binomial",
+          data=Train)
+pred2 <- predict(f2, Test, type="response")
+pred2 <- factor(ifelse(pred2 < .5, "No", "Yes"))
+tab2 <- table(Test$Hypertension, pred2)
+tab2
+
+# Logistic Regression 2 Error rate
+(tab2[1]+tab2[4]) / sum(tab2) *100 # around 26-27%
+```
+
+
+**Random Forest**
+
+```{r}
+Train <- data_11a[s,]
+
+f3 <- randomForest(Hypertension ~ ., data=Train, importance=TRUE)
+
+# Training error
+pred3a <- predict(f3, Train)
+mean(pred3a != Train$Hypertension) # training error
+# Test error
+pred3b <- predict(f3, Test)
+mean(pred3b != Test$Hypertension)
+
+f3
+
+
+
+suppressMessages(library(condvis2))
+fit1args <- list(ptrans=exp)
+condvis(Train, f3, sectionvars="Hypertension",
+predictArgs=list(fit1args))
+```
+
+
+**Neural Network**
+
+```{r}
+f4 <- nnet(Hypertension ~ ., data=Train, size=6)
+f4
+#Training Misclassification rate
+table(predict(f4, Train, type="class"), Train$Hypertension)
+
+
+#Test Misclassification rate
+table(predict(f4, Test,type="class"), Test$Hypertension)
+
+```
+
+
+
+
+**ROC** in the class(5) lecture
+
+```{r}
+prob <- predict(f1,  type="response")
+suppressMessages(library(ROCR))
+pred <- prediction(prob, data_11a$Hypertension)
+perf <- performance(pred,"tpr","fpr")
+plot(perf)
+```
+
