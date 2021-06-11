@@ -131,10 +131,35 @@ table(predict(f4, Test,type="class"), Test$Hypertension)
 **ROC** in the class(5) lecture
 
 ```{r}
-prob <- predict(f1,  type="response")
+prob <- predict(f1,  Train)
 suppressMessages(library(ROCR))
-pred <- prediction(prob, data_11a$Hypertension)
+pred <- prediction(prob, Train$Hypertension)
 perf <- performance(pred,"tpr","fpr")
 plot(perf)
+
+
+
+
+prob <- predict(f2,  Train)
+suppressMessages(library(ROCR))
+pred <- prediction(prob, Train$Hypertension)
+perf <- performance(pred,"tpr","fpr")
+plot(perf)
+
+
+#ROC RandomForest
+require(pROC)
+rf.roc<-roc(Train$Hypertension,f3$votes[,2])
+plot(rf.roc)
+auc(rf.roc)
+#https://stats.stackexchange.com/questions/188616/how-can-we-calculate-roc-auc-for-classification-algorithm-such-as-random-forest#:~:text=Although%20the%20randomForest%20package%20does,combination%20with%20the%20package%20pROC.&text=These%20votes%20roughly%20represent%20a,a%20ROC%20and%20AUC%20measure.
+
+
+prob <- predict(f2,  Train)
+suppressMessages(library(ROCR))
+pred <- prediction(prob, Train$Hypertension)
+perf <- performance(pred,"tpr","fpr")
+plot(perf)
+
 ```
 
