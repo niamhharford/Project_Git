@@ -9,7 +9,7 @@ output: html_document
 # Load in 2011/2012 data
 load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData") 
 
-# Load in 2013/2016 Data
+# Load in 2015/2016 Data
 load("~/Documents/Masters/Dissertation/Project_Git/Data/hyp1.RData") 
 ```
 
@@ -44,13 +44,10 @@ suppressMessages(library(randomForest))
 s <- sample(nrow(data_11a), round(.75*nrow(data_11a))) #2011/2012 data
 Train <- data_11a[s,]
   
-#Validation Data
-Validation <- data_11a[-s,]
-  
 #Test Data
 Test <- hyp1 #2015/2016 Data
 
-#OR should I have it so both validation and test have similar observations
+#OR should I have it so the test set has less observations
 p <- sample(nrow(hyp1), round(.25*nrow(hyp1)))
 Test <- hyp1[p,]
 ```
@@ -74,7 +71,7 @@ tab1
 ```
 
 
-**Logistic Regression 2**
+**Logistic Regression 2 - with gender interaction**
 
 ```{r}
 f2 <- glm(Hypertension~.*Gender,family="binomial",
@@ -98,19 +95,19 @@ f3 <- randomForest(Hypertension ~ ., data=Train, importance=TRUE)
 
 # Training error
 pred3a <- predict(f3, Train)
-mean(pred3a != Train$Hypertension) # training error
+mean(pred3a != Train$Hypertension)*100 # training error
 # Test error
 pred3b <- predict(f3, Test)
-mean(pred3b != Test$Hypertension)
+mean(pred3b != Test$Hypertension)*100
 
 f3
 
 
 
-suppressMessages(library(condvis2))
-fit1args <- list(ptrans=exp)
-condvis(Train, f3, sectionvars="Hypertension",
-predictArgs=list(fit1args))
+# suppressMessages(library(condvis2))
+# fit1args <- list(ptrans=exp)
+# condvis(Train, f3, sectionvars="Hypertension",
+# predictArgs=list(fit1args))
 ```
 
 
