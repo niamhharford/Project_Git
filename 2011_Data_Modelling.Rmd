@@ -83,12 +83,16 @@ coefficients(log_reg1) %>% exp() %>% round(digits = 5)
 
 **Variables that increases the odds of Hypertension **
 
-+ Female
-+ Not Smoking 
-+ Not Having Diabetes
-+ Not taking insulin
-+ Not Having Chronic Kidney Disease
-+ Rarely using salt in food prep
++ 1 Unit Increase in Age
++ Gender
++ Smoking 
++ Having Diabetes
++ Having Borderline Diabetes
++ Taking Insulin
++ Having Chronic Kidney Disease
++ 1 Unit Increase in BMI
++ Drinking At Least 12 Alcoholic Drink in a Year
++ Occassionally Using Salt in Food Prep
 
 
 
@@ -97,21 +101,6 @@ coefficients(log_reg1) %>% exp() %>% round(digits = 5)
 ```{r}
 #2011-2012 Reduced Data
 plot_model(log_reg1, vline.color = "black", sort.est = TRUE,colors = "Accent")
-
-
-plot_model(
-  log_reg1, 
-  colors = "Accent", 
-  show.values = TRUE,
-  value.offset = .4,
-  value.size = 4,
-  dot.size = 3,
-  line.size = 1.5,
-  vline.color = "blue",
-  width = 1.5,
-  sort.est = TRUE
-)
-# plot_model(log_reg1, show.values = TRUE, value.offset = .3, sort.est = T)
 ```
 
 
@@ -123,6 +112,7 @@ plot_model(
 
 ```{r}
 plot(log_reg1)
+# Potential outliers : 857,1537,2637
 ```
 
 ```{r}
@@ -135,8 +125,8 @@ binnedplot(fitted(log_reg1),
            ylab = "Average residual", 
            main = "Binned residual plot", 
            cex.pts = 0.8, 
-           col.pts = 1, 
-           col.int = "gray")
+           col.pts = "blue", 
+           col.int = "black")
 
 # The grey lines represent  ±  2 SE bands, which we would expect to contain about 95% of the observations.
 # https://bookdown.org/jefftemplewebb/IS-6489/logistic-regression.html 
@@ -144,7 +134,7 @@ binnedplot(fitted(log_reg1),
 
 ```{r}
 suppressMessages(library(car))
-residualPlots(log_reg1, layout = c(5,3))
+residualPlots(log_reg1)
 # a lack-of-fit test is provided only for the numeric predictor
 # https://www.sagepub.com/sites/default/files/upm-binaries/38503_Chapter6.pdf
 # Age and BMI plots may indicate lack of fit
@@ -154,6 +144,7 @@ influenceIndexPlot(log_reg1, vars=c("Cook", "hat"), id.n=3)
 # Observations 857, 1537 and 2637 have the largest Cook's distance, although even these are quite small. I shall remove the 3 cases as a check
 
 compareCoefs(log_reg1, update(log_reg1, subset=-c(857,1537,2637)))
+# Removing these 3 observations does not alter the results much at all
 ```
 
 
@@ -176,45 +167,55 @@ mean(log_reg1$residuals^2)
 **Smoothing Spline on BMI and Age**
 
 ```{r, eval=FALSE,echo=FALSE}
-head(data_11a)
-# Hypertension vs BMI
-suppressMessages(library(splines))
+# head(data_11a)
+# # Hypertension vs BMI
+# suppressMessages(library(splines))
+# 
+# f1 <- smooth.spline(data_11a$BMI,data_11a$Hypertension, cv = T)
+# # cross-validation with non-unique 'x' values seems doubtful
+# 
+# ggplot(data=data_11a, aes(x=BMI, y=Hypertension))+ geom_point() +
+# geom_line(aes(y=fitted(f1)), color="green")
+# 
+# f2 <- glm(Hypertension ~ bs(BMI,df=5), data=data_11a, family = binomial)
+# attr(bs(data_11a$BMI, df=5), "knots")
+# 
+# ggplot(data=data_11a, aes(x=BMI, y=Hypertension)) + geom_point() + 
+#   geom_line(aes(y=fitted(f2)), color= "blue") + geom_vline(xintercept = attr(bs(data_11a$BMI, df=5), "knots"), colour = "magenta")
 
-f1 <- smooth.spline(data_11a$BMI,data_11a$Hypertension, cv = T)
-# cross-validation with non-unique 'x' values seems doubtful
-
-ggplot(data=data_11a, aes(x=BMI, y=Hypertension))+ geom_point() +
-geom_line(aes(y=fitted(f1)), color="green")
-
-f2 <- glm(Hypertension ~ bs(BMI,df=5), data=data_11a, family = binomial)
-attr(bs(data_11a$BMI, df=5), "knots")
-
-ggplot(data=data_11a, aes(x=BMI, y=Hypertension)) + geom_point() + 
-  geom_line(aes(y=fitted(f2)), color= "blue") + geom_vline(xintercept = attr(bs(data_11a$BMI, df=5), "knots"), colour = "magenta")
-```
-```{r}
-ggplot(data_11a) +
-      geom_bar(aes(x = Diabetes, fill = Hypertension),position = "dodge") + 
-      facet_wrap(~Race) + xlab("Smoking") + labs(fill= "Hypertension")
+# ggplot(data_11a) +
+#       geom_bar(aes(x = Diabetes, fill = Hypertension),position = "dodge") + 
+#       facet_wrap(~Race) + xlab("Smoking") + labs(fill= "Hypertension")
 ```
 
 ```{r}
 suppressMessages(library(gam))
-gam_logistic = gam(Hypertension ~ Gender + s(Age, df = 5) + Race + Smoking + Diabetes + 
-                     Insulin + KidneyF + s(BMI,df=5) + PhysActivity + Alcohol + Salt +
+gam_logistic = gam(Hypertension ~ Gender + bs(Age, df = 5) + Race + Smoking + Diabetes + 
+                     Insulin + KidneyF + bs(BMI,df=5) + PhysActivity + Alcohol + Salt +
                      Potassium, data=data_11a, family = binomial())
 
 plot(gam_logistic, se = T, col = "green")
+# 1st plot; males (0.5) have a higher risk of hypertension than females (-0.5)
+# 2nd plot; age has somewhat of a linear term
+# 8th plot; bmi doesn't look too different to linear
+# The spline terms may not be necessary
+# 12th plot; there seems to be no effect of potassium 
 ```
 
 ```{r}
+# Comparing Gam and Logistic regression
 anova(log_reg1,gam_logistic)
+
+# The GAM model seems to fit better
+
+AIC(log_reg1)
+AIC(gam_logistic)
 ```
 
 
 
-```{r}
-#Decision Trees
+```{r, eval=FALSE,echo=FALSE}
+#Decision Trees - Doesn't show all variables
 
 suppressMessages(library(tree))
 tree <- tree(Hypertension ~ BMI + Age, data=data_11a)
@@ -368,28 +369,33 @@ AIC(log_reg_gender)
 load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData")
 
 suppressMessages(library(randomForest))
-suppressMessages(library(DALEX))
 suppressMessages(library(e1071))
+suppressMessages(library(DALEX))
 suppressMessages(library(rms))
 suppressMessages(library(nnet))
 suppressMessages(library(devtools))
 suppressMessages(source_url('https://gist.githubusercontent.com/fawda123/7471137/raw/466c1474d0a505ff044412703516c34f1a4684a5/nnet_plot_update.r'))
  
+set.seed(1)
 
+```
 
-
+```{r}
 # Random Forest
 
 model_rf <- randomForest(Hypertension ~ .,data_11a, importance = T)
-model_rf
-varImpPlot(model_rf)
+model_rf # out of bag error rate : ~ 26%
+varImpPlot(model_rf) 
+# age, bmi and diabetes seem to be important variables in terms of impacting on the response, the same outcome was shown in the logistic plot
+```
 
+
+```{r}
 
 # Neural Networks
 
 
-set.seed(1)
-model_nn <- nnet(Hypertension ~ ., data=data_11a, size=14)
+model_nn <- nnet(Hypertension ~ ., data=data_11a, size=6)
 model_nn
 head(data_11a$Hypertension)
 pred <- predict(model_nn, data_11a, type="class")
@@ -402,21 +408,23 @@ tab
 mean( data_11a$Hypertension != pred)
 
 
+suppressMessages(require(scales))
+suppressMessages(require(reshape))
 plot.nnet(model_nn)
+```
 
+
+```{r}
 # Logistic Regression
 
 model_log1 <- glm(Hypertension ~ ., data = data_11a, family = binomial())
 model_log2  <-glm(Hypertension ~ .*Gender, data = data_11a, family = binomial())
 
+```
 
-# thanks to https://github.com/pbiecek/DALEX/issues/24
-## important setup step required for use of rms functions
-dd <- datadist(data_11a)
-options(datadist="dd")
-## add rcs terms to linear model
-## this is a very convenient, objective way to account for non-linearity
-## still a "linear" model because terms are linear combinations (additive)
+
+```{r}
+#Comparing the fits
 
 ex_rf <- explain(model_rf, data = data_11a, y = data_11a$Hypertension)
 ex_nn <- explain(model_nn, data = data_11a, y = data_11a$Hypertension)
@@ -508,17 +516,116 @@ plot(model_profile(ex_rf, "Potassium"),
 
 ```
 
-
-```{r,eval=FALSE,echo=FALSE}
-suppressMessages(library(DALEX))
-suppressMessages(library(caret))
-suppressMessages(library(xgboost))
-suppressMessages(library(e1071))
-
+```{r}
+ex_rf <- explain(model_rf, data = data_11a, y = data_11a$Hypertension)
+ex_nn <- explain(model_nn, data = data_11a, y = data_11a$Hypertension)
+ex_log1<- explain(model_log1, data = data_11a, y = data_11a$Hypertension)
+ex_log2 <- explain(model_log2, data = data_11a, y = data_11a$Hypertension)
 
 
 
+sv_rf  <- model_profile(ex_rf, variable =  "Gender", type = "partial")
+sv_log1  <- model_profile(ex_log1, variable =  "Gender", type = "partial")
+sv_log2 <- model_profile(ex_log2, variable =  "Gender", type = "partial")
+sv_nn  <- model_profile(ex_nn, variable =  "Gender", type = "partial")
+
+
+plot(sv_rf, sv_log1, sv_log2, sv_nn)
+
+sv_rf  <- model_profile(ex_rf, variable =  "Age", type = "partial")
+sv_log1  <- model_profile(ex_log1, variable =  "Age", type = "partial")
+sv_log2 <- model_profile(ex_log2, variable =  "Age", type = "partial")
+sv_nn  <- model_profile(ex_nn, variable =  "Age", type = "partial")
+
+
+plot(sv_rf, sv_log1, sv_log2, sv_nn)
+
+sv_rf  <- model_profile(ex_rf, variable =  "Race", type = "partial")
+sv_log1  <- model_profile(ex_log1, variable =  "Race", type = "partial")
+sv_log2 <- model_profile(ex_log2, variable =  "Race", type = "partial")
+sv_nn  <- model_profile(ex_nn, variable =  "Race", type = "partial")
+
+
+plot(sv_rf, sv_log1, sv_log2, sv_nn)
+
+sv_rf  <- model_profile(ex_rf, variable =  "Smoking", type = "partial")
+sv_log1  <- model_profile(ex_log1, variable =  "Smoking", type = "partial")
+sv_log2 <- model_profile(ex_log2, variable =  "Smoking", type = "partial")
+sv_nn  <- model_profile(ex_nn, variable =  "Smoking", type = "partial")
+
+
+plot(sv_rf, sv_log1, sv_log2, sv_nn)
+
+
+sv_rf  <- model_profile(ex_rf, variable =  "Diabetes", type = "partial")
+sv_log1  <- model_profile(ex_log1, variable =  "Diabetes", type = "partial")
+sv_log2 <- model_profile(ex_log2, variable =  "Diabetes", type = "partial")
+sv_nn  <- model_profile(ex_nn, variable =  "Diabetes", type = "partial")
+
+
+plot(sv_rf, sv_log1, sv_log2, sv_nn)
+
+sv_rf  <- model_profile(ex_rf, variable =  "Insulin", type = "partial")
+sv_log1  <- model_profile(ex_log1, variable =  "Insulin", type = "partial")
+sv_log2 <- model_profile(ex_log2, variable =  "Insulin", type = "partial")
+sv_nn  <- model_profile(ex_nn, variable =  "Insulin", type = "partial")
+
+
+plot(sv_rf, sv_log1, sv_log2, sv_nn)
+
+sv_rf  <- model_profile(ex_rf, variable =  "KidneyF", type = "partial")
+sv_log1  <- model_profile(ex_log1, variable =  "KidneyF", type = "partial")
+sv_log2 <- model_profile(ex_log2, variable =  "KidneyF", type = "partial")
+sv_nn  <- model_profile(ex_nn, variable =  "KidneyF", type = "partial")
+
+
+plot(sv_rf, sv_log1, sv_log2, sv_nn)
+
+
+sv_rf  <- model_profile(ex_rf, variable =  "BMI", type = "partial")
+sv_log1  <- model_profile(ex_log1, variable =  "BMI", type = "partial")
+sv_log2 <- model_profile(ex_log2, variable =  "BMI", type = "partial")
+sv_nn  <- model_profile(ex_nn, variable =  "BMI", type = "partial")
+
+
+plot(sv_rf, sv_log1, sv_log2, sv_nn)
+
+
+sv_rf  <- model_profile(ex_rf, variable =  "PhysActivity", type = "partial")
+sv_log1  <- model_profile(ex_log1, variable =  "PhysActivity", type = "partial")
+sv_log2 <- model_profile(ex_log2, variable =  "PhysActivity", type = "partial")
+sv_nn  <- model_profile(ex_nn, variable =  "PhysActivity", type = "partial")
+
+
+plot(sv_rf, sv_log1, sv_log2, sv_nn)
+
+
+sv_rf  <- model_profile(ex_rf, variable =  "Alcohol", type = "partial")
+sv_log1  <- model_profile(ex_log1, variable =  "Alcohol", type = "partial")
+sv_log2 <- model_profile(ex_log2, variable =  "Alcohol", type = "partial")
+sv_nn  <- model_profile(ex_nn, variable =  "Alcohol", type = "partial")
+
+
+plot(sv_rf, sv_log1, sv_log2, sv_nn)
+
+
+sv_rf  <- model_profile(ex_rf, variable =  "Salt", type = "partial")
+sv_log1  <- model_profile(ex_log1, variable =  "Salt", type = "partial")
+sv_log2 <- model_profile(ex_log2, variable =  "Salt", type = "partial")
+sv_nn  <- model_profile(ex_nn, variable =  "Salt", type = "partial")
+
+
+plot(sv_rf, sv_log1, sv_log2, sv_nn)
+
+sv_rf  <- model_profile(ex_rf, variable =  "Potassium", type = "partial")
+sv_log1  <- model_profile(ex_log1, variable =  "Potassium", type = "partial")
+sv_log2 <- model_profile(ex_log2, variable =  "Potassium", type = "partial")
+sv_nn  <- model_profile(ex_nn, variable =  "Potassium", type = "partial")
+
+
+plot(sv_rf, sv_log1, sv_log2, sv_nn)
 ```
+
 
 
 
