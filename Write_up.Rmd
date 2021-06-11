@@ -57,3 +57,10 @@ I chose to use the 2011/2012 data set and I obtained the variables that were nec
 
 * For 1999–2010, NHANES content was modified biannually as components were added, changed, or removed. Changes were also made to target new age groups, modify data collection methods, and update technologies. Prior to biannual changes, NHANES conducted pilot tests of new or revised survey material as part of the ongoing data collection.
 * Rather, a complex, multistage probability sampling design was used to select a sample representative of the civilian noninstitutionalized household population of the United States.
+
+
+
+
+**Assumptions for logistic regression: **
++ Basic assumptions that must be met for logistic regression include independence of errors (the observations to be independent of each other), linearity in the logit for continuous variables ( it requires that the independent variables are linearly related to the log odds), absence of multicollinearity (This means that the independent variables should not be too highly correlated with each other), and lack of strongly influential outliers.
+
