@@ -21,6 +21,7 @@ suppressMessages(library(sjPlot))
 suppressMessages(library(sjlabelled))
 suppressMessages(library(sjmisc))
 suppressMessages(library(randomForest))
+suppressMessages(library(nnet))
 ```
 
 
@@ -68,6 +69,27 @@ tab1
 
 # Logistic Regression 1 Error rate
 (tab1[1]+tab1[4]) / sum(tab1) *100 # around 26-27%
+
+
+# Specificity 
+specificity <- (tab1[2,1])/ (tab1[2,1]+tab1[2,2])
+specificity *100 # 81%
+
+# Type 1 error
+type1_error <- 1 - specificity
+type1_error
+
+#Sensitivity
+sensitivity <- (tab1[1,2]) / (tab1[1,1]+tab1[1,2])
+sensitivity *100 # 58%
+
+# Type 1 error
+type2_error <- 1 - sensitivity
+type2_error
+
+# Precision
+precision <- (tab1[1,2])/(tab1[1,2]+tab1[2,2])
+precision *100 #63%
 ```
 
 
@@ -78,11 +100,32 @@ f2 <- glm(Hypertension~.*Gender,family="binomial",
           data=Train)
 pred2 <- predict(f2, Test, type="response")
 pred2 <- factor(ifelse(pred2 < .5, "No", "Yes"))
-tab2 <- table(Test$Hypertension, pred2)
-tab2
+tab <- table(Test$Hypertension, pred2)
+tab1
 
 # Logistic Regression 2 Error rate
-(tab2[1]+tab2[4]) / sum(tab2) *100 # around 26-27%
+(tab1[1]+tab1[4]) / sum(tab1) *100 # around 26-27%
+
+
+# Specificity 
+specificity <- (tab1[2,1])/ (tab1[2,1]+tab1[2,2])
+specificity *100 # 81%
+
+# Type 1 error
+type1_error <- 1 - specificity
+type1_error
+
+#Sensitivity
+sensitivity <- (tab1[1,2]) / (tab1[1,1]+tab1[1,2])
+sensitivity *100 # 58%
+
+# Type 1 error
+type2_error <- 1 - sensitivity
+type2_error
+
+# Precision
+precision <- (tab1[1,2])/(tab1[1,2]+tab1[2,2])
+precision *100 #63%
 ```
 
 
@@ -103,7 +146,6 @@ mean(pred3b != Test$Hypertension)*100
 f3
 
 
-
 # suppressMessages(library(condvis2))
 # fit1args <- list(ptrans=exp)
 # condvis(Train, f3, sectionvars="Hypertension",
@@ -114,14 +156,68 @@ f3
 **Neural Network**
 
 ```{r}
+Train <- data_11a[s,]
 f4 <- nnet(Hypertension ~ ., data=Train, size=6)
+```
+
+```{r}
 f4
 #Training Misclassification rate
-table(predict(f4, Train, type="class"), Train$Hypertension)
+tab1<- table(predict(f4, Train, type="class"), Train$Hypertension)
+tab1
 
+# NN training Error rate
+(tab1[1]+tab1[4]) / sum(tab1) *100 # around 25-27%
+
+
+# Specificity 
+specificity <- (tab1[2,1]) / (tab1[2,1]+tab1[2,2])
+specificity *100 # 65%
+
+# Type 1 error
+type1_error <- 1 - specificity
+type1_error
+
+#Sensitivity
+sensitivity <- (tab1[1,2]) / (tab1[1,1]+tab1[1,2])
+sensitivity *100 # 78%
+
+# Type 1 error
+type2_error <- 1 - sensitivity
+type2_error
+
+# Precision
+precision <- (tab1[1,2])/(tab1[1,2]+tab1[2,2])
+precision *100 #81%
 
 #Test Misclassification rate
-table(predict(f4, Test,type="class"), Test$Hypertension)
+tab1 <-table(predict(f4, Test,type="class"), Test$Hypertension)
+tab1
+
+
+# NN test Error rate
+(tab1[1]+tab1[4]) / sum(tab1) *100 # around 26-27%
+
+
+# Specificity 
+specificity <- (tab1[2,1])/ (tab1[2,1]+tab1[2,2])
+specificity *100 # 61%
+
+# Type 1 error
+type1_error <- 1 - specificity
+type1_error
+
+#Sensitivity
+sensitivity <- (tab1[1,2]) / (tab1[1,1]+tab1[1,2])
+sensitivity *100 # 80%
+
+# Type 1 error
+type2_error <- 1 - sensitivity
+type2_error
+
+# Precision
+precision <- (tab1[1,2])/(tab1[1,2]+tab1[2,2])
+precision *100 #78%
 
 ```
 
@@ -131,15 +227,14 @@ table(predict(f4, Test,type="class"), Test$Hypertension)
 **ROC** in the class(5) lecture
 
 ```{r}
+#ROC Logistic Regression 1
 prob <- predict(f1,  Train)
 suppressMessages(library(ROCR))
 pred <- prediction(prob, Train$Hypertension)
 perf <- performance(pred,"tpr","fpr")
 plot(perf)
 
-
-
-
+#ROC Logistic Regression 2
 prob <- predict(f2,  Train)
 suppressMessages(library(ROCR))
 pred <- prediction(prob, Train$Hypertension)
@@ -155,7 +250,8 @@ auc(rf.roc)
 #https://stats.stackexchange.com/questions/188616/how-can-we-calculate-roc-auc-for-classification-algorithm-such-as-random-forest#:~:text=Although%20the%20randomForest%20package%20does,combination%20with%20the%20package%20pROC.&text=These%20votes%20roughly%20represent%20a,a%20ROC%20and%20AUC%20measure.
 
 
-prob <- predict(f2,  Train)
+#ROC NN
+prob <- predict(f4,  Train)
 suppressMessages(library(ROCR))
 pred <- prediction(prob, Train$Hypertension)
 perf <- performance(pred,"tpr","fpr")
