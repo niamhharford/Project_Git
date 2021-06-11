@@ -5,10 +5,6 @@ date: "5/7/2021"
 output: html_document
 ---
 
-```{r}
-suppressMessages(library(devtools))
-data <- source_url('https://github.com/niamhharford/Project_Git/blob/master/data1_11a.RData')
-```
 
 
 ```{r}
@@ -129,7 +125,7 @@ plot_model(
 plot(log_reg1)
 ```
 
-```{r, echo=FALSE, eval=FALSE}
+```{r}
 # 2011-2012 All Data
 suppressMessages(library(arm))
 binnedplot(fitted(log_reg1), 
@@ -147,6 +143,21 @@ binnedplot(fitted(log_reg1),
 ```
 
 ```{r}
+suppressMessages(library(car))
+residualPlots(log_reg1, layout = c(5,3))
+# a lack-of-fit test is provided only for the numeric predictor
+# https://www.sagepub.com/sites/default/files/upm-binaries/38503_Chapter6.pdf
+# Age and BMI plots may indicate lack of fit
+
+
+influenceIndexPlot(log_reg1, vars=c("Cook", "hat"), id.n=3)
+# Observations 857, 1537 and 2637 have the largest Cook's distance, although even these are quite small. I shall remove the 3 cases as a check
+
+compareCoefs(log_reg1, update(log_reg1, subset=-c(857,1537,2637)))
+```
+
+
+```{r}
 prob <- predict(log_reg1, type="response")
 pred <- factor(ifelse(prob < .5, "No", "Yes"))
 table(data_11a$Hypertension, pred)
@@ -162,9 +173,9 @@ mean(log_reg1$residuals^2)
 
 
 
-**Smoothing Spline For BMI and Age**
+**Smoothing Spline on BMI and Age**
 
-```{r}
+```{r, eval=FALSE,echo=FALSE}
 head(data_11a)
 # Hypertension vs BMI
 suppressMessages(library(splines))
@@ -391,7 +402,7 @@ tab
 mean( data_11a$Hypertension != pred)
 
 
-plot.nnet(nn)
+plot.nnet(model_nn)
 
 # Logistic Regression
 
@@ -494,6 +505,18 @@ plot(model_profile(ex_rf, "Potassium"),
      model_profile(ex_log1, "Potassium"),
      model_profile(ex_log2, "Potassium")) +
   ggtitle("Responses for Potassium")
+
+```
+
+
+```{r,eval=FALSE,echo=FALSE}
+suppressMessages(library(DALEX))
+suppressMessages(library(caret))
+suppressMessages(library(xgboost))
+suppressMessages(library(e1071))
+
+
+
 
 ```
 
