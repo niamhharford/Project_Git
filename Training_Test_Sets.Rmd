@@ -224,7 +224,7 @@ precision *100 #78%
 
 
 
-**ROC** in the class(5) lecture
+**ROC** in the class(5 and 5.3) lecture
 
 ```{r}
 #ROC Logistic Regression 1
@@ -252,10 +252,11 @@ auc(rf.roc)
 
 #ROC NN
 prob <- predict(f4,  Train)
-suppressMessages(library(ROCR))
 pred <- prediction(prob, Train$Hypertension)
 perf <- performance(pred,"tpr","fpr")
 plot(perf)
 
 ```
+
+
 
