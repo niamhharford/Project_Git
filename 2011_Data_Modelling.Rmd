@@ -23,6 +23,7 @@ suppressMessages(library(tidyverse))
 suppressMessages(library(sjPlot))
 suppressMessages(library(sjlabelled))
 suppressMessages(library(sjmisc))
+suppressMessages(library(MASS))
 ```
 
 
@@ -629,5 +630,27 @@ plot(sv_rf, sv_log1, sv_log2, sv_nn)
 ```
 
 
+```{r}
+#Stepwise selection
+load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData") 
+data_11a$Hypertension <-ifelse(data_11a$Hypertension == "Yes", 1 ,0)
+data_11a$Hypertension %>% table
 
+model <- glm(Hypertension ~., data = data_11a, family = binomial)
+step.model <- model %>% stepAIC(trace = FALSE)
+step.model
+step.model$coefficients %>% exp
+```
+
+^ age,race,smoking,diabetes,kidney,bmi and physical activity
+
+
+```{r}
+library(leaps)
+
+all=regsubsets(Hypertension~., data=data_11a, nbest=1, nvmax=10)
+info=summary(all)
+cbind(info$which, round(cbind(rsq=info$rsq, adjr2=info$adjr2,
+                         cp=info$cp, bic=info$bic, rss=info$rss), 5))
+```
 
