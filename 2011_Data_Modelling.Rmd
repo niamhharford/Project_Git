@@ -416,7 +416,9 @@ plot.nnet(model_nn)
 
 ```{r}
 # Logistic Regression
+data_11a$Hypertension <-ifelse(data_11a$Hypertension == "Yes", 1 ,0)
 
+data_11a$Hypertension %>% table
 model_log1 <- glm(Hypertension ~ ., data = data_11a, family = binomial())
 model_log2  <-glm(Hypertension ~ .*Gender, data = data_11a, family = binomial())
 
