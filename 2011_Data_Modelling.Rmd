@@ -131,6 +131,7 @@ binnedplot(fitted(log_reg1),
 
 # The grey lines represent  ±  2 SE bands, which we would expect to contain about 95% of the observations.
 # https://bookdown.org/jefftemplewebb/IS-6489/logistic-regression.html 
+# The binned residuals plot instead, after dividing the data into categories (bins) based on their fitted values, the average residual versus the average fitted value for each bin
 ```
 
 ```{r}
@@ -351,9 +352,9 @@ plot_model(log_reg_gender, vline.color = "black", sort.est = TRUE, colors = cbPa
 
 par(mfrow=c(1,2))
 
-plot_model(log_reg_gender, sort.est = TRUE, vline.color = "black", colors = cbPalette[c(3,4)], terms = c("Age","Race [Other Hispanic]","Race [Non-Hispanic White]", "Race [Non-Hispanic Black]", "Race[Other Race - Including Muli-Rac]", "Smoking [Yes]", "Diabetes [Yes]", "Diabetes [Borderline]", "Insulin [Yes]", "KidneyF [Yes]", "BMI", "PhysActivity [Yes]", "Alcohol [Yes]", "Salt [Rarely]", "Salt [Occasionally]", "Salt [Very Often]", "Potassium"), title = "Male Odds of Hypertension")
+plot_model(log_reg_gender, sort.est = TRUE, vline.color = "black", colors = cbPalette[c(3,4)], terms = c("Age","Race [Other Hispanic]","Race [Non-Hispanic White]", "Race [Non-Hispanic Black]", "Race [Other Race - Including Multi-Rac]", "Smoking [Yes]", "Diabetes [Yes]", "Diabetes [Borderline]", "Insulin [Yes]", "KidneyF [Yes]", "BMI", "PhysActivity [Yes]", "Alcohol [Yes]", "Salt [Rarely]", "Salt [Occasionally]", "Salt [Very Often]", "Potassium"), title = "Male Odds of Hypertension")
 
-plot_model(log_reg_gender, sort.est = TRUE, vline.color = "black", colors = cbPalette[c(3,4)], rm.terms = c("Age","Race [Other Hispanic]","Race [Non-Hispanic White]", "Race [Non-Hispanic Black]", "Race[Other Race - Including Muli-Rac]", "Smoking [Yes]", "Diabetes [Yes]", "Diabetes [Borderline]", "Insulin [Yes]", "KidneyF [Yes]", "BMI", "PhysActivity [Yes]", "Alcohol [Yes]", "Salt [Rarely]", "Salt [Occasionally]", "Salt [Very Often]", "Potassium"), title = "Female Odds of Hypertension")
+plot_model(log_reg_gender, sort.est = TRUE, vline.color = "black", colors = cbPalette[c(3,4)], rm.terms = c("Age","Race [Other Hispanic]","Race [Non-Hispanic White]", "Race [Non-Hispanic Black]", "Race [Other Race - Including Multi-Rac]", "Smoking [Yes]", "Diabetes [Yes]", "Diabetes [Borderline]", "Insulin [Yes]", "KidneyF [Yes]", "BMI", "PhysActivity [Yes]", "Alcohol [Yes]", "Salt [Rarely]", "Salt [Occasionally]", "Salt [Very Often]", "Potassium"), title = "Female Odds of Hypertension")
 
 #plot_model(log_reg_gender, show.values = TRUE, value.offset = .3, sort.est = T)
 ```
