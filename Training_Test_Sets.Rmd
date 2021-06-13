@@ -87,11 +87,15 @@ set.seed(123)
 f2 <- nnet(Hypertension ~ ., data=Train, size=6)
 f2
 
+# NN
 # Training Data
 
 tab1 <- table(predict(f2, Train, type="class"), Train$Hypertension)
 tab1
+```
 
+
+```{r}
 # NN training Error rate
 (tab1[1]+tab1[4]) / sum(tab1) *100 # around 25-27%
 
@@ -257,6 +261,27 @@ prob <- predict(f4,  Train)
 pred <- prediction(prob, Train$Hypertension)
 perf <- performance(pred,"tpr","fpr")
 plot(perf)
+```
+
+```{r}
+#RF
+require(pROC)
+rf.roc<-roc(Train$Hypertension,f1$votes[,2])
+plot(rf.roc, title = "Random Forest ROC")
+auc(rf.roc)
+
+library(pROC)
+library(plotROC)
+
+#NN
+invisible(plot(roc(factor(Train$Hypertension), fitted(f2)), print.thres = c(.1, .5), col = "red", print.auc = T))
+
+#Log1
+invisible(plot(roc(factor(Train$Hypertension), fitted(f3)), print.thres = c(.1, .5), col = "red", print.auc = T))
+
+#Log2
+invisible(plot(roc(factor(Train$Hypertension), fitted(f4)), print.thres = c(.1, .5), col = "red", print.auc = T))
+
 ```
 
 
