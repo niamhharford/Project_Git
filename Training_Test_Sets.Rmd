@@ -7,10 +7,10 @@ output: html_document
 
 ```{r}
 # Load in 2011/2012 data
-load("~/Documents/Masters/Dissertation/Project_Git/Data/data1_11a.RData") 
+load("Data/data1_11a.RData")
 
 # Load in 2015/2016 Data
-load("~/Documents/Masters/Dissertation/Project_Git/Data/hyp1.RData") 
+load("Data/hyp1.RData")
 ```
 
 
@@ -42,15 +42,12 @@ suppressMessages(library(nnet))
 
 ```{r}
 # Training Data
-s <- sample(nrow(data_11a), round(.75*nrow(data_11a))) #2011/2012 data
-Train <- data_11a[s,]
+
+Train <- data_11a
   
 #Test Data
-Test <- hyp1 #2015/2016 Data
 
-#OR should I have it so the test set has less observations
-p <- sample(nrow(hyp1), round(.25*nrow(hyp1)))
-Test <- hyp1[p,]
+Test <- hyp1
 ```
 
 
@@ -60,7 +57,7 @@ Test <- hyp1[p,]
 ```{r}
 set.seed(1)
 
-f1 <- randomForest(Hypertension ~ ., data=Train, importance=TRUE)
+f1 <- randomForest(Hypertension ~ .,Train, importance=T)
 
 # Training error
 preda <- predict(f1, Train)
@@ -202,7 +199,7 @@ f4 <- glm(Hypertension~.*Gender,family="binomial",
           data=Train)
 pred2 <- predict(f4, Test, type="response")
 pred2 <- factor(ifelse(pred2 < .5, "No", "Yes"))
-tab <- table(Test$Hypertension, pred2)
+tab1 <- table(Test$Hypertension, pred2)
 tab1
 
 # Logistic Regression 2 Error rate
@@ -230,58 +227,63 @@ precision <- (tab1[1,2])/(tab1[1,2]+tab1[2,2])
 precision *100 #63%
 ```
 
+**GAM**
+
+```{r}
+suppressMessages(library(gam))
+gam_logistic = gam(Hypertension ~ Gender + bs(Age, df = 5) + Race + Smoking + Diabetes + 
+                     Insulin + KidneyF + BMI + PhysActivity + Alcohol + Salt +
+                     Potassium, data=data_11a, family = binomial())
+```
+
+
+
 **ROC** in the class(5 and 5.3) lecture
 
 ```{r}
 #ROC RandomForest
 require(pROC)
-rf.roc<-roc(Train$Hypertension,f1$votes[,2])
-plot(rf.roc)
-auc(rf.roc)
-#https://stats.stackexchange.com/questions/188616/how-can-we-calculate-roc-auc-for-classification-algorithm-such-as-random-forest#:~:text=Although%20the%20randomForest%20package%20does,combination%20with%20the%20package%20pROC.&text=These%20votes%20roughly%20represent%20a,a%20ROC%20and%20AUC%20measure.
-
-
 suppressMessages(library(ROCR))
+load("Data/data1_11a.RData")
+Train <- data_11a
+
+prob <- predict(f1, type = "prob")[,2]
+pred <- prediction(prob, Train$Hypertension)
+perf <- performance(pred,"tpr","fpr")
+plot(perf,main="ROC Curve for Random Forest",col=2,lwd=2)
+abline(a=0,b=1,lwd=2,lty=2,col="gray")
+auc <- performance(pred,"auc")
+str(auc) #AUC value
+
+
 
 #ROC NN
 prob <- predict(f2,  Train)
 pred <- prediction(prob, Train$Hypertension)
 perf <- performance(pred,"tpr","fpr")
-plot(perf)
+plot(perf,main="ROC Curve for Neural Network",col=2,lwd=2)
+abline(a=0,b=1,lwd=2,lty=2,col="gray")
+auc <- performance(pred,"auc")
+str(auc) #AUC value
 
 
 #ROC Logistic Regression 1
 prob <- predict(f3,  Train)
 pred <- prediction(prob, Train$Hypertension)
 perf <- performance(pred,"tpr","fpr")
-plot(perf)
+plot(perf,main="ROC Curve for Logistic Regression 1",col=2,lwd=2)
+abline(a=0,b=1,lwd=2,lty=2,col="gray")
+auc <- performance(pred,"auc")
+str(auc) #AUC value
 
 #ROC Logistic Regression 2
 prob <- predict(f4,  Train)
 pred <- prediction(prob, Train$Hypertension)
 perf <- performance(pred,"tpr","fpr")
-plot(perf)
-```
-
-```{r}
-#RF
-require(pROC)
-rf.roc<-roc(Train$Hypertension,f1$votes[,2])
-plot(rf.roc, title = "Random Forest ROC")
-auc(rf.roc)
-
-library(pROC)
-library(plotROC)
-
-#NN
-invisible(plot(roc(factor(Train$Hypertension), fitted(f2)), print.thres = c(.1, .5), col = "red", print.auc = T))
-
-#Log1
-invisible(plot(roc(factor(Train$Hypertension), fitted(f3)), print.thres = c(.1, .5), col = "red", print.auc = T))
-
-#Log2
-invisible(plot(roc(factor(Train$Hypertension), fitted(f4)), print.thres = c(.1, .5), col = "red", print.auc = T))
-
+plot(perf,main="ROC Curve for Logistic Regression 2",col=2,lwd=2)
+abline(a=0,b=1,lwd=2,lty=2,col="gray")
+auc <- performance(pred,"auc")
+str(auc) #AUC value
 ```
 
 
