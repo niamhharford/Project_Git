@@ -36,7 +36,7 @@ data_11a$Hypertension <-ifelse(data_11a$Hypertension == "Yes", 1 ,0)
 
 data_11a$Hypertension %>% table
 
-log_reg1 <- glm(Hypertension ~ . + Age*Race, data = data_11a, family = binomial())
+log_reg1 <- glm(Hypertension ~ . + I(Age^2) + I(Age^3), data = data_11a, family = binomial())
 summary(log_reg1)
 ```
 
@@ -93,7 +93,7 @@ coefficients(log_reg1) %>% exp() %>% round(digits = 5)
 + Having Chronic Kidney Disease
 + 1 Unit Increase in BMI
 + Drinking At Least 12 Alcoholic Drink in a Year
-+ Occassionally Using Salt in Food Prep
++ Occasionally Using Salt in Food Prep
 
 
 
@@ -166,7 +166,7 @@ mean(log_reg1$residuals^2)
 
 
 
-**Smoothing Spline on BMI and Age**
+**B Spline on Age**
 
 
 ```{r}
@@ -191,7 +191,7 @@ gam <- gam(Hypertension ~ Gender + Age + Race + Smoking + Diabetes +
                      Insulin + KidneyF + BMI + PhysActivity + Alcohol + Salt +
                      Potassium, data=data_11a, family = binomial())
 
-anova(gam,gam_logistic)
+anova(gam,gam_logistic) # p-value > 0.05 so reject null, the b spline on Age is appropriate
 
 # The GAM model seems to fit better
 
@@ -231,7 +231,7 @@ load("Data/data1_11a.RData")
 
 data_11a$Hypertension <-ifelse(data_11a$Hypertension == "Yes", 1 ,0)
 data_11a$Hypertension %>% table
-log_reg_gender <- glm(Hypertension ~ (. + I(Age^2)) * Gender, data = data_11a, family = binomial())
+log_reg_gender <- glm(Hypertension ~ (. + I(Age^2) + I(Age^3))* Gender, data = data_11a, family = binomial())
 summary(log_reg_gender)
 ```
 
@@ -337,9 +337,9 @@ data_11a %>% ggplot(aes(x = Hypertension, fill = Gender)) +  geom_bar(position =
 plot_model(log_reg_gender, vline.color = "black", sort.est = TRUE, colors = cbPalette[c(3,4)])
 
 
-male <- plot_model(log_reg_gender, sort.est = TRUE, vline.color = "black", colors = cbPalette[c(3,4)], terms = c("Age","Race [Other Hispanic]","Race [Non-Hispanic White]", "Race [Non-Hispanic Black]", "Race [Other Race - Including Multi-Rac]", "Smoking [Yes]", "Diabetes [Yes]", "Diabetes [Borderline]", "Insulin [Yes]", "KidneyF [Yes]", "BMI", "PhysActivity [Yes]", "Alcohol [Yes]", "Salt [Rarely]", "Salt [Occasionally]", "Salt [Very Often]", "Potassium"), title = "Male Odds of Hypertension") 
+male <- plot_model(log_reg_gender, sort.est = TRUE, vline.color = "black", colors = cbPalette[c(3,4)], terms = c("Age","Race [Other Hispanic]","Race [Non-Hispanic White]", "Race [Non-Hispanic Black]", "Race [Other Race - Including Multi-Rac]", "Smoking [Yes]", "Diabetes [Yes]", "Diabetes [Borderline]", "Insulin [Yes]", "KidneyF [Yes]", "BMI", "PhysActivity [Yes]", "Alcohol [Yes]", "Salt [Rarely]", "Salt [Occasionally]", "Salt [Very Often]", "Potassium", "Age^3", "Age^2"), title = "Male Odds of Hypertension") 
 
-female<- plot_model(log_reg_gender, sort.est = TRUE, vline.color = "black", colors = cbPalette[c(3,4)], rm.terms = c("Age","Race [Other Hispanic]","Race [Non-Hispanic White]", "Race [Non-Hispanic Black]", "Race [Other Race - Including Multi-Rac]", "Smoking [Yes]", "Diabetes [Yes]", "Diabetes [Borderline]", "Insulin [Yes]", "KidneyF [Yes]", "BMI", "PhysActivity [Yes]", "Alcohol [Yes]", "Salt [Rarely]", "Salt [Occasionally]", "Salt [Very Often]", "Potassium"), title = "Female Odds of Hypertension")
+female <- plot_model(log_reg_gender, sort.est = TRUE, vline.color = "black", colors = cbPalette[c(3,4)], rm.terms = c("Age","Race [Other Hispanic]","Race [Non-Hispanic White]", "Race [Non-Hispanic Black]", "Race [Other Race - Including Multi-Rac]", "Smoking [Yes]", "Diabetes [Yes]", "Diabetes [Borderline]", "Insulin [Yes]", "KidneyF [Yes]", "BMI", "PhysActivity [Yes]", "Alcohol [Yes]", "Salt [Rarely]", "Salt [Occasionally]", "Salt [Very Often]", "Potassium", "Age^3", "Age^2"), title = "Female Odds of Hypertension")
 
 suppressMessages(library(gridExtra))
 suppressMessages(library(grid))
@@ -566,53 +566,53 @@ plot(model_profile(ex_rf, "Insulin"),
 plot(model_profile(ex_rf, "KidneyF"),
      model_profile(ex_nn, "KidneyF"),
      model_profile(ex_log1, "KidneyF"),
-     model_profile(ex_log1, "KidneyF")) +
+     model_profile(ex_log2, "KidneyF")) +
   ggtitle("Responses for KidneyF")
 
 
 plot(model_profile(ex_rf, "BMI"),
      model_profile(ex_nn, "BMI"),
      model_profile(ex_log1, "BMI"),
-     model_profile(ex_log1, "BMI")) +
+     model_profile(ex_log2, "BMI")) +
   ggtitle("Responses for BMI")
 
 
 plot(model_profile(ex_rf, "PhysActivity"),
      model_profile(ex_nn, "PhysActivity"),
      model_profile(ex_log1, "PhysActivity"),
-     model_profile(ex_log1, "PhysActivity")) +
+     model_profile(ex_log2, "PhysActivity")) +
   ggtitle("Responses for PhysActivity")
 
 
 plot(model_profile(ex_rf, "Alcohol"),
      model_profile(ex_nn, "Alcohol"),
      model_profile(ex_log1, "Alcohol"),
-     model_profile(ex_log1, "Alcohol")) +
+     model_profile(ex_log2, "Alcohol")) +
   ggtitle("Responses for Alcohol")
 
 plot(model_profile(ex_rf, "Salt"),
      model_profile(ex_nn, "Salt"),
      model_profile(ex_log1, "Salt"),
-     model_profile(ex_log1, "Salt")) +
+     model_profile(ex_log2, "Salt")) +
   ggtitle("Responses for Salt")
 
 
 plot(model_profile(ex_rf, "Potassium"),
      model_profile(ex_nn, "Potassium"),
      model_profile(ex_log1, "Potassium"),
-     model_profile(ex_log1, "Potassium")) +
+     model_profile(ex_log2, "Potassium")) +
   ggtitle("Responses for Potassium")
 ```
 
 
-```{r,eval=FALSE, echo=FALSE}
+```{r, eval=FALSE, echo=T}
 sv_rf  <- model_profile(ex_rf, variable =  "Gender", type = "partial")
 sv_log1  <- model_profile(ex_log1, variable =  "Gender", type = "partial")
 sv_log2 <- model_profile(ex_log2, variable =  "Gender", type = "partial")
 sv_nn  <- model_profile(ex_nn, variable =  "Gender", type = "partial")
 sv_gam <- model_profile(ex_gam, variable =  "Gender", type = "partial")
 
-plot(sv_rf, sv_nn, sv_log1)
+plot(sv_rf, sv_nn, sv_log1, sv_log2)
 
 sv_rf  <- model_profile(ex_rf, variable =  "Age", type = "partial")
 sv_log1  <- model_profile(ex_log1, variable =  "Age", type = "partial")
@@ -620,7 +620,7 @@ sv_log2 <- model_profile(ex_log2, variable =  "Age", type = "partial")
 sv_nn  <- model_profile(ex_nn, variable =  "Age", type = "partial")
 
 
-plot(sv_rf, sv_log1, sv_nn)
+plot(sv_rf, sv_nn, sv_log1, sv_log2)
 
 sv_rf  <- model_profile(ex_rf, variable =  "Race", type = "partial")
 sv_log1  <- model_profile(ex_log1, variable =  "Race", type = "partial")
@@ -628,15 +628,14 @@ sv_log2 <- model_profile(ex_log2, variable =  "Race", type = "partial")
 sv_nn  <- model_profile(ex_nn, variable =  "Race", type = "partial")
 
 
-plot(sv_rf, sv_log1, sv_nn)
-
+plot(sv_rf, sv_nn, sv_log1, sv_log2)
 sv_rf  <- model_profile(ex_rf, variable =  "Smoking", type = "partial")
 sv_log1  <- model_profile(ex_log1, variable =  "Smoking", type = "partial")
 sv_log2 <- model_profile(ex_log2, variable =  "Smoking", type = "partial")
 sv_nn  <- model_profile(ex_nn, variable =  "Smoking", type = "partial")
 
 
-plot(sv_rf, sv_log1, sv_nn)
+plot(sv_rf, sv_nn, sv_log1, sv_log2)
 
 
 sv_rf  <- model_profile(ex_rf, variable =  "Diabetes", type = "partial")
@@ -645,7 +644,7 @@ sv_log2 <- model_profile(ex_log2, variable =  "Diabetes", type = "partial")
 sv_nn  <- model_profile(ex_nn, variable =  "Diabetes", type = "partial")
 
 
-plot(sv_rf, sv_log1, sv_nn)
+plot(sv_rf, sv_nn, sv_log1, sv_log2)
 
 sv_rf  <- model_profile(ex_rf, variable =  "Insulin", type = "partial")
 sv_log1  <- model_profile(ex_log1, variable =  "Insulin", type = "partial")
@@ -653,7 +652,7 @@ sv_log2 <- model_profile(ex_log2, variable =  "Insulin", type = "partial")
 sv_nn  <- model_profile(ex_nn, variable =  "Insulin", type = "partial")
 
 
-plot(sv_rf, sv_log1, sv_nn)
+plot(sv_rf, sv_nn, sv_log1, sv_log2)
 
 sv_rf  <- model_profile(ex_rf, variable =  "KidneyF", type = "partial")
 sv_log1  <- model_profile(ex_log1, variable =  "KidneyF", type = "partial")
@@ -661,7 +660,7 @@ sv_log2 <- model_profile(ex_log2, variable =  "KidneyF", type = "partial")
 sv_nn  <- model_profile(ex_nn, variable =  "KidneyF", type = "partial")
 
 
-plot(sv_rf, sv_log1, sv_nn)
+plot(sv_rf, sv_nn, sv_log1, sv_log2)
 
 
 sv_rf  <- model_profile(ex_rf, variable =  "BMI", type = "partial")
@@ -670,7 +669,7 @@ sv_log2 <- model_profile(ex_log2, variable =  "BMI", type = "partial")
 sv_nn  <- model_profile(ex_nn, variable =  "BMI", type = "partial")
 
 
-plot(sv_rf, sv_log1, sv_nn)
+plot(sv_rf, sv_nn, sv_log1, sv_log2)
 
 
 sv_rf  <- model_profile(ex_rf, variable =  "PhysActivity", type = "partial")
@@ -679,7 +678,7 @@ sv_log2 <- model_profile(ex_log2, variable =  "PhysActivity", type = "partial")
 sv_nn  <- model_profile(ex_nn, variable =  "PhysActivity", type = "partial")
 
 
-plot(sv_rf, sv_log1, sv_nn)
+plot(sv_rf, sv_nn, sv_log1, sv_log2)
 
 
 sv_rf  <- model_profile(ex_rf, variable =  "Alcohol", type = "partial")
@@ -688,7 +687,7 @@ sv_log2 <- model_profile(ex_log2, variable =  "Alcohol", type = "partial")
 sv_nn  <- model_profile(ex_nn, variable =  "Alcohol", type = "partial")
 
 
-plot(sv_rf, sv_log1, sv_nn)
+plot(sv_rf, sv_nn, sv_log1, sv_log2)
 
 
 sv_rf  <- model_profile(ex_rf, variable =  "Salt", type = "partial")
@@ -697,7 +696,7 @@ sv_log2 <- model_profile(ex_log2, variable =  "Salt", type = "partial")
 sv_nn  <- model_profile(ex_nn, variable =  "Salt", type = "partial")
 
 
-plot(sv_rf, sv_log1, sv_nn)
+plot(sv_rf, sv_nn, sv_log1, sv_log2)
 
 sv_rf  <- model_profile(ex_rf, variable =  "Potassium", type = "partial")
 sv_log1  <- model_profile(ex_log1, variable =  "Potassium", type = "partial")
@@ -705,8 +704,17 @@ sv_log2 <- model_profile(ex_log2, variable =  "Potassium", type = "partial")
 sv_nn  <- model_profile(ex_nn, variable =  "Potassium", type = "partial")
 
 
-plot(sv_rf, sv_log1, sv_nn)
+plot(sv_rf, sv_nn, sv_log1, sv_log2)
 ```
 
 
+
+```{r, echo=F, eval=FALSE}
+p1 <- plot(sv_rf) 
+p2 <- plot(sv_log1)
+p3 <- plot(sv_log2)
+p4 <- plot(sv_nn)
+
+grid.arrange(p1, p2, p3,p4,  nrow = 1, top ="Model Comparison")
+```
 
