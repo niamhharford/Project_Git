@@ -132,9 +132,9 @@ plot(model_profile(ex_nn)) + ggtitle("Response for Neural Network")
  
 
 
-plot(model_profile(ex_log,groups="Gender"))
-plot(model_profile(ex_rf,groups="Gender"))
-plot(model_profile(ex_nn,groups="Gender"))
+plot(model_profile(ex_log,groups="Gender")) + ggtitle("Response for Random Forest")
+plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Logistic Regression")
+plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Network")
 
  
 
@@ -148,3 +148,28 @@ model_performance(ex_log)
 model_performance(ex_nn)
 plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn), geom = "roc") 
 ```
+
+
+```{r}
+
+# Gender and Salt
+plot(model_profile(ex_rf, variables = c("Gender","Salt")), model_profile(ex_nn, , variables = c("Gender","Salt")), model_profile(ex_log, , variables = c("Gender","Salt"))) + ggtitle("Response for Gender and Salt")
+                                                              
+# Race 
+plot(model_profile(ex_rf, variable = "Race"), model_profile(ex_nn, , variable = "Race"), model_profile(ex_log, , variable = "Race")) + ggtitle("Response for Race")                                                              
+
+# Smoking and Diabetes
+plot(model_profile(ex_rf, variables = c("Smoking", "Diabetes")), model_profile(ex_nn, , variables = c("Smoking", "Diabetes")), model_profile(ex_log, , variables = c("Smoking", "Diabetes"))) + ggtitle("Response for Smoking and Diabetes")
+
+
+# Insulin and KidneyF
+plot(model_profile(ex_rf, variables = c("Insulin","KidneyF")), model_profile(ex_nn, , variables = c("Insulin","KidneyF")), model_profile(ex_log, , variables = c("Insulin","KidneyF"))) + ggtitle("Response for Insulin and KidneyF")
+
+
+# Physical Activity and Alcohol
+plot(model_profile(ex_rf, variables = c("PhysActivity", "Alcohol")), model_profile(ex_nn, , variables = c("PhysActivity", "Alcohol")), model_profile(ex_log, , variables = c("PhysActivity", "Alcohol"))) + ggtitle("Response for Physical Activity and Alcohol")
+
+# Age, BMI and Potassium
+plot(model_profile(ex_nn), model_profile(ex_rf), model_profile(ex_log)) + ggtitle("Response for Age, BMI and Potassium")
+```
+
