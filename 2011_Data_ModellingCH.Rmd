@@ -38,9 +38,8 @@ data_11a$Hypertension %>% table
 
 log_reg1 <- glm(Hypertension ~ . + Age*Race, data = data_11a, family = binomial())
 summary(log_reg1)
-
 library(car)
-Anova(log_reg1)  # ch: this shows which terms are significant. 
+Anova(log_reg1)  #CH This gives the tests for leaving each term out. You can see the AGE:Race term is not needed.
 ```
 
 ```{r}
@@ -135,9 +134,6 @@ binnedplot(fitted(log_reg1),
 # The grey lines represent  ±  2 SE bands, which we would expect to contain about 95% of the observations.
 # https://bookdown.org/jefftemplewebb/IS-6489/logistic-regression.html 
 # The binned residuals plot instead, after dividing the data into categories (bins) based on their fitted values, the average residual versus the average fitted value for each bin
-
-
-
 ```
 
 ```{r, fig.width= 16, fig.height=16}
@@ -147,27 +143,14 @@ residualPlots(log_reg1)
 # https://www.sagepub.com/sites/default/files/upm-binaries/38503_Chapter6.pdf
 # Age and BMI plots may indicate lack of fit
 
-# It is not lack of fit, it is saying that age and bmi could do with quadratic term. CH
 
+#  the small p-value for age and bmi are testing whether a quadratic effect should be added. the answer is yes in both cases. CH
 
 influenceIndexPlot(log_reg1, vars=c("Cook", "hat"), id.n=3)
 # Observations 857, 1537 and 2637 have the largest Cook's distance, although even these are quite small. I shall remove the 3 cases as a check
 
 compareCoefs(log_reg1, update(log_reg1, subset=-c(857,1537,2637)))
 # Removing these 3 observations does not alter the results much at all
-
-# better residual plot CH
-binnedplot(data_11a$Age, 
-           residuals(log_reg1, type = "response"), 
-           nclass = NULL, 
-           xlab = "Expected Values", 
-           ylab = "Average residual", 
-           main = "Binned residual plot", 
-           cex.pts = 0.8, 
-           col.pts = "blue", 
-           col.int = "black")
-
-
 ```
 
 
@@ -184,49 +167,50 @@ table(data_11a$Hypertension, pred)
 mean(log_reg1$residuals^2)
 ```
 
+
 ```{r}
-ch1 <- glm(Hypertension ~ Gender + Age + Race + Smoking + Diabetes + 
-                     Insulin + KidneyF + BMI + PhysActivity + Alcohol + Salt +
+
+ch1 <- glm(Hypertension ~ .,data=data_11a, family = binomial() )
+ch2 <- glm(Hypertension ~ Gender + Age+I(Age^2) + Race + Smoking + Diabetes + 
+                     Insulin + KidneyF + BMI+I(BMI^2) + PhysActivity + Alcohol + Salt +
                      Potassium, data=data_11a, family = binomial())
 
-ch2 <- glm(Hypertension ~ Gender + Age + I(Age^2)+ Race + Smoking + Diabetes + 
-                     Insulin + KidneyF + BMI + I(BMI^2)+ PhysActivity + Alcohol + Salt +
-                     Potassium, data=data_11a, family = binomial())
+anova(ch1, ch2, test="LRT")  # keep the quadratic terms
 
-anova(ch1, ch2, test="LRT")  # keep ch2
 
-ch3 <- glm(Hypertension ~ ( Age + I(Age^2)+ Race + Smoking + Diabetes + 
-                     Insulin + KidneyF + BMI + I(BMI^2)+ PhysActivity + Alcohol + Salt +
+# better than residualPlots
+binnedplot(data_11a$Age, 
+           residuals(ch1, type = "response"), 
+           nclass = NULL, 
+           xlab = "Age", 
+           ylab = "Average residual", 
+           main = "Binned residual plot", 
+           cex.pts = 0.8, 
+           col.pts = c("red","blue")[as.numeric(data_11a$Gender)], 
+           col.int = "black")
+
+
+ch3 <- glm(Hypertension ~ (Age+I(Age^2) + Race + Smoking + Diabetes+
+                     Insulin + KidneyF + BMI+I(BMI^2) + PhysActivity + Alcohol + Salt +
                      Potassium)*Gender, data=data_11a, family = binomial())
-anova(ch2, ch3, test="LRT")
-Anova(ch3)  # looks like only need a few of interations
+anova(ch2,ch3, test="LRT")  # so some interactions are good
 
-ch4 <- glm(Hypertension ~ ( Age + I(Age^2))*Gender + Race + Smoking + Diabetes + 
-                     Insulin + KidneyF + (BMI + I(BMI^2))*Gender + PhysActivity + Alcohol + Salt +
+Anova(ch3)
+
+ch4 <-glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Diabetes + 
+                     Insulin + KidneyF + PhysActivity + Alcohol + Salt +
                      Potassium, data=data_11a, family = binomial())
+anova(ch4,ch3, test="LRT")  # confirms only need two interactions
 
-anova(ch4, ch3, test="LRT")  # just keep a few interactions
 
-Anova(ch4)
-
-ch5 <- glm(Hypertension ~ ( Age + I(Age^2))*Gender + Race + Smoking + Diabetes + 
-                      KidneyF + (BMI + I(BMI^2))*Gender 
-              , data=data_11a, family = binomial())
-
-anova(ch5,ch4, test="LRT")
-
-ch6 <- gam(Hypertension ~ (bs(Age,df=5))*Gender + Race + Smoking + Diabetes + 
-                      KidneyF + (BMI + I(BMI^2))*Gender 
-              , data=data_11a, family = binomial())
-
-anova(ch5,ch6, test="LRT")  # don't need bs term
 
 ```
-CH: not saying this is the definitive model choice here.
+
 
 
 **Smoothing Spline on BMI and Age**
 
+CH: I think the quadratic term as above might be enough...
 
 ```{r}
 suppressMessages(library(gam))
@@ -287,6 +271,7 @@ text(f1, cex=.5, pretty = 0)
 ```{r, results='hide'}
 # Logistic Regression - Interaction with Gender
 load("Data/data1_11a.RData")
+
 
 data_11a$Hypertension <-ifelse(data_11a$Hypertension == "Yes", 1 ,0)
 data_11a$Hypertension %>% table
@@ -420,7 +405,7 @@ AIC(log_reg_gender)
 
 
 ```{r}
-load("Data/data1_11a.RData")
+load("data1_11a.RData")
 
 suppressMessages(library(randomForest))
 suppressMessages(library(e1071))
