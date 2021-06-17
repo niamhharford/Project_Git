@@ -123,11 +123,21 @@ nrow(data_11a)
 There seems to be no major difference between the two data sets (data1, with levels altered and data) when I omit the NA values
 
 
+```{r}
+glimpse(data_11a)
+```
+
+
+```{r}
+levels(data_11a$Race)
+levels(data_11a$Race) <- c("Mexican American", "Other Hispanic", "Non-Hispanic White","Non-Hispanic Black", "Other Race")
+levels(data_11a$Race)
+```
+
+
+
+
 ```{r, eval=F}
 save(data_11a, file = "data1_11a.RData")
 load("data1_11a.RData")
-```
-
-```{r}
-glimpse(data_11a)
 ```
