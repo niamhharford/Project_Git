@@ -54,6 +54,7 @@ Test <- hyp1
 
 
 ```{r}
+set.seed(123)
 Train$Hypertension <- factor(ifelse(Train$Hypertension == "Yes", 1 ,0))
 Test$Hypertension <- factor(ifelse(Test$Hypertension == "Yes", 1 ,0))
  
@@ -76,7 +77,7 @@ hypn <- as.numeric(Train$Hypertension)-1
 ex_rf <- explain(f2, data = Train, y = hypn )
 ex_log <- explain(f1, data = Train, y = hypn)
 ex_nn <- explain(f3, data = Train, y = hypn)
- 
+
 
 
 
