@@ -51,7 +51,7 @@ f4 <-glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Di
 anova(f4,f3, test="LRT")  # confirms only need two interactions
 
 
-# Continue with f4 - that has two quadratic terms and two interactions
+# Continue with f4 - that has two quadratic terms and 4 interactions
 ```
 
 
@@ -74,7 +74,7 @@ binnedplot(data_11a$Age,
            col.int = "black")
 
 
-binnedplot(fitted(f3), 
+binnedplot(fitted(f4), 
            residuals(f4, type = "response"), 
            nclass = NULL, 
            xlab = "Expected Values", 
@@ -93,6 +93,7 @@ plot_model(f4, vline.color = "black", sort.est = TRUE,colors = "Accent")
 ```
 
 ```{r, fig.height=16,fig.width=16}
+set.seed(123)
 suppressMessages(library(randomForest))
 suppressMessages(library(e1071))
 suppressMessages(library(DALEX))
@@ -101,9 +102,9 @@ suppressMessages(library(nnet))
 suppressMessages(library(devtools))
 suppressMessages(source_url('https://gist.githubusercontent.com/fawda123/7471137/raw/466c1474d0a505ff044412703516c34f1a4684a5/nnet_plot_update.r'))
 
-model_log1 <-glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking +                   Diabetes + Insulin + KidneyF + PhysActivity + Alcohol + Salt +
-            Potassium, data=data_11a, family = binomial())
 
+
+model_log1 <- f4
 
 model_rf <- randomForest(Hypertension ~ .,data_11a, importance = T)
 
@@ -138,6 +139,25 @@ plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Networ
 
 
  
+
+
+# look at model_performance and plot model_performance for nice way of getting roc and model summaries.
+
+ 
+
+model_performance(ex_rf)
+model_performance(ex_log)
+model_performance(ex_nn)
+plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn), geom = "roc") 
+```
+
+```{r, fig.height=16,fig.width=16}
+set.seed(123)
+
+hypn <- as.numeric(data_11a$Hypertension)-1
+ex_rf <- explain(model_rf, data = data_11a, y = hypn )
+ex_log <- explain(f4, data = data_11a, y = hypn)
+ex_nn <- explain(model_nn, data = data_11a, y = hypn)
 
 
 # look at model_performance and plot model_performance for nice way of getting roc and model summaries.
