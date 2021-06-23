@@ -31,26 +31,24 @@ nrow(data_11a)
 data_11a$Hypertension <-factor(ifelse(data_11a$Hypertension == "Yes", 1 ,0))
 
 f1 <- glm(Hypertension ~ .,data=data_11a, family = binomial() )
-f2 <- glm(Hypertension ~ Gender + Age+I(Age^2) + Race + Smoking + Diabetes + 
-                     Insulin + KidneyF + BMI+I(BMI^2) + PhysActivity + Alcohol + Salt +
-                     Potassium, data=data_11a, family = binomial())
+f2 <- glm(Hypertension ~ Gender + Age+I(Age^2) + Race + Smoking + Diabetes + KidneyF + BMI+I(BMI^2) + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
 
 anova(f1, f2, test="LRT")  # keep the quadratic terms
 
 
-f3 <- glm(Hypertension ~ (Age+I(Age^2) + Race + Smoking + Diabetes+
-                     Insulin + KidneyF + BMI+I(BMI^2) + PhysActivity + Alcohol + Salt +
+f3 <- glm(Hypertension ~ (Age+I(Age^2) + Race + Smoking + Diabetes
+                     + KidneyF + BMI+I(BMI^2) + PhysActivity + Alcohol + Salt +
                      Potassium)*Gender, data=data_11a, family = binomial())
 anova(f2,f3, test="LRT")  # so some interactions are good
 
 Anova(f3)
 
-f4 <-glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Diabetes + 
-                     Insulin + KidneyF + PhysActivity + Alcohol + Salt +
-                     Potassium, data=data_11a, family = binomial())
+f4 <-glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Diabetes + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
 anova(f4,f3, test="LRT")  # confirms only need two interactions
 
+anova(f4,f3, test="LRT")
 
+Anova(f4)
 # Continue with f4 - that has two quadratic terms and 4 interactions
 ```
 
@@ -58,6 +56,7 @@ anova(f4,f3, test="LRT")  # confirms only need two interactions
 ```{r}
 summary(f4)
 coefficients(f4) %>% exp() %>% round(digits = 5)
+# Have to look at age and age^2 together with logistic regression
 ```
 
 
@@ -90,9 +89,43 @@ binnedplot(fitted(f4),
 
 ```{r}
 plot_model(f4, vline.color = "black", sort.est = TRUE,colors = "Accent")
+# Age ^2 - actual significance it is different to 0 - p-value is small. But numerically it does not impact the response so not practically significant
+# This plot is not good at interpreting Age and BMI
 ```
 
-```{r, fig.height=16,fig.width=16}
+```{r}
+# library(gam)
+# f5 <- glm(Hypertension ~ (Age+poly(Age,2)+BMI+bs(BMI,4))*Gender+Race + Smoking + Diabetes + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
+plot_model(f4, type = "pred", terms = c("BMI"))
+plot_model(f4, type = "pred", terms = c("BMI","Gender"))
+plot_model(f4, type = "pred", terms = c("Age"))
+plot_model(f4, type = "pred", terms = c("Age","Gender"))
+plot_model(f4, type = "pred", terms = c("Potassium"))
+plot_model(f4, type = "pred", terms = c("Potassium","Gender"))
+plot_model(f4, type = "pred", terms = c("Smoking"))
+plot_model(f4, type = "pred", terms = c("Smoking","Gender"))
+plot_model(f4, type = "pred", terms = c("Diabetes"))
+plot_model(f4, type = "pred", terms = c("Diabetes","Gender"))
+plot_model(f4, type = "pred", terms = c("KidneyF"))
+plot_model(f4, type = "pred", terms = c("KidneyF","Gender"))
+plot_model(f4, type = "pred", terms = c("Race"))
+plot_model(f4, type = "pred", terms = c("Race","Gender"))
+plot_model(f4, type = "pred", terms = c("PhysActivity"))
+plot_model(f4, type = "pred", terms = c("PhysActivity","Gender"))
+plot_model(f4, type = "pred", terms = c("Alcohol"))
+plot_model(f4, type = "pred", terms = c("Alcohol","Gender"))
+plot_model(f4, type = "pred", terms = c("Salt"))
+plot_model(f4, type = "pred", terms = c("Salt","Gender"))
+
+
+```
+
+
+
+
+
+
+```{r, fig.height=4,fig.width=16}
 set.seed(123)
 suppressMessages(library(randomForest))
 suppressMessages(library(e1071))
@@ -101,7 +134,6 @@ suppressMessages(library(rms))
 suppressMessages(library(nnet))
 suppressMessages(library(devtools))
 suppressMessages(source_url('https://gist.githubusercontent.com/fawda123/7471137/raw/466c1474d0a505ff044412703516c34f1a4684a5/nnet_plot_update.r'))
-
 
 
 model_log1 <- f4
@@ -121,20 +153,18 @@ ex_nn <- explain(model_nn, data = data_11a, y = hypn)
 
 
 plot(model_profile(ex_rf, variables = c("Gender", "Race","Smoking", "Diabetes"))) + ggtitle("Response for Random Forest")
-plot(model_profile(ex_rf, variables = c("Insulin","KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Random Forest")
+plot(model_profile(ex_rf, variables = c("KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Random Forest")
 plot(model_profile(ex_rf)) + ggtitle("Response for Random Forest")
 plot(model_profile(ex_log, variables = c("Gender", "Race","Smoking", "Diabetes"))) + ggtitle("Response for Logistic Regression")
-plot(model_profile(ex_log, variables = c("Insulin","KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Logistic Regression")
+plot(model_profile(ex_log, variables = c("KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Logistic Regression")
 plot(model_profile(ex_log)) + ggtitle("Response for Logistic Regression")
 plot(model_profile(ex_nn, variables = c("Gender", "Race","Smoking", "Diabetes"))) + ggtitle("Response for Neural Network")
-plot(model_profile(ex_nn, variables = c("Insulin","KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Neural Network")
+plot(model_profile(ex_nn, variables = c("KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Neural Network")
 plot(model_profile(ex_nn)) + ggtitle("Response for Neural Network")
 
- 
 
-
-plot(model_profile(ex_log,groups="Gender")) + ggtitle("Response for Random Forest")
-plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Logistic Regression")
+plot(model_profile(ex_log,groups="Gender")) + ggtitle("Response for Logistic Regression")
+plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Random Forest")
 plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Network")
 
 
@@ -151,40 +181,17 @@ model_performance(ex_nn)
 plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn), geom = "roc") 
 ```
 
-```{r, fig.height=16,fig.width=16}
-set.seed(123)
-
-hypn <- as.numeric(data_11a$Hypertension)-1
-ex_rf <- explain(model_rf, data = data_11a, y = hypn )
-ex_log <- explain(f4, data = data_11a, y = hypn)
-ex_nn <- explain(model_nn, data = data_11a, y = hypn)
-
-
-# look at model_performance and plot model_performance for nice way of getting roc and model summaries.
-
- 
-
-model_performance(ex_rf)
-model_performance(ex_log)
-model_performance(ex_nn)
-plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn), geom = "roc") 
-```
-
-
 ```{r}
 
-# Gender and Salt
-plot(model_profile(ex_rf, variables = c("Gender","Salt")), model_profile(ex_nn, , variables = c("Gender","Salt")), model_profile(ex_log, , variables = c("Gender","Salt"))) + ggtitle("Response for Gender and Salt")
-                                                              
-# Race 
-plot(model_profile(ex_rf, variable = "Race"), model_profile(ex_nn, , variable = "Race"), model_profile(ex_log, , variable = "Race")) + ggtitle("Response for Race")                                                              
+# Gender and Race
+plot(model_profile(ex_rf, variables = c("Gender","Race")), model_profile(ex_nn, , variables = c("Gender","Race")), model_profile(ex_log, , variables = c("Gender","Race"))) + ggtitle("Response for Gender and Race")
 
 # Smoking and Diabetes
 plot(model_profile(ex_rf, variables = c("Smoking", "Diabetes")), model_profile(ex_nn, , variables = c("Smoking", "Diabetes")), model_profile(ex_log, , variables = c("Smoking", "Diabetes"))) + ggtitle("Response for Smoking and Diabetes")
 
 
-# Insulin and KidneyF
-plot(model_profile(ex_rf, variables = c("Insulin","KidneyF")), model_profile(ex_nn, , variables = c("Insulin","KidneyF")), model_profile(ex_log, , variables = c("Insulin","KidneyF"))) + ggtitle("Response for Insulin and KidneyF")
+# KidneyF and Salt
+plot(model_profile(ex_rf, variables = c("KidneyF","Salt")), model_profile(ex_nn, variables = c("KidneyF","Salt")), model_profile(ex_log, variables = c("KidneyF","Salt"))) + ggtitle("Response for Kidney Failure and Salt")
 
 
 # Physical Activity and Alcohol

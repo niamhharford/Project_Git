@@ -32,7 +32,7 @@ suppressMessages(library(MASS))
 
 ```{r, results='hide'}
 #Logistic regression
-data_11a$Hypertension <-ifelse(data_11a$Hypertension == "Yes", 1 ,0)
+data_11a$Hypertension <- factor(ifelse(data_11a$Hypertension == "Yes", 1 ,0))
 
 data_11a$Hypertension %>% table
 
@@ -63,7 +63,6 @@ coefficients(log_reg1) %>% exp() %>% round(digits = 5)
 
 + When you move from having not diabetes to borderline having diabetes, the odds of having hypertension is expected to be roughly 2.45 times higher.
 
-+ When you move from taking not insulin to taking insulin, the odds of having hypertension increases by roughly 18%.
 
 + When you move from having chronic kidney disease to not having chronic kidney disease, the odds of having hypertension is expected to be roughly 2.86 times higher.
 
@@ -89,7 +88,6 @@ coefficients(log_reg1) %>% exp() %>% round(digits = 5)
 + Smoking 
 + Having Diabetes
 + Having Borderline Diabetes
-+ Taking Insulin
 + Having Chronic Kidney Disease
 + 1 Unit Increase in BMI
 + Drinking At Least 12 Alcoholic Drink in a Year
@@ -172,7 +170,7 @@ mean(log_reg1$residuals^2)
 ```{r}
 suppressMessages(library(gam))
 gam_logistic = gam(Hypertension ~ Gender + bs(Age, df = 5) + Race + Smoking + Diabetes + 
-                     Insulin + KidneyF + BMI + PhysActivity + Alcohol + Salt +
+                    KidneyF + BMI + PhysActivity + Alcohol + Salt +
                      Potassium, data=data_11a, family = binomial())
 
 
@@ -188,7 +186,7 @@ plot(gam_logistic, se = T, col = "green")
 ```{r}
 # Comparing Gam and Logistic regression
 gam <- gam(Hypertension ~ Gender + Age + Race + Smoking + Diabetes + 
-                     Insulin + KidneyF + BMI + PhysActivity + Alcohol + Salt +
+                     KidneyF + BMI + PhysActivity + Alcohol + Salt +
                      Potassium, data=data_11a, family = binomial())
 
 anova(gam,gam_logistic) # p-value > 0.05 so reject null, the b spline on Age is appropriate
@@ -229,7 +227,7 @@ text(f1, cex=.5, pretty = 0)
 # Logistic Regression - Interaction with Gender
 load("Data/data1_11a.RData")
 
-data_11a$Hypertension <-ifelse(data_11a$Hypertension == "Yes", 1 ,0)
+data_11a$Hypertension <-factor(ifelse(data_11a$Hypertension == "Yes", 1 ,0))
 data_11a$Hypertension %>% table
 log_reg_gender <- glm(Hypertension ~ (. + I(Age^2) + I(Age^3))* Gender, data = data_11a, family = binomial())
 summary(log_reg_gender)
@@ -258,7 +256,6 @@ coefficients(log_reg_gender) %>% exp() %>% round(digits = 4)
 
 + When you move from not having diabetes to borderline having diabetes if you are male, the odds of having hypertension is expected to be roughly 2 times higher.
 
-+ When you move from not taking insulin to taking insulin if you are male, the odds of having hypertension decreases by roughly 27%.
 
 + When you move from not having chronic kidney disease to having chronic kidney disease if you are male, the odds of having hypertension is expected to be roughly 2 times higher.
 
@@ -292,8 +289,6 @@ coefficients(log_reg_gender) %>% exp() %>% round(digits = 4)
 
 + When you move from not having diabetes to borderline having diabetes if you are female, the odds of having hypertension decreases by roughly 44%.
 
-+ When you move from not taking insulin to taking insulin if you are female, the odds of having hypertension decreases by roughly 17%.
-
 + When you move from not having chronic kidney disease to having chronic kidney disease if you are female, the odds of having hypertension increases by roughly 18%.
 
 + For a one unit increase in BMI if you are female, you would expect your odds of having hypertension to increase by roughly 2%. 
@@ -317,7 +312,6 @@ coefficients(log_reg_gender) %>% exp() %>% round(digits = 4)
 + Odds of hypertension expected to decrease if you are female (65%)
 + Odds of hypertension move from having diabetes to borderline having diabetes if you are male expected to increase (12%)
 + Odds of hypertension if you are female and any race are expected to decrease, whereas odds of hypertension if you are male and any race are expected to increase
-+ Odds of hypertension expected to increase for females when they are not taking insulin, whereas odds of hypertension if you are male and not taking insulin are expected to decrease
 
 
 ```{r}
@@ -337,9 +331,9 @@ data_11a %>% ggplot(aes(x = Hypertension, fill = Gender)) +  geom_bar(position =
 plot_model(log_reg_gender, vline.color = "black", sort.est = TRUE, colors = cbPalette[c(3,4)])
 
 
-male <- plot_model(log_reg_gender, sort.est = TRUE, vline.color = "black", colors = cbPalette[c(3,4)], terms = c("Age","Race [Other Hispanic]","Race [Non-Hispanic White]", "Race [Non-Hispanic Black]", "Race [Other Race - Including Multi-Rac]", "Smoking [Yes]", "Diabetes [Yes]", "Diabetes [Borderline]", "Insulin [Yes]", "KidneyF [Yes]", "BMI", "PhysActivity [Yes]", "Alcohol [Yes]", "Salt [Rarely]", "Salt [Occasionally]", "Salt [Very Often]", "Potassium", "Age^3", "Age^2"), title = "Male Odds of Hypertension") 
+male <- plot_model(log_reg_gender, sort.est = TRUE, vline.color = "black", colors = cbPalette[c(3,4)], terms = c("Age","Race [Other Hispanic]","Race [Non-Hispanic White]", "Race [Non-Hispanic Black]", "Race [Other Race - Including Multi-Rac]", "Smoking [Yes]", "Diabetes [Yes]", "Diabetes [Borderline]", "KidneyF [Yes]", "BMI", "PhysActivity [Yes]", "Alcohol [Yes]", "Salt [Rarely]", "Salt [Occasionally]", "Salt [Very Often]", "Potassium", "Age^3", "Age^2"), title = "Male Odds of Hypertension") 
 
-female <- plot_model(log_reg_gender, sort.est = TRUE, vline.color = "black", colors = cbPalette[c(3,4)], rm.terms = c("Age","Race [Other Hispanic]","Race [Non-Hispanic White]", "Race [Non-Hispanic Black]", "Race [Other Race - Including Multi-Rac]", "Smoking [Yes]", "Diabetes [Yes]", "Diabetes [Borderline]", "Insulin [Yes]", "KidneyF [Yes]", "BMI", "PhysActivity [Yes]", "Alcohol [Yes]", "Salt [Rarely]", "Salt [Occasionally]", "Salt [Very Often]", "Potassium", "Age^3", "Age^2"), title = "Female Odds of Hypertension")
+female <- plot_model(log_reg_gender, sort.est = TRUE, vline.color = "black", colors = cbPalette[c(3,4)], rm.terms = c("Age","Race [Other Hispanic]","Race [Non-Hispanic White]", "Race [Non-Hispanic Black]", "Race [Other Race - Including Multi-Rac]", "Smoking [Yes]", "Diabetes [Yes]", "Diabetes [Borderline]", "KidneyF [Yes]", "BMI", "PhysActivity [Yes]", "Alcohol [Yes]", "Salt [Rarely]", "Salt [Occasionally]", "Salt [Very Often]", "Potassium", "Age^3", "Age^2"), title = "Female Odds of Hypertension")
 
 suppressMessages(library(gridExtra))
 suppressMessages(library(grid))
@@ -407,14 +401,13 @@ plot.nnet(model_nn)
 ```
 ```{r}
 # GAM
-model_gam_logistic = gam(Hypertension ~ Gender + bs(Age, df = 5) + Race + Smoking + Diabetes + 
-                     Insulin + KidneyF + BMI + PhysActivity + Alcohol + Salt +
+model_gam_logistic = gam(Hypertension ~ Gender + bs(Age, df = 5) + Race + Smoking + Diabetes + KidneyF + BMI + PhysActivity + Alcohol + Salt +
                      Potassium, data=data_11a, family = binomial())
 ```
 
 ```{r}
 # Logistic Regression
-data_11a$Hypertension <-ifelse(data_11a$Hypertension == "Yes", 1 ,0)
+data_11a$Hypertension <-factor(ifelse(data_11a$Hypertension == "Yes", 1 ,0))
 
 data_11a$Hypertension %>% table
 model_log1 <- glm(Hypertension ~ ., data = data_11a, family = binomial())
@@ -464,11 +457,6 @@ plot(model_profile(ex_rf, "Diabetes"),
      model_profile(ex_log1, "Diabetes")) +
   ggtitle("Responses for Diabetes")
 
-
-plot(model_profile(ex_rf, "Insulin"),
-     model_profile(ex_nn, "Insulin"),
-     model_profile(ex_log1, "Insulin")) +
-  ggtitle("Responses for Insulin") 
 
 
 plot(model_profile(ex_rf, "KidneyF"),
@@ -556,13 +544,6 @@ plot(model_profile(ex_rf, "Diabetes"),
   ggtitle("Responses for Diabetes")
 
 
-plot(model_profile(ex_rf, "Insulin"),
-     model_profile(ex_nn, "Insulin"),
-     model_profile(ex_log1, "Insulin"),
-     model_profile(ex_log2, "Insulin")) +
-  ggtitle("Responses for Insulin") 
-
-
 plot(model_profile(ex_rf, "KidneyF"),
      model_profile(ex_nn, "KidneyF"),
      model_profile(ex_log1, "KidneyF"),
@@ -646,13 +627,6 @@ sv_nn  <- model_profile(ex_nn, variable =  "Diabetes", type = "partial")
 
 plot(sv_rf, sv_nn, sv_log1, sv_log2)
 
-sv_rf  <- model_profile(ex_rf, variable =  "Insulin", type = "partial")
-sv_log1  <- model_profile(ex_log1, variable =  "Insulin", type = "partial")
-sv_log2 <- model_profile(ex_log2, variable =  "Insulin", type = "partial")
-sv_nn  <- model_profile(ex_nn, variable =  "Insulin", type = "partial")
-
-
-plot(sv_rf, sv_nn, sv_log1, sv_log2)
 
 sv_rf  <- model_profile(ex_rf, variable =  "KidneyF", type = "partial")
 sv_log1  <- model_profile(ex_log1, variable =  "KidneyF", type = "partial")
