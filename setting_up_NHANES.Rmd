@@ -32,8 +32,8 @@ dr1tot_i <- nhanes('DR1TOT_I') #salt and potassium
 demo_i <- nhanesTranslate('DEMO_I', c('RIAGENDR', 'RIDRETH1', 'RIDAGEYR'), data=demo_i)
 bmx_i <- nhanesTranslate('BMX_I', 'BMXBMI', data=bmx_i) #no columns translated
 smq_i <- nhanesTranslate('SMQ_I', 'SMQ020', data=smq_i)
-diq_i <- nhanesTranslate('DIQ_I', c('DIQ010', 'DIQ050'), data=diq_i)
-kiq_u_i <- nhanesTranslate('KIQ_U_I', c('KIQ022'), data=kiq_u_i)
+diq_i <- nhanesTranslate('DIQ_I', 'DIQ010', data=diq_i)
+kiq_u_i <- nhanesTranslate('KIQ_U_I', 'KIQ022', data=kiq_u_i)
 bpq_i <- nhanesTranslate('BPQ_I', 'BPQ020', data=bpq_i)
 paq_i <- nhanesTranslate('PAQ_I', 'PAQ665', data = paq_i)
 alq_i <- nhanesTranslate('ALQ_I', 'ALQ101', data = alq_i)
@@ -42,7 +42,7 @@ dr1tot_i <- nhanesTranslate('DR1TOT_I', c('DRQSPREP','DR1TPOTA'), data = dr1tot_
 
 ```{r}
 #Merging the data 
-select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020', 'DIQ010', 'DIQ050', 'KIQ022', 'BMXBMI', 'PAQ665','ALQ101', 'DRQSPREP', 'DR1TPOTA')
+select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020', 'DIQ010', 'KIQ022', 'BMXBMI', 'PAQ665','ALQ101', 'DRQSPREP', 'DR1TPOTA')
 all_dat <- Reduce(merge, list(demo_i, smq_i, diq_i, kiq_u_i, bmx_i, bpq_i, paq_i, alq_i,dr1tot_i))
 all_dat <- all_dat %>% dplyr::select(all_of(select_cols))
 head(all_dat)
@@ -62,7 +62,6 @@ glimpse(all_dat)
 levels(all_dat$RIDRETH1) #dont need to fix anything
 levels(all_dat$SMQ020) #need to remove dont knows
 levels(all_dat$DIQ010) #need to remove dont knows
-levels(all_dat$DIQ050) #need to remove dont knows
 levels(all_dat$KIQ022) #need to remove dont knows
 levels(all_dat$DRQSPREP) #need to remove dont knows
 levels(all_dat$PAQ665) #need to remove dont knows
@@ -78,7 +77,6 @@ all_dat <- all_dat %>% rename(Hypertension = BPQ020,
                         Race = RIDRETH1,
                         Smoking = SMQ020,
                         Diabetes = DIQ010,
-                        Insulin = DIQ050,
                         KidneyF = KIQ022,
                         BMI = BMXBMI,
                         PhysActivity = PAQ665,
@@ -115,7 +113,7 @@ dr1tot_f <- nhanes('DR1TOT_F') #salt and potassium
 demo_f <- nhanesTranslate('DEMO_F', c('RIAGENDR', 'RIDRETH1', 'RIDAGEYR'), data=demo_f)
 bmx_f <- nhanesTranslate('BMX_F', 'BMXBMI', data=bmx_f)
 smq_f <- nhanesTranslate('SMQ_F', 'SMQ020', data=smq_f)
-diq_f <- nhanesTranslate('DIQ_F', c('DIQ010', 'DIQ050'), data=diq_f)
+diq_f <- nhanesTranslate('DIQ_F', 'DIQ010', data=diq_f)
 kiq_u_f <- nhanesTranslate('KIQ_U_F', c('KIQ022'), data=kiq_u_f)
 bpq_f <- nhanesTranslate('BPQ_F', 'BPQ020', data=bpq_f)
 paq_f <- nhanesTranslate('PAQ_F', 'PAQ665', data = paq_f)
@@ -139,7 +137,7 @@ comb_data <- comb8 %>% dplyr::select(all_of(select_cols))
 
 ```{r}
 #Another way to join data
-select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020', 'DIQ010', 'DIQ050', 'KIQ022', 'BMXBMI', 'PAQ665','ALQ101', 'DRQSPREP', 'DR1TPOTA')
+select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020', 'DIQ010', 'KIQ022', 'BMXBMI', 'PAQ665','ALQ101', 'DRQSPREP', 'DR1TPOTA')
 data <- Reduce(merge, list(demo_f, smq_f, diq_f, kiq_u_f, bmx_f, bpq_f, paq_f, alq_f,dr1tot_f))
 data <- data %>% dplyr::select(all_of(select_cols))
 head(data)
@@ -161,7 +159,6 @@ levels(data$BPQ020) #need to remove dont knows
 levels(data$RIDRETH1) #dont need to fix anything
 levels(data$SMQ020) #need to remove dont knows
 levels(data$DIQ010) #need to remove dont knows
-levels(data$DIQ050) #dont need to remove dont knows
 levels(data$KIQ022) #need to remove dont knows
 levels(data$DRQSPREP) #need to remove dont knows
 levels(data$ALQ101) #need to remove dont knows
@@ -176,7 +173,6 @@ data <- data %>% rename(Hypertension = BPQ020,
                         Race = RIDRETH1,
                         Smoking = SMQ020,
                         Diabetes = DIQ010,
-                        Insulin = DIQ050,
                         KidneyF = KIQ022,
                         BMI = BMXBMI,
                         PhysActivity = PAQ665,
@@ -218,7 +214,7 @@ dr1tot_f <- nhanes('DR1TOT_G') #salt and potassium
 demo_f <- nhanesTranslate('DEMO_G', c('RIAGENDR', 'RIDRETH1', 'RIDAGEYR'), data=demo_f)
 bmx_f <- nhanesTranslate('BMX_G', 'BMXBMI', data=bmx_f)
 smq_f <- nhanesTranslate('SMQ_G', 'SMQ020', data=smq_f)
-diq_f <- nhanesTranslate('DIQ_G', c('DIQ010', 'DIQ050'), data=diq_f)
+diq_f <- nhanesTranslate('DIQ_G', 'DIQ010', data=diq_f)
 kiq_u_f <- nhanesTranslate('KIQ_U_G', c('KIQ022'), data=kiq_u_f)
 bpq_f <- nhanesTranslate('BPQ_G', 'BPQ020', data=bpq_f)
 paq_f <- nhanesTranslate('PAQ_G', 'PAQ665', data = paq_f)
@@ -236,13 +232,13 @@ comb5 <- merge(comb4, bpq_f)
 comb6 <- merge(comb5, paq_f)
 comb7 <- merge(comb6, alq_f)
 comb8 <- merge(comb7, dr1tot_f)
-select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020', 'DIQ010', 'DIQ050', 'KIQ022', 'BMXBMI', 'PAQ665', 'ALQ101', 'DBD100', 'DR1TPOTA')
+select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020', 'DIQ010', 'KIQ022', 'BMXBMI', 'PAQ665', 'ALQ101', 'DBD100', 'DR1TPOTA')
 comb_data <- comb8 %>% dplyr::select(all_of(select_cols))
 ```
 
 ```{r}
 #Another way to join data
-select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020', 'DIQ010', 'DIQ050', 'KIQ022', 'BMXBMI', 'PAQ665','ALQ101', 'DRQSPREP', 'DR1TPOTA')
+select_cols <- c('BPQ020','RIAGENDR', 'RIDAGEYR', 'RIDRETH1', 'SMQ020', 'DIQ010', 'KIQ022', 'BMXBMI', 'PAQ665','ALQ101', 'DRQSPREP', 'DR1TPOTA')
 data_11 <- Reduce(merge, list(demo_f, smq_f, diq_f, kiq_u_f, bmx_f, bpq_f, paq_f, alq_f,dr1tot_f))
 data_11 <- data_11 %>% dplyr::select(all_of(select_cols))
 head(data_11)
@@ -264,7 +260,6 @@ levels(data_11$BPQ020) #need to remove dont knows
 levels(data_11$RIDRETH1) #dont need to fix anything
 levels(data_11$SMQ020) #need to remove dont knows 
 levels(data_11$DIQ010) #need to remove dont knows 
-levels(data$DIQ050) #dont need to remove dont knows
 levels(data_11$KIQ022) #need to remove dont knows
 levels(data_11$DRQSPREP) #need to remove dont knows
 levels(data_11$ALQ101) #need to remove dont knows
@@ -279,7 +274,6 @@ data_11 <- data_11 %>% rename(Hypertension = BPQ020,
                         Race = RIDRETH1,
                         Smoking = SMQ020,
                         Diabetes = DIQ010,
-                        Insulin = DIQ050,
                         KidneyF = KIQ022,
                         BMI = BMXBMI,
                         PhysActivity = PAQ665,
