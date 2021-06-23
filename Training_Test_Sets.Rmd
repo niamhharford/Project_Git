@@ -21,7 +21,7 @@ suppressMessages(library(sjPlot))
 suppressMessages(library(sjlabelled))
 suppressMessages(library(sjmisc))
 suppressMessages(library(randomForest))
-suppressMessages(library(nnet))
+suppressMessages(library(nnet)) 
 suppressMessages(library(DALEX))
 ```
 
@@ -58,18 +58,18 @@ set.seed(123)
 
 
 Train$Hypertension <- factor(ifelse(Train$Hypertension == "Yes", 1 ,0))
-
+Test$Hypertension <- factor(ifelse(Test$Hypertension == "Yes", 1 ,0))
 
 
 f1 <-glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Diabetes + 
-            Insulin + KidneyF + PhysActivity + Alcohol + Salt +
+            KidneyF + PhysActivity + Alcohol + Salt +
             Potassium, data=Train, family = binomial())
  
 
 f2 <- randomForest(Hypertension ~ .,Train, importance = T)
 
 
-f3 <- nnet(Hypertension ~ ., Train, size = 10)
+f3 <- nnet(Hypertension ~ ., Train, size = 6)
 
 hypn <- as.numeric(Train$Hypertension)-1
 ex_log <- DALEX::explain(f1, data = Train, y = hypn)
@@ -89,13 +89,13 @@ model_performance(ex_nn)
 plot(model_performance(ex_rf),model_performance(ex_log), model_performance(ex_nn), geom = "roc") 
 ```
 
-```{r,eval=FALSE}
+```{r}
 # Test Errors
 
 # Logistic Regression
 
-pred1 <- predict(f1, Test, type="class")
-pred1 <- factor(ifelse(pred1 < .5, "No", "Yes"))
+pred1 <- predict(f1, Test, type="response")
+pred1 <- factor(ifelse(pred1 < .5, 0,1))
 tab1 <- table(Test$Hypertension, pred1)
 tab1
 
@@ -107,11 +107,11 @@ mean(pred1 != Test$Hypertension)*100 # test error
 # Random Forest
 
 # Training error
-preda <- predict(f2, Train)$class
+preda <- predict(f2, Train, type = "class")
 mean(preda != Train$Hypertension)*100 # training error
 
 # Test error
-predb <- predict(f2, Test)$class
+predb <- predict(f2, Test, type = "class")
 mean(predb != Test$Hypertension)*100
 
 
@@ -119,28 +119,29 @@ mean(predb != Test$Hypertension)*100
 # Neural Network 
 
 # Training Data
-pred <- predict(f3, Train, type="class")
+
+pred <- factor(ifelse(predict(f3, Train, type = c("raw","class")) > 0.5,1,0))
 tab2 <- table(pred, Train$Hypertension)
 tab2
 
 
-# Nurea Network training Error rate
+
+# Neural Network training Error rate
 (tab2[1]+tab2[4]) / sum(tab2) *100 # around 25-27%
 
 
 
 # Test Data
-pred <- predict(f3, Test,type="class")
-tab3 <- table(pred, Test$Hypertension)
+
+pred1 <- factor(ifelse(predict(f3, Test, type =c("raw","class")) > 0.5,1,0))
+tab3 <- table(pred1, Test$Hypertension)
 tab3
-
-
 # Neural Network test Error rate
-(tab3[1]+tab3[4]) / sum(tab3) *100 # ~26-27%
+(tab3[2]+tab3[3]) / sum(tab3) *100 # ~25-27%
 
 
 
-
+# CVpredict(f3)
 ```
 
 
@@ -223,6 +224,8 @@ precision *100 # ~78%
 accuracy <- (tab3[2,1]+tab3[1,2])/sum(tab3)
 accuracy *100
 
+
+
 ```
 
 
@@ -259,6 +262,14 @@ plot(perf,main="ROC Curve for Logistic Regression 1",col=2,lwd=2)
 abline(a=0,b=1,lwd=2,lty=2,col="gray")
 auc <- performance(pred,"auc")
 str(auc) #AUC value
+```
+
+
+```{r}
+citation(package = "sjPlot")
+citation(package = "DALEX")
+citation(package = "nhanesA")
+citation(package = "condvis2")
 ```
 
 
