@@ -27,7 +27,6 @@ sum(data_11 %>%
             count_race = sum(is.na(Race)),
             count_smoke20 = sum(is.na(Smoking)),
             count_diabetes10 = sum(is.na(Diabetes)),
-            count_diabetes50 = sum(is.na(Insulin)),
             count_kidney = sum(is.na(KidneyF)),
             count_bmi = sum(is.na(BMI)),
             count_activity = sum(is.na(PhysActivity)),
@@ -36,6 +35,8 @@ sum(data_11 %>%
             count_potassium = sum(is.na(Potassium))))
 
 #1712 missing in total
+
+nrow(data_11)
 ```
 
 
@@ -67,7 +68,6 @@ table(data_11a$Hypertension)
 
 data_11a$Smoking <- relevel(data_11a$Smoking, "No")
 data_11a$Diabetes <- relevel(data_11a$Diabetes, "No")
-data_11a$Insulin <- relevel(data_11a$Insulin, "No")
 data_11a$KidneyF <- relevel(data_11a$KidneyF, "No")
 data_11a$PhysActivity <- relevel(data_11a$PhysActivity, "No")
 data_11a$Alcohol <- relevel(data_11a$Alcohol, "No")
@@ -89,7 +89,6 @@ sum(data_11a %>%
             count_race = sum(is.na(Race)),
             count_smoke20 = sum(is.na(Smoking)),
             count_diabetes10 = sum(is.na(Diabetes)),
-            count_diabetes50 = sum(is.na(Insulin)),
             count_kidney = sum(is.na(KidneyF)),
             count_bmi = sum(is.na(BMI)),
             count_activity = sum(is.na(PhysActivity)),

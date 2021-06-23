@@ -26,7 +26,6 @@ all_dat %>%
             count_race = sum(is.na(Race)),
             count_smoke20 = sum(is.na(Smoking)),
             count_diabetes10 = sum(is.na(Diabetes)),
-            count_diabetes50 = sum(is.na(Insulin)),
             count_kidney = sum(is.na(KidneyF)),
             count_bmi = sum(is.na(BMI)),
             count_activity = sum(is.na(PhysActivity)),
@@ -43,7 +42,7 @@ all_dat %>%
 #removing refused response for the smoking variable (2 observations)
 
 hyp <- all_dat %>% filter(Hypertension != "Don't know") %>% filter(Smoking != "Don't know") %>%
-  filter(Diabetes != "Don't know") %>% filter(Insulin != "Don't know") %>% 
+  filter(Diabetes != "Don't know")  %>% 
   filter(KidneyF != "Don't know") %>% filter(Salt != "Don't know") %>%
   filter(Alcohol != "Don't know") %>% filter(PhysActivity != "Don't know") %>%
   filter(Smoking != "Refused")
@@ -57,7 +56,6 @@ hyp <- hyp %>% droplevels()
 levels(hyp$Hypertension)
 levels(hyp$Smoking)
 levels(hyp$Diabetes)
-levels(hyp$Insulin)
 levels(hyp$KidneyF)
 levels(hyp$Salt)
 levels(hyp$PhysActivity)
@@ -74,20 +72,19 @@ load("hyp.RData")
 ```{r}
 #Count how much Na values in each variable
 
-hyp %>%
+sum(hyp %>%
   summarise(count_hyp = sum(is.na(Hypertension)),
             count_gender = sum(is.na(Gender)),
             count_age = sum(is.na(Age)),
             count_race = sum(is.na(Race)),
             count_smoke20 = sum(is.na(Smoking)),
             count_diabetes10 = sum(is.na(Diabetes)),
-            count_diabetes50 = sum(is.na(Insulin)),
             count_kidney = sum(is.na(KidneyF)),
             count_bmi = sum(is.na(BMI)),
             count_activity = sum(is.na(PhysActivity)),
             count_alcohol = sum(is.na(Alcohol)),
             count_salt = sum(is.na(Salt)),
-            count_potassium = sum(is.na(Potassium)))
+            count_potassium = sum(is.na(Potassium))))
 
 # 45 missing values in total
 ```
@@ -105,28 +102,33 @@ nrow(all_dat1)
 
 ```{r}
 nrow(hyp)
-#4667
+#4669
 hyp1 <- na.omit(hyp)
 nrow(hyp1)
-#4622
+#4624
 ```
 
 
 There seems to be no major difference between the two datasets (hyp, with levels altered and all_dat) when I omit the NA values
 
 
-```{r, eval=FALSE}
-#Save the file locally
-save(hyp1, file = "hyp1.RData")
-load("hyp1.RData")
-```
 
 ```{r}
 glimpse(hyp1)
 ```
 
 
+```{r}
+levels(hyp1$Race)
+levels(hyp1$Race) <- c("Mexican American", "Other Hispanic", "Non-Hispanic White","Non-Hispanic Black", "Other Race")
+levels(hyp1$Race)
+```
 
+```{r, eval=FALSE}
+#Save the file locally
+save(hyp1, file = "hyp1.RData")
+load("hyp1.RData")
+```
 
 
 ```{r}
