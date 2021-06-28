@@ -89,6 +89,8 @@ model_performance(ex_nn)
 plot(model_performance(ex_rf),model_performance(ex_log), model_performance(ex_nn), geom = "roc") 
 ```
 
+
+
 ```{r}
 # Test Errors
 
