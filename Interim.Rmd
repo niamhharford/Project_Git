@@ -213,30 +213,36 @@ ex_nn <- explain(model_nn, data = data_11a, y = hypn)
 plot_model(f4, vline.color = "black", sort.est = TRUE,colors = "Accent")
 ```
 
-``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Logistic regression response for age, bmi and potassium, showing the affect of gender\\label{fig:hist2}"}
+The partial dependence plot (figure \ref{fig:hist2}) for the logistic regression model reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension continues to increase for a one unit increase in BMI for females, however, from figure \ref{fig:hist2} it is evident there is a sharp decrease in the prediction of hypertension for males when BMI reaches roughly 40. Potassium appears to have a steady, however minor decrease in the prediction for hypertension for both genders.
+
+``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Partial dependence plot for the logistic regression response for age, bmi and potassium, showing the effect of gender\\label{fig:hist2}"}
 plot(model_profile(ex_log,groups="Gender")) + ggtitle("Response for Logistic Regression") + theme(plot.title = element_text(size = 12, face = "bold"))
 ```
 
-## 3.2 Random Forest{#resultsrf}
 
 
+## 3.2. Random Forest{#resultsrf}
+
+Similarly,the partial dependence plot for the random forest model (figure \ref{fig:hist3}) reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension here continues to increase for a one unit increase in BMI for both females and males. The increasing trend for BMI begins to level off around BMI of 50. Potassium appears to have a comparable trend here to the logistic regression model, the predictions for hypertension for both genders level off.
 
 
-
-
-
-``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Random forest response for age, bmi and potassium, showing the affect of gender\\label{fig:hist3}"}
+``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Random forest response for age, bmi and potassium, showing the effect of gender\\label{fig:hist3}"}
 plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Random Forest") +theme(plot.title = element_text(size = 12, face = "bold"))
 ```
 
+## 3.3. Neural Network{#resultsnn}
 
-``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Neural network response for age, bmi and potassium, showing the affect of gender\\label{fig:hist4}"}
+The results for the neural network are not very informative. The partial dependence plots for the neural network model (figure \ref{fig:hist4}) all show the same trend. Age, BMI and Potassium appear to have no trend as all lines appesr to be level for both genders. This model will need futher improvement.
+
+``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Neural network response for age, bmi and potassium, showing the effect of gender\\label{fig:hist4}"}
 plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 12, face = "bold"))
 ```
+## 3.4. ROC Curve and AUC{#roc}
 
+The random forest model was the most accurate model. Figure \ref{fig:hist5} shows how well the random forest model is fit. The logistic regression model has also performed well. The ROC curve shows the logistic regression model is quite satisfactory. The neural network model shows very little accuracy and appears to be a poor fit for the data. Table 
 
-``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="ROC curve for all models\\label{fig:hist5}"}
-plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn), geom = "roc") 
+``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="ROC curve for all models\\label{fig:hist5}"}
+plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn), geom = "roc")+ theme(plot.title = element_text(size = 12, face = "bold")) 
 ```
 
 
@@ -338,6 +344,17 @@ grid.draw(g)
 
 ```
 
+## 3.5. Confusion Matrix{#confmatrix}
+
+
+```{r, echo = F}
+Model = factor(c("Logistic Regression","Random Forest", "Neural Network"))
+Error_Rate = c(25.82,27.01,"NA atm")
+data=data.frame(Model,Error_Rate)
+
+kable(data, "latex", booktabs=TRUE, linesep="", caption="Test Error Rate\\label{tbl:data}") %>%
+    kable_styling(latex_options=c("HOLD_position"))
+```
 
 
 
@@ -369,7 +386,7 @@ https://www.sciencedirect.com/science/article/abs/pii/S095741741830352X?via%3Dih
 My future plans for this project is to further train the neural network and random forest models and produce the best fit model I can for both of these models. I plan to further evaluate all model fits using the test set. Finally I will reach a conclusion as to which model will best predict hypertension and determine what of the variables used in these models are most responsible for contributing to the cause of hypertension.
 </body>
 
-\bigskip 
+\pagebreak
 
 # References{#ref}
 
