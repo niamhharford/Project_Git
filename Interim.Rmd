@@ -34,47 +34,47 @@ h1,h5{
 
 \newpage
 \pagenumbering{arabic}
-<h1>**1. Introduction**</h1>
+# 1. Introduction{#intro}
 <body>
 The title of my thesis is "Predicting Hypertension". For this project I will be using data that is available from the the National Health and Nutrition Examination Survey (NHANES). I plan to examine which variables have the most significant contribution in causing hypertension. Further to this I hope to determine which model is the most appropriate model to predict hypertension. Studies like this can help establish leading causes of hypertension and thus can contribute to preventing extensive occurrences of hypertension cases in addition to potential knock-on effects that comprehensive hypertension can go on to cause, by offering useful advise in maintaining healthy blood pressure measures.
 </body>
 
 
 <body>
-<h2>**1.1. Hypertension**</h2>
+## 1.1. Hypertension{#hyper}
 
-Results publishing in 1998 from the NHANES indicated that roughly 50 million adults in America were diagnosed with hypertension, which was defined to be a systolic blood pressure that is greater than 139 mm Hg or a diastolic blood pressure that is greater than 89 mm Hg (Kulkarni et al.,1998). Hypertension is an important condition that commonly leads to many serious illnesses including stroke and heart disease (Sakr et al., 2018), furthermore it is described as a common, chronic, age-related disorder, which entails severe cardiovascular and kidney complications (Staessen, Wang, Bianchi and Birkenhäger, 2003). It mainly arises as a complex quantitative characteristic that is affected by varying relationships of genetic and environmental factors, whereby these characteristics have turned out to be extremely harmful habits that have caused weakened heart function due to increased blood pressure (Staessen, Wang, Bianchi and Birkenhäger, 2003). There are many factors that may contribute to the permanent rise of blood pressure and it can more than often be a result of many factors working in combination with each other. Hypertension prevalence has been seen to rise with age, disregarding both the type of blood pressure measurement and the operative thresholds used for diagnosis (Staessen, Wang, Bianchi and Birkenhäger, 2003). There are many other characteristics to consider as contributing factors to hypertension as age increases. There are many habits for example exercise that as people get older, they may refrain from. The American Heart Association have stated that the estimates for hypertension prevalence are comparable between both men and women, are highest among African Americans where 44% of people surveyed that had hypertension were African American, and showed that only 53% of all hypertensive adults have their blood pressure under some control (Go et al., 2013). This statement highlights how the different racial groups may have an effect of the prevalence of hypertension, which association may not have been initially considered. An interesting statistic has revealed that hypertension is considered in the group of risk factors for cardiovascular disease that caused up to 17.7 million deaths around the world in 2015 alone (López-Martínez et al, 2020). This figure reveals how serious hypertension is to our health and the effect it can potentially have on all life if blood pressure measures are not monitored and controlled.
+Results published in 1998 from the NHANES indicated that roughly 50 million adults in America were diagnosed with hypertension, which was defined to be a systolic blood pressure that is greater than 139 mm Hg or a diastolic blood pressure that is greater than 89 mm Hg (Kulkarni et al.,1998). Hypertension is an important condition that commonly leads to many serious illnesses including stroke and heart disease (Sakr et al., 2018), furthermore it is described as a common, chronic, age-related disorder, which entails severe cardiovascular and kidney complications (Staessen, Wang, Bianchi and Birkenhäger, 2003). It mainly arises as a complex quantitative characteristic that is affected by varying relationships of genetic and environmental factors, whereby these characteristics have turned out to be extremely harmful habits that have caused weakened heart function due to increased blood pressure (Staessen, Wang, Bianchi and Birkenhäger, 2003). There are many factors that may contribute to the permanent rise of blood pressure and it can more than often be a result of many factors working in combination with each other. Hypertension prevalence has been seen to rise with age, disregarding both the type of blood pressure measurement and the operative thresholds used for diagnosis (Staessen, Wang, Bianchi and Birkenhäger, 2003). There are many other characteristics to consider as contributing factors to hypertension as age increases. There are many habits for example exercise that as people get older, they may refrain from. The American Heart Association have stated that the estimates for hypertension prevalence are comparable between both men and women, are highest among African Americans where 44% of people surveyed that had hypertension were African American, and showed that only 53% of all hypertensive adults have their blood pressure under some control (Go et al., 2013). This statement highlights how the different racial groups may have an effect of the prevalence of hypertension, which association may not have been initially considered. An interesting statistic has revealed that hypertension is considered in the group of risk factors for cardiovascular disease that caused up to 17.7 million deaths around the world in 2015 alone (López-Martínez et al, 2020). This figure reveals how serious hypertension is to our health and the effect it can potentially have on all life if blood pressure measures are not monitored and controlled.
 </body>  
 
 
 
 <body>
-<h3>**1.2. NHANES Data**</h3>
+## 1.2. NHANES Data{#Nhanes}
 
 The data that I will use is from the National Health and Nutrition Examination Survey, which is more simply known as NHANES. NHANES is an application of research created to evaluate the physical and nutritional status of both children and adults in America (NHANES - About the National Health and Nutrition Examination Survey, 2021). This data is published online and can be publicly accessed for extensive health related statistical analysis. The survey is distinctive in that it uses both interviews and physical assessments to examine the health of the people who are being sampled. The NHANES was first established in the early 1960s and has been ran as a number of surveys focusing on different population groups or health topics (NHANES - About the National Health and Nutrition Examination Survey, 2021). In 1999, the survey became a sustained program that has a changing focus on a variety of health and nutrition measurements to meet emerging needs (NHANES - About the National Health and Nutrition Examination Survey, 2021). NHANES surveys a nationally representative sample of about 5,000 persons annually (NHANES - About the National Health and Nutrition Examination Survey, 2021). The NHANES interview includes many components in particular demographic, socioeconomic, dietary, and health-related questions. The physical assessment component consists of medical, dental, and physiological measurements, as well as laboratory tests dispensed by highly trained medical personnel (NHANES - About the National Health and Nutrition Examination Survey, 2021). During the time of 1999–2010, the NHANES subject matter was altered biannually as parts were changed, added, or removed (NHANES - About the National Health and Nutrition Examination Survey, 2021). Changes were also made to focus on new age groups, alter data collection methods, and update technologies (NHANES - About the National Health and Nutrition Examination Survey, 2021). A complex, multi-step probability sampling plan was used to choose a sample representative sample of people in America (NHANES - About the National Health and Nutrition Examination Survey, 2021). Findings from surveys such as NHANES will be used to discover the prevalence of major diseases and risk factors for diseases (NHANES - About the National Health and Nutrition Examination Survey, 2021). 
 
 
 
 
-<h4>**1.3. Literature Review**</h4>
+## 1.3. Literature Review{#litreview}
 
 <body>
 
-I thoroughly examined previous papers published that used several models to predict hypertension. Some papers focused on adopting neural network models to make some inference on hypertension, whereas other papers centered their focus on logistic regression models, to both examine classification capabilities and accuracy measures. Additionally, there were papers that used both models mentioned above along with the random forest model. Major focal points in these papers included examining training and test sets, model error rate assessment and model accuracy. López-Martínez et al. (López-Martínez et al, 2020) paper shows that their artificial neural network model improved the overall performance and accuracy of a logistic regression model proposed in a previous paper that used the same input features as López-Martínez et al. and the results were more fitting than the logistic regression to a small degree. This paper compared their results using an artificial neural network to those of a previous paper that only used a logistic regression to predict hypertension.
+I thoroughly examined previous papers published that used several models to predict hypertension. Some papers focused on adopting neural network models to make some inference on hypertension, whereas other papers centered their focus on logistic regression models, to both examine classification capabilities and accuracy measures. Additionally, there were papers that used both models mentioned above along with the random forest model. Major focal points in these papers included examining training and test sets, model error rate assessment and model accuracy. López-Martínez et al. paper shows that their artificial neural network model improved the overall performance and accuracy of a logistic regression model proposed in a previous paper that used the same input features as their paper (López-Martínez et al, 2020). The results showed that the artificial neural network was more fitting than the logistic regression to a small degree. This paper compared their results using an artificial neural network to those of a previous paper that only used a logistic regression to predict hypertension.
 
 </body>
 
-<h5>**2. Methods**</h5>
+# 2. Methods{#methods}
 
 <body>
 
 </body>
 
-<h6>**2.1. Setting Up the Data**</h6>
+## 2.1. Setting Up the Data{#setup}
 
 <body>
 
-I chose to use the 2011/2012 data as my training set to fit the model. For the test set, to evaluate model fits, I chose to use another year group, which is the 2015/2016 data. I obtained the variables that were appropriate for my analysis from the NHANES data. The initial step I carried out in RStudio to combine the data involved installing the package "nhanesA" using install.packages("nhanesA"). I then loaded the packages using library(nhanesA). Following this, I proceeded to import eight data files from the 2011-2012 data. Six of eighth files came from the questionnaire data (SMQ_G, DIQ_G, KIQ_G, BPQ_G, PAQ_G, ALQ_G), while the remaining two came from the dietary (DR1TOT_G) and examination data (BMX_G). SMQ_G contains data on smoking use, DIQ_G contains data on diabetes, KIQ_G contains data on kidney conditions, BPQ_G contains data on blood pressure and cholesterol, PAQ_G contains data on physical activity, ALQ_G contains information on alcohol use, DR1TOT_G contains data on total nutrition intake and BMX_G contains data on body measures. Along with these I also imported the data containing the demographics table (DEMO_G), which contained personal details about the candidate such as age and which ethic group they belonged to. I merged all the data together to form one data set, where I then choose eleven explanatory variables, in addition to one response variable. The explanatory variables from the NHANES data set are RIAGENDR, RIDAGEYR, RIDRETH1, SMQ020, DIQ010, KIQ022, BMXBMI, PAQ665, ALQ101, DRQSPREP and DR1TPOTA. The response variable is BPQ020, which corresponds to Hypertension. I repeated this process to obtain the same data for the 2015/2016 test set. Each variable contained a question where the participants response or measurements were recorded. Table 1 reveals a summary of what the variables were renamed and the description or question for each variable. 
+I chose to use the 2011/2012 data as my training set to fit the model. For the test set, to evaluate model fits, I chose to use another year group which is the 2015/2016 data. I obtained the variables that were appropriate for my analysis from the NHANES data, to acquire this data I used the 'nhanesA' package (Endres, 2021). Using 'nhanesA', I imported eight data files from the 2011-2012 NHANES data. Six of eighth files came from the questionnaire data (SMQ_G, DIQ_G, KIQ_G, BPQ_G, PAQ_G, ALQ_G), while the remaining two came from the dietary (DR1TOT_G) and examination data (BMX_G). SMQ_G contains data on smoking use, DIQ_G contains data on diabetes, KIQ_G contains data on kidney conditions, BPQ_G contains data on blood pressure and cholesterol, PAQ_G contains data on physical activity, ALQ_G contains information on alcohol use, DR1TOT_G contains data on total nutrition intake and BMX_G contains data on body measures. Along with these I also imported the data containing the demographics table (DEMO_G), which contained personal details about the candidate such as age and which ethic group they belonged to. I merged all the data together to form one data set, where I then choose eleven explanatory variables, in addition to one response variable. The explanatory variables from the NHANES data set are RIAGENDR, RIDAGEYR, RIDRETH1, SMQ020, DIQ010, KIQ022, BMXBMI, PAQ665, ALQ101, DRQSPREP and DR1TPOTA. The response variable is BPQ020, which corresponds to Hypertension. I repeated this process to obtain the same data for the 2015/2016 test set. Each variable contained a question where the participants response or measurements were recorded. Table 1 reveals a summary of what the variables were renamed for convenience and the description or question for each variable. 
 
  
 ```{r, include=TRUE, echo=FALSE, message=FALSE}
@@ -84,7 +84,7 @@ Files <- factor(rep(c("BPQ_G","SMQ_G", "DIQ_G", "KIQ_G", "PAQ_G", "ALQ_G", "BMX_
                       "DR1TOT_G", "DEMO_G"),c(1,1,1,1,1,1,1,2,3)))
 Variables <- factor(c("BPQ020", "SMQ020", "DIQ010", "KIQ022", "PAQ665", "ALQ101", "BMXBMI", "DRQSPREP", "DR1TPOTA", "RIAGENDR", "RIDAGEYR", "RIDRETH1"))
 Description <- factor(c("Have you ever been told that you have hypertension?",
-                      "Have you smoked more that 100 cigarettes during your lifetime?","Have you ever been tld that you have diabetes?","Have you ever been told that you have weak or failing kidneys?", "In a normal week would you do any moderate-intensity sports?","In any one year, have you had at least 12 of any type of alcoholic drinks?","Body Mass Index (kg/m**2)","How often would you be likely to add salt to your food at the table?","Potassium (mg)", "Gender", "Age in years, individuals who are 80 years of age and over are top-coded", "Race"))
+                      "Have you smoked more that 100 cigarettes during your lifetime?","Have you ever been tld that you have diabetes?","Have you ever been told that you have weak or failing kidneys?", "In a normal week would you do any moderate-intensity sports?","In any one year, have you had at least 12 of any type of alcoholic drinks?","Body Mass Index (kg/m**2)","How often would you be likely to add salt to your food at the table?","Potassium (mg)", "Gender of participants", "Age in years, individuals who are 80 years of age and over are top-coded", "Race or ethnic group of participants"))
 Renamed <- factor(c("Hypertension","Smoking","Diabetes","KidneyF","PhysActivity","Alcohol","BMI","Salt","Potassium", "Gender","Age","Race"))
 
 data=data.frame(Variables,Renamed,Description)
@@ -98,26 +98,26 @@ kable(data, "latex", booktabs=TRUE, linesep="", caption="NHANES data\\label{tbl:
 
 </body>
 
-<h6>**2.2. Data Cleaning**</h6>
+## 2.2. Data Cleaning{#dataclean}
 <body>
 
-There were 1712 and 1453 NA values existing in the 2011/2012 and 2015/2016 data sets respectively.
+I was required to clean the data, as quite often data obtained from surveys will include missing data. I discovered there were 1712 and 1453 NA values existing in the 2011/2012 and 2015/2016 data sets respectively. After fully examining the data, I determined the majority of NA values were present in the 'Don't Know' or 'Refused' levels within the variables, in which participants responded. Additionally, these two responses made interpretation quite difficult, therefore after some consideration I chose to remove these responses from the data. I then only omitted 52 and 45 NA values respective of the 2011/2012 and 2015/2016 data sets. I verifies categorical variables were notes as factors and continuous variables as numeric. I check all levels of the categorical variables and was satisfied the data was cleaned to a satisfactory degree.
 
 </body>
 
 
-<h7>**2.3. Modelling**</h7>
+## 2.3. Modelling{#model}
 
 <body>
 
 I choose to use three machine learning techniques to investigate and predict hypertension. These models included logistic regression, random forest and neural network models. I choose these models as I had the ability to use non-linear activation functions to eliminate the non-linearity of the input features. As the response variable is binary all models are quite appropriate for classification techniques.
 
-<h8>**2.4. Logistic Regression**</h8>
+### 2.3.1 Logistic Regression{#logreg}
 
 Initially, I fitted several logistic regression models. I used the function residualPlots() to examine how well each variable fit in the model. The first model I fit included all explanatory variables. Upon inspecting how well each variable fir, it was evident that two continuous variables age and BMI did not fit well. I decided to add two quadratic terms to the model on Age and BMI, while keeping the variables without this terms too. Using the function anova(), I was able to determine the model including quadratic terms was a better fit model. Following this I fit two more models to examine potential interactions with the Gender variable. The first of these models included an interaction with gender and all other variables, including the two quadratic terms. Using the function Anova(), I could see how both interactions with the quadratic terms were significant. This is where I fit the second model, with an interaction with gender and the following Age, Age^2^, BMI and BMI^2^.
 </body>
 
-<h8>**2.5. Random Forest**</h8>
+### 2.3.2 Random Forest{#rf}
 
 <body>
 I fit a random forest model with importance equals true.
@@ -125,37 +125,41 @@ I fit a random forest model with importance equals true.
 </body>
 
 
-<h8>**2.6. Neural Network**</h8>
+### 2.3.3 Neural Network{#nn}
 
 <body>
 
 </body>
 
 
-<h8>**2.7. Tuning Models**</h8>
+## 2.4. Tuning Models{#modeltune}
 
 <body>
 
 </body>
 
 
-<h8>**2.8. Comparing Models**</h8>
+## 2.5. Comparing Models{#comparemodels}
 
 <body>
-Here I will talk about the methods I am using to compare the models :
-+ Error rate
-+ ROC Curve
-+ AUC
-+ Talk about partial dependence
-+ Condvis
-
  
-Partial Dependence Equation: $\hat{g}^j _{PD} (z) = \frac{1}{n}$$\sum_{i=1}^{n}(f(\underbar{x}_i^{j|=z})$
- 
+I used several methods to compare the logistic regression, random forest and neural network models. The confusion matrix, to examine the error rate, ROC (Receiver Operating Characteristic) curve, AUC (Area Under the Curve), partial dependence plots / profiles and the 'Condvis2' package in R were all measures used to examine the accuracy of all models.\
+
+Utilising the confusion matrix, I can produce measures of model accuracy and error rates to determine the fit of all models.\
+
+The ROC curve is the plot of sensitivity versus 1-specificity. This ROC curve evaluates the accuracy of models. The ROC curve reveals the trade off between the false positive rate (FPR) and true positive fraction (TPR) as one change the criterion for positivity (Swets, 1979; Metz, 1986). The FPR is also referred to as 1-specificity and the TPR is also referred ro as sensitivity. The AUC and ROC curve work hand in hand. The AUC is another technique to evaluate the accuracy of models. The ROC curve is a more visual representation of how accurate the model is, whereas the AUC is the measure of the area under the ROC curve and will produce a figure between 0 and 1, where an AUC value of 1 reveals a model is extremely accurate. The AUC value produces a summary of the entire location of the ROC curve instead of depending on a specific operating point (Swets, 1979; Hanley and McNeill, 1982).\
+
+The partial dependence plots are utilised using the 'DALEX' package (Biecek, 2018). The main point of partial dependence profiles is to investigate how the expected value of model prediction will behave as a function of a selected explanatory variable (Biecek and Burzykowski, 2021). Partial dependence profiles are beneficial for comparisons of different models. Partial dependence profiles use the mean of ceteris-paribus profiles. Ceteris-paribus profiles displays the dependence of an instance-level prediction on any explanatory variable, therefore the partial dependence profile is estimated by the mean of the ceteris-paribus profiles for all observations from a data set (Biecek and Burzykowski, 2021). The equation for the partial dependence profile is defined below:
+
+$\hat{g}^j _{PD} (z) = \frac{1}{n}$$\sum_{i=1}^{n}f(\underbar{x}_i^{j|=z})$\
+
+
+The final method I employed to compare the three models was the 'condvis2' package (Hurley, O'Connell and Domijan, 2020). Using this package I could examine several plots to see the predicted probability of the explanatory variables.
+
 
 </body>
 
-<h9>**3. Results so Far**</h9>
+# 3. Results so Far{#results}
 
 <body>
 
@@ -219,7 +223,7 @@ plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Logistic Regr
 ```
 
 
-``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.subcap=3,fig.height=3, fig.cap="ROC curve for all models\\label{fig:hist5}"}
+``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="ROC curve for all models\\label{fig:hist5}"}
 plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn), geom = "roc") 
 ```
 
@@ -328,7 +332,7 @@ grid.draw(g)
 
 
 
-<h10>**4. Discussion and Conclusion **</h10>
+# 4. Discussion and Conclusion{#conclusion}
 
 <body>
 gvhbjknm
@@ -336,7 +340,7 @@ gvhbjknm
 
 
 
-<h10>**4.1. Future Plans**</h10>
+## 4.1. Future Plans{#future}
 
 <body>
 
@@ -345,7 +349,7 @@ My future plans for this project is to further train the neural network and rand
 
 \bigskip 
 
-<h11>**References**</h11>
+# References{#ref}
 
 <body>
 
@@ -356,10 +360,14 @@ My future plans for this project is to further train the neural network and rand
 5. López-Martínez, F., Núñez-Valdez, E., Crespo, R. and García-Díaz, V., 2020. An artificial neural network approach for predicting hypertension using NHANES data. *Scientific Reports*, 10(1).
 6. Cdc.gov. 2021. NHANES - About the National Health and Nutrition Examination Survey. [online] Available at: <https://www.cdc.gov/nchs/nhanes/about_nhanes.htm> [Accessed 31 May 2021].
 7. Kulkarni, S., O'Farrell, I., Erasi, M. and Kochar, M.S., 1998. Stress and hypertension. *WMJ: official publication of the State Medical Society of Wisconsin*, 97(11), pp.34-38.
-8. Lüdecke D (2021). _sjPlot: Data Visualization for Statistics in Social Science_. R package version 2.8.7, <URL: https://CRAN.R-project.org/package=sjPlot>.
-9. Biecek P (2018). “DALEX: Explainers for Complex Predictive Models in R.” _Journal of Machine Learning Research_, *19*(84), 1-5. <URL: https://jmlr.org/papers/v19/18-416.html>.
-10. Christopher J. Endres (2021). nhanesA: NHANES Data Retrieval. R package version 0.6.5.3. https://CRAN.R-project.org/package=nhanesA
-11. Catherine Hurley, Mark OConnell and Katarina Domijan (2020). condvis2: Interactive Conditional Visualization for Supervised and Unsupervised Models in Shiny. R package version 0.1.1. https://CRAN.R-project.org/package=condvis2
+8. Swets, J.A., 1979. ROC analysis applied to the evaluation of medical imaging techniques. *Investigative radiology*, 14(2), pp.109-121.
+9. Metz, C.E., 1986. ROC methodology in radiologic imaging. *Investigative radiology*, 21(9), pp.720-733.
+10. Hanley, J.A. and McNeil, B.J., 1982. The meaning and use of the area under a receiver operating characteristic (ROC) curve. *Radiology*, 143(1), pp.29-36.
+11. Lüdecke D (2021). _sjPlot: Data Visualization for Statistics in Social Science_. R package version 2.8.7, <URL: https://CRAN.R-project.org/package=sjPlot>.
+12. Biecek, P. and Burzykowski, T., 2021. *Explanatory model analysis: explore, explain, and examine predictive model*s. CRC Press.
+12. Biecek P (2018). “DALEX: Explainers for Complex Predictive Models in R.” _Journal of Machine Learning Research_, *19*(84), 1-5. <URL: https://jmlr.org/papers/v19/18-416.html>.
+13. Christopher J. Endres (2021). nhanesA: NHANES Data Retrieval. R package version 0.6.5.3. https://CRAN.R-project.org/package=nhanesA
+14. Catherine Hurley, Mark O'Connell and Katarina Domijan (2020). condvis2: Interactive Conditional Visualization for Supervised and Unsupervised Models in Shiny. R package version 0.1.1. https://CRAN.R-project.org/package=condvis2
 
 @article{Sakr2018,
   author = {Sakr, S., Elshawi, R., Ahmed, A., Qureshi, W., Brawner, C., Keteyian, S., Blaha, M. and Al-Mallah, M},
