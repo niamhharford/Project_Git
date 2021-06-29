@@ -37,6 +37,7 @@ h1,h5{
 # 1. Introduction{#intro}
 <body>
 The title of my thesis is "Predicting Hypertension". For this project I will be using data that is available from the the National Health and Nutrition Examination Survey (NHANES). I plan to examine which variables have the most significant contribution in causing hypertension. Further to this I hope to determine which model is the most appropriate model to predict hypertension. Studies like this can help establish leading causes of hypertension and thus can contribute to preventing extensive occurrences of hypertension cases in addition to potential knock-on effects that comprehensive hypertension can go on to cause, by offering useful advise in maintaining healthy blood pressure measures.
+
 </body>
 
 
@@ -153,16 +154,21 @@ The partial dependence plots are utilised using the 'DALEX' package (Biecek, 201
 
 $\hat{g}^j _{PD} (z) = \frac{1}{n}$$\sum_{i=1}^{n}f(\underbar{x}_i^{j|=z})$\
 
+The value of the partial dependence profile for model $f()$ and explanatory variables $\underbar{x}_i^{j}$ at $z$. $z$ is fixed over the marginal distribution of $\underbar{x}$.
 
-The final method I employed to compare the three models was the 'condvis2' package (Hurley, O'Connell and Domijan, 2020). Using this package I could examine several plots to see the predicted probability of the explanatory variables.
+The final method I employed to compare the three models was the 'condvis2' package (Hurley, O'Connell and Domijan, 2020). Using this package I could examine several plots to see the predicted probability of the explanatory variables and potential interactions with other explanatory variables.
 
 
 </body>
 
-# 3. Results so Far{#results}
+# 3. Results{#results}
 
 <body>
 
+
+# 3.1 Logistic Regression{#resultslogreg}
+
+Using logistic regression models, I was able to investigate potential increases and decreases in odds ratios for hypertension across different explanatory variables. Figure \ref{fig:hist1} displays all the odds ratios of each variable. The highest odds ratio evidently belongs to Gender[Female]. This figure interprets to, the odds of having hypertension is expected to be 7 times higher for females than for males. Several predictable results displayed in figure \ref{fig:hist1}}, include increased odds of having hypertension for individuals who have kidney disease, diabetes, borderline diabetes and individuals who smoke. All levels within the Race variable are seen to have increased odds of having hypertension. The highest odds ratio for these levels with Race, was for non-hispanic black individuals. For a one unit increase in Age and BMI measures the odds of having hypertension is seen to slightly decrease for females than for males. Being physically active is also seen to decrease the odds of having hypertension. The addition of salt to food prep at the table is not seen to have a significant effect on hypertension. An unexpected result displayed in figure \ref{fig:hist1}, is Salt[Very Often] is seen to decrease the odds of having hypertension. However, it is important to note figure \ref{fig:hist1} is not a great representation for the odds ratios of Age, Age^2^, BMI and BMI^2^ and the interaction terms associated with the quadratic terms on these variables (For the future I must look at how to properly dipslay these results and interpret them correctly). 
 
 
 
@@ -203,23 +209,29 @@ ex_nn <- explain(model_nn, data = data_11a, y = hypn)
 
 ```
 
-``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="The odds ratios for the logistic regression\\label{fig:hist1}"}
+``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=4, fig.cap="The odds ratios for the logistic regression. The purple dots indicate increased odds ratios. The green dots indicate decreased odds ratios.\\label{fig:hist1}"}
 plot_model(f4, vline.color = "black", sort.est = TRUE,colors = "Accent")
 ```
 
-
 ``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Logistic regression response for age, bmi and potassium, showing the affect of gender\\label{fig:hist2}"}
-plot(model_profile(ex_log,groups="Gender")) + ggtitle("Response for Logistic Regression")
+plot(model_profile(ex_log,groups="Gender")) + ggtitle("Response for Logistic Regression") + theme(plot.title = element_text(size = 12, face = "bold"))
 ```
+
+## 3.2 Random Forest{#resultsrf}
+
+
+
+
+
 
 
 ``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Random forest response for age, bmi and potassium, showing the affect of gender\\label{fig:hist3}"}
-plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Logistic Regression")
+plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Random Forest") +theme(plot.title = element_text(size = 12, face = "bold"))
 ```
 
 
 ``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Neural network response for age, bmi and potassium, showing the affect of gender\\label{fig:hist4}"}
-plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Logistic Regression")
+plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 12, face = "bold"))
 ```
 
 
@@ -227,9 +239,8 @@ plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Logistic Regr
 plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn), geom = "roc") 
 ```
 
-AUC, Accuracy and MAD Values
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, eval=FALSE}
 
 # plot(model_profile(ex_rf, variables = c("Gender", "Race","Smoking", "Diabetes"))) + ggtitle("Response for Random Forest")
 # plot(model_profile(ex_rf, variables = c("KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Random Forest")
@@ -328,14 +339,25 @@ grid.draw(g)
 ```
 
 
-</body>
+
 
 
 
 # 4. Discussion and Conclusion{#conclusion}
 
 <body>
-gvhbjknm
+Here I will discuss the variables most important in causing hypertension
+What model is most appropriate
+Try to compare to previous papers
+
+
+https://www.sciencedirect.com/science/article/abs/pii/S095741741830352X?via%3Dihub
++ Best AUC 0.73 (95% CI [0.70–0.76]) showing fair result with the final diagnosis.
++ This model predicts correctly hypertensive individuals 73% better than a randomly selected individual.
++ According to the model Kidney disease and smoking habits do not affect odds of the outcome.
++ According to the model odds of having hypertension is higher for female individuals than for male.
++ Non-Hispanic black have higher odds of having hypertension than the rest of ethnics groups.
+
 <body/>
 
 
@@ -368,27 +390,6 @@ My future plans for this project is to further train the neural network and rand
 12. Biecek P (2018). “DALEX: Explainers for Complex Predictive Models in R.” _Journal of Machine Learning Research_, *19*(84), 1-5. <URL: https://jmlr.org/papers/v19/18-416.html>.
 13. Christopher J. Endres (2021). nhanesA: NHANES Data Retrieval. R package version 0.6.5.3. https://CRAN.R-project.org/package=nhanesA
 14. Catherine Hurley, Mark O'Connell and Katarina Domijan (2020). condvis2: Interactive Conditional Visualization for Supervised and Unsupervised Models in Shiny. R package version 0.1.1. https://CRAN.R-project.org/package=condvis2
-
-@article{Sakr2018,
-  author = {Sakr, S., Elshawi, R., Ahmed, A., Qureshi, W., Brawner, C., Keteyian, S., Blaha, M. and Al-Mallah, M},
-  title = {Using machine learning on cardiorespiratory fitness data for predicting hypertension: The Henry Ford ExercIse Testing (FIT) Project},
-  journal = {PLOS ONE},
-  volume = {13},
-  number = {4},
-  pages = {e0195344},
-  year  = {2018},
-  URL = {https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0195344#sec010}
-}
-
-@article{lopez2020,
-  author = {López-Martínez, F., Núñez-Valdez, E., Crespo, R. and García-Díaz, V},
-  title = {An artificial neural network approach for predicting hypertension using NHANES data},
-  journal = {Scientific Reports},
-  volume = {10},
-  number = {1},
-  year = {2020},
-  URL = {https://www.nature.com/articles/s41598-020-67640-z#Sec23}
-}
 
 
 
