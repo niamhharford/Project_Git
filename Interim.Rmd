@@ -64,7 +64,7 @@ The data that I will use is from the National Health and Nutrition Examination S
 I thoroughly examined previous papers published that used several models to predict hypertension. Some papers focused on adopting neural network models to make some inference on hypertension, whereas other papers centered their focus on logistic regression models, to both examine classification capabilities and accuracy measures. Additionally, there were papers that used both models mentioned above along with the random forest model. Major focal points in these papers included examining training and test sets, model error rate assessment and model accuracy. López-Martínez et al. paper shows that their artificial neural network model improved the overall performance and accuracy of a logistic regression model proposed in a previous paper that used the same input features as their paper (López-Martínez et al, 2020). The results showed that the artificial neural network was more fitting than the logistic regression to a small degree. This paper compared their results using an artificial neural network to those of a previous paper that only used a logistic regression to predict hypertension.
 
 </body>
-
+\newpage
 # 2. Methods{#methods}
 
 <body>
@@ -90,7 +90,7 @@ Renamed <- factor(c("Hypertension","Smoking","Diabetes","KidneyF","PhysActivity"
 
 data=data.frame(Variables,Renamed,Description)
 
-kable(data, "latex", booktabs=TRUE, linesep="", caption="NHANES data\\label{tbl:data}") %>%
+kable(data, "latex", booktabs=TRUE, linesep="", caption="NHANES data\\label{tbl:data0}") %>%
     kable_styling(latex_options=c("HOLD_position"))
 
 
@@ -111,17 +111,28 @@ I was required to clean the data, as quite often data obtained from surveys will
 
 <body>
 
-I choose to use three machine learning techniques to investigate and predict hypertension. These models included logistic regression, random forest and neural network models. I choose these models as I had the ability to use non-linear activation functions to eliminate the non-linearity of the input features. As the response variable is binary all models are quite appropriate for classification techniques.
+I choose to use three machine learning techniques to investigate and predict hypertension. These models included logistic regression, random forest and neural network models. I choose these models as I had the ability to use non-linear activation functions to eliminate the non-linearity of the input features. As the response variable is binary all models are quite appropriate for classification techniques.\
+
+Logistic regression models is such a model that generally deals with binary outcomes (Hall and Round, 1994). This model will always produce probabilities between 0 and 1. Logistic regression produces odds ratios, these are the probability of the event occurring to the probability of it not occurring (Hall and Round, 1994).\
+
+A random forest model (Prasad, Iverson,and Liaw, 2006; Ho, 1995) is a classification algorithm that operates by producing a large number of decision trees at both training and at testing (Sakr et al., 2018). Random forest models were created to produce accurate predictions that do not over-fit the data (Breiman 2001,
+2002). Random forest models uses bootstrap samples to construct multiple trees, although each tree is created with a randomised subset of predictors (Prasad, Iverson,and Liaw, 2006). The quantity of trees utlised in random forest models is controlled by the user, the default number of trees used is 500.\
+
+A neural network model is called a network as they can be associated with a directed acyclic graph describing how the functions are composed together. Neural network models are typically trained to treat the non-linearity of explanatory variables due to the non-linear nature of them, making the model more flexible compared to logistic regression (López-Martínez et al, 2020). Each node produced by neural networks are known as a unit. A neuron unit $u$ first takes a linear combination of the explanatory variables and applies a non-linear function $f$, called an activation function. **These are taken from your notes I need to add more and get references to this section**.
 
 ### 2.3.1 Logistic Regression{#logreg}
 
-Initially, I fitted several logistic regression models. I used the function residualPlots() to examine how well each variable fit in the model. The first model I fit included all explanatory variables. Upon inspecting how well each variable fir, it was evident that two continuous variables age and BMI did not fit well. I decided to add two quadratic terms to the model on Age and BMI, while keeping the variables without this terms too. Using the function anova(), I was able to determine the model including quadratic terms was a better fit model. Following this I fit two more models to examine potential interactions with the Gender variable. The first of these models included an interaction with gender and all other variables, including the two quadratic terms. Using the function Anova(), I could see how both interactions with the quadratic terms were significant. This is where I fit the second model, with an interaction with gender and the following Age, Age^2^, BMI and BMI^2^.
+Initially, I fitted several logistic regression models. The equation for logistic regression is defined below:
+
+$P(Y=1|X=x) = \frac{e^{\small \eta}}{1+e^{\small \eta}}$ , where ${\small \eta}$ is the systematic component of the model. Eg. ${\small \eta} = \beta_0 + \beta_1x_1 + . . . +\beta_kx_k$.\
+
+I used the function residualPlots() from the  to examine how well each variable fit in the model. The first model I fit included all explanatory variables. Upon inspecting how well each variable fir, it was evident that two continuous variables age and BMI did not fit well. I decided to add two quadratic terms to the model on Age and BMI, while keeping the variables without this terms too. Using the function anova(), I was able to determine the model including quadratic terms was a better fit model. Following this I fit two more models to examine potential interactions with the Gender variable. The first of these models included an interaction with gender and all other variables, including the two quadratic terms. Using the function Anova(), I could see how both interactions with the quadratic terms were significant. This is where I fit the second model, with an interaction with gender and the following Age, Age^2^, BMI and BMI^2^.
 </body>
 
 ### 2.3.2 Random Forest{#rf}
 
 <body>
-I fit a random forest model with importance equals true.
+I fit a random forest model with importance equals true using the 'randomForest' package (Liaw and Wiener 2002). 
 
 </body>
 
@@ -129,14 +140,14 @@ I fit a random forest model with importance equals true.
 ### 2.3.3 Neural Network{#nn}
 
 <body>
-
+I fit a neural network model with size equal to 10 using the 'nnet package' (Venables and Ripley, 2002). 
 </body>
 
 
 ## 2.4. Tuning Models{#modeltune}
 
 <body>
-
+I will complete this section following further neural network and possible random forest tuning.
 </body>
 
 
@@ -144,9 +155,9 @@ I fit a random forest model with importance equals true.
 
 <body>
  
-I used several methods to compare the logistic regression, random forest and neural network models. The confusion matrix, to examine the error rate, ROC (Receiver Operating Characteristic) curve, AUC (Area Under the Curve), partial dependence plots / profiles and the 'Condvis2' package in R were all measures used to examine the accuracy of all models.\
+I used several methods to compare the logistic regression, random forest and neural network models. The confusion matrix, to examine the error rate, ROC (Receiver Operating Characteristic) curve, AUC (Area Under the Curve), partial dependence plots / profiles and the 'condvis2' package (Hurley, O'Connell and Domijan, 2020) in R were all measures used to examine the accuracy of all models.\
 
-Utilising the confusion matrix, I can produce measures of model accuracy and error rates to determine the fit of all models.\
+Utilising the confusion matrix, I can produce measures of model accuracy and error rates to determine the fit of all models.
 
 The ROC curve is the plot of sensitivity versus 1-specificity. This ROC curve evaluates the accuracy of models. The ROC curve reveals the trade off between the false positive rate (FPR) and true positive fraction (TPR) as one change the criterion for positivity (Swets, 1979; Metz, 1986). The FPR is also referred to as 1-specificity and the TPR is also referred ro as sensitivity. The AUC and ROC curve work hand in hand. The AUC is another technique to evaluate the accuracy of models. The ROC curve is a more visual representation of how accurate the model is, whereas the AUC is the measure of the area under the ROC curve and will produce a figure between 0 and 1, where an AUC value of 1 reveals a model is extremely accurate. The AUC value produces a summary of the entire location of the ROC curve instead of depending on a specific operating point (Swets, 1979; Hanley and McNeill, 1982).\
 
@@ -154,19 +165,19 @@ The partial dependence plots are utilised using the 'DALEX' package (Biecek, 201
 
 $\hat{g}^j _{PD} (z) = \frac{1}{n}$$\sum_{i=1}^{n}f(\underbar{x}_i^{j|=z})$\
 
-The value of the partial dependence profile for model $f()$ and explanatory variables $\underbar{x}_i^{j}$ at $z$. $z$ is fixed over the marginal distribution of $\underbar{x}$.
+The value of the partial dependence profile for model $f()$ and explanatory variables $\underbar{x}_i^{j}$ at $z$. $z$ is fixed over the marginal distribution of $\underbar{x}$.\
 
 The final method I employed to compare the three models was the 'condvis2' package (Hurley, O'Connell and Domijan, 2020). Using this package I could examine several plots to see the predicted probability of the explanatory variables and potential interactions with other explanatory variables.
 
-
 </body>
 
+\newpage
 # 3. Results{#results}
 
 <body>
 
 
-# 3.1 Logistic Regression{#resultslogreg}
+## 3.1 Logistic Regression{#resultslogreg}
 
 Using logistic regression models, I was able to investigate potential increases and decreases in odds ratios for hypertension across different explanatory variables. Figure \ref{fig:hist1} displays all the odds ratios of each variable. The highest odds ratio evidently belongs to Gender[Female]. This figure interprets to, the odds of having hypertension is expected to be 7 times higher for females than for males. Several predictable results displayed in figure \ref{fig:hist1}}, include increased odds of having hypertension for individuals who have kidney disease, diabetes, borderline diabetes and individuals who smoke. All levels within the Race variable are seen to have increased odds of having hypertension. The highest odds ratio for these levels with Race, was for non-hispanic black individuals. For a one unit increase in Age and BMI measures the odds of having hypertension is seen to slightly decrease for females than for males. Being physically active is also seen to decrease the odds of having hypertension. The addition of salt to food prep at the table is not seen to have a significant effect on hypertension. An unexpected result displayed in figure \ref{fig:hist1}, is Salt[Very Often] is seen to decrease the odds of having hypertension. However, it is important to note figure \ref{fig:hist1} is not a great representation for the odds ratios of Age, Age^2^, BMI and BMI^2^ and the interaction terms associated with the quadratic terms on these variables (For the future I must look at how to properly dipslay these results and interpret them correctly). 
 
@@ -200,7 +211,7 @@ model_log1 <- f4
 
 model_rf <- randomForest(Hypertension ~ .,data_11a, importance = T)
 
-model_nn <- nnet(Hypertension ~ ., data=data_11a, size=5)
+model_nn <- nnet(Hypertension ~ ., data=data_11a, size=10)
 
 hypn <- as.numeric(data_11a$Hypertension)-1
 ex_rf <- explain(model_rf, data = data_11a, y = hypn )
@@ -216,52 +227,54 @@ plot_model(f4, vline.color = "black", sort.est = TRUE,colors = "Accent")
 The partial dependence plot (figure \ref{fig:hist2}) for the logistic regression model reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension continues to increase for a one unit increase in BMI for females, however, from figure \ref{fig:hist2} it is evident there is a sharp decrease in the prediction of hypertension for males when BMI reaches roughly 40. Potassium appears to have a steady, however minor decrease in the prediction for hypertension for both genders.
 
 ``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Partial dependence plot for the logistic regression response for age, bmi and potassium, showing the effect of gender\\label{fig:hist2}"}
-plot(model_profile(ex_log,groups="Gender")) + ggtitle("Response for Logistic Regression") + theme(plot.title = element_text(size = 12, face = "bold"))
+plot(model_profile(ex_log,groups="Gender")) + ggtitle("Response for Logistic Regression") + theme(plot.title = element_text(size = 12))
 ```
 
 
 
 ## 3.2. Random Forest{#resultsrf}
 
-Similarly,the partial dependence plot for the random forest model (figure \ref{fig:hist3}) reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension here continues to increase for a one unit increase in BMI for both females and males. The increasing trend for BMI begins to level off around BMI of 50. Potassium appears to have a comparable trend here to the logistic regression model, the predictions for hypertension for both genders level off.
+Similarly,the partial dependence plot for the random forest model (figure \ref{fig:hist3}) reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension here continues to increase for a one unit increase in BMI for both females and males. The increasing trend for BMI begins to level off around BMI of 50. Potassium appears to have a comparable trend to the logistic regression model, the predictions for hypertension for both genders level off quite rapidly.
 
-
-``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Random forest response for age, bmi and potassium, showing the effect of gender\\label{fig:hist3}"}
-plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Random Forest") +theme(plot.title = element_text(size = 12, face = "bold"))
+``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Partial dependence plot for the random forest response for age, bmi and potassium, showing the effect of gender\\label{fig:hist3}"}
+plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Random Forest") + theme(plot.title = element_text(size = 12))
 ```
+
 
 ## 3.3. Neural Network{#resultsnn}
 
-The results for the neural network are not very informative. The partial dependence plots for the neural network model (figure \ref{fig:hist4}) all show the same trend. Age, BMI and Potassium appear to have no trend as all lines appesr to be level for both genders. This model will need futher improvement.
+The results for the neural network are not very informative. The partial dependence plots for the neural network model (figure \ref{fig:hist4}) all show the same pattern. Age, BMI and Potassium appear to have no trend as all lines appear to be leveled off for both genders. This model will need further improvement.
 
-``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Neural network response for age, bmi and potassium, showing the effect of gender\\label{fig:hist4}"}
-plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 12, face = "bold"))
-```
-## 3.4. ROC Curve and AUC{#roc}
-
-The random forest model was the most accurate model. Figure \ref{fig:hist5} shows how well the random forest model is fit. The logistic regression model has also performed well. The ROC curve shows the logistic regression model is quite satisfactory. The neural network model shows very little accuracy and appears to be a poor fit for the data. Table 
-
-``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="ROC curve for all models\\label{fig:hist5}"}
-plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn), geom = "roc")+ theme(plot.title = element_text(size = 12, face = "bold")) 
+``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Partial dependence plot for the neural network response for age, bmi and potassium, showing the effect of gender\\label{fig:hist4}"}
+plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 12))
 ```
 
+## 3.4. Measures of Accuracy{#accuracy}
 
-```{r, echo=FALSE, eval=FALSE}
+The random forest model was the most accurate model. This model produced an AUC value of 0.999. Figure \ref{fig:hist5} shows how well the random forest model is fit. The random forest model had 0.994 accuracy. The logistic regression model also performed well, it produced an AUC value of 0.818. The accuracy for the logistic regression was 0.747. The ROC curve shows the logistic regression model is quite satisfactory. The neural network model shows very little accuracy and appears to be a poor fit for the data. 
 
-# plot(model_profile(ex_rf, variables = c("Gender", "Race","Smoking", "Diabetes"))) + ggtitle("Response for Random Forest")
-# plot(model_profile(ex_rf, variables = c("KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Random Forest")
-# plot(model_profile(ex_rf)) + ggtitle("Response for Random Forest")
-# plot(model_profile(ex_log, variables = c("Gender", "Race","Smoking", "Diabetes"))) + ggtitle("Response for Logistic Regression")
-# plot(model_profile(ex_log, variables = c("KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Logistic Regression")
-# plot(model_profile(ex_log)) + ggtitle("Response for Logistic Regression")
-# plot(model_profile(ex_nn, variables = c("Gender", "Race","Smoking", "Diabetes"))) + ggtitle("Response for Neural Network")
-# plot(model_profile(ex_nn, variables = c("KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Neural Network")
-# plot(model_profile(ex_nn)) + ggtitle("Response for Neural Network")
-# 
-# 
-# plot(model_profile(ex_log,groups="Gender")) + ggtitle("Response for Logistic Regression")
-# plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Random Forest")
-# plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Network")
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="ROC curve for all models\\label{fig:hist5}"}
+plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn), geom = "roc")+ theme(plot.title = element_text(size = 12)) 
+```
+
+Table 2 displays the error rate for all models. The random forest model produced the lowest test error rate at 25.82%, with the logistic regression at 27.01%. The random forest model is the better fit model.
+**(I cannot get the Neural Network error rate yet but I will)**
+
+</body>
+
+```{r, echo=FALSE, eval=FALSE, message=FALSE, warning=FALSE}
+
+plot(model_profile(ex_rf, variables = c("Gender", "Race")))  + ggtitle("Response for Random Forest")
+plot(model_profile(ex_rf, variables = c("Smoking", "Diabetes"))) + ggtitle("Response for Random Forest")
+plot(model_profile(ex_rf, variables = c("KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Random Forest")
+plot(model_profile(ex_rf)) + ggtitle("Response for Random Forest")
+plot(model_profile(ex_log, variables = c("Gender", "Race","Smoking", "Diabetes"))) + ggtitle("Response for Logistic Regression")
+plot(model_profile(ex_log, variables = c("KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Logistic Regression")
+plot(model_profile(ex_log)) + ggtitle("Response for Logistic Regression")
+plot(model_profile(ex_nn, variables = c("Gender", "Race","Smoking", "Diabetes"))) + ggtitle("Response for Neural Network")
+plot(model_profile(ex_nn, variables = c("KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Neural Network")
+plot(model_profile(ex_nn)) + ggtitle("Response for Neural Network")
+
 
 
  
@@ -272,7 +285,7 @@ plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn)
  
 
 model_performance(ex_rf)$measures$auc
-model_performance(ex_log)$measures$auc
+model_performance(ex_log)
 model_performance(ex_rf)$measures$accuracy
 model_performance(ex_log)$measures$accuracy
 mod_nn <-model_performance(ex_nn)
@@ -344,28 +357,52 @@ grid.draw(g)
 
 ```
 
-## 3.5. Confusion Matrix{#confmatrix}
-
 
 ```{r, echo = F}
 Model = factor(c("Logistic Regression","Random Forest", "Neural Network"))
 Error_Rate = c(25.82,27.01,"NA atm")
 data=data.frame(Model,Error_Rate)
 
-kable(data, "latex", booktabs=TRUE, linesep="", caption="Test Error Rate\\label{tbl:data}") %>%
+kable(data, "latex", booktabs=TRUE, linesep="", caption="Test Error Rate\\label{tbl:data1}") %>%
     kable_styling(latex_options=c("HOLD_position"))
 ```
 
 
 
 
-
-# 4. Discussion and Conclusion{#conclusion}
+\newpage
+# 4. Discussion{#diss}
 
 <body>
-Here I will discuss the variables most important in causing hypertension
-What model is most appropriate
-Try to compare to previous papers
+This project investigated 'predicting hypertension' with the implementation of three machine learning models. Each model was examined to determine the most appropriate model in predicting hypertension. The findings are considered in 4.1. Model Selection and 4.2. Variable Importance.
+</body>
+
+
+## 4.1. Model Selection{#modsel}
+
+<body>
+Similar to a previous study (Sakr et al., 2018), the random forest model has outperformed the other models by showing the best overall performance (AUC = 0.999). The model proved to be extremely accurate in predicting hypertension (accuracy = 0.994). The logistic regression model was satisfactory (AUC = 0.818), however, it was not accurate as the random forest model (accuracy = 0.747). Currently, the neural network model does not appear to be at all satisfactory. 
+</body>
+
+
+## 4.2. Variable Importance{#varimport}
+
+<body>
+
+</body>
+
+
+## 4.3. Future Work{#future}
+
+<body>
+
+My future plans for this project is to further train the neural network and random forest models and produce the best fit model I can for both of these models. I plan to further evaluate all model fits using the test set. Finally I will reach a conclusion as to which model will best predict hypertension and determine what of the variables used in these models are most responsible for contributing to the cause of hypertension.
+</body>
+
+
+# 4. Conclusion{#con}
+
+<body>
 
 
 https://www.sciencedirect.com/science/article/abs/pii/S095741741830352X?via%3Dihub
@@ -375,15 +412,6 @@ https://www.sciencedirect.com/science/article/abs/pii/S095741741830352X?via%3Dih
 + According to the model odds of having hypertension is higher for female individuals than for male.
 + Non-Hispanic black have higher odds of having hypertension than the rest of ethnics groups.
 
-<body/>
-
-
-
-## 4.1. Future Plans{#future}
-
-<body>
-
-My future plans for this project is to further train the neural network and random forest models and produce the best fit model I can for both of these models. I plan to further evaluate all model fits using the test set. Finally I will reach a conclusion as to which model will best predict hypertension and determine what of the variables used in these models are most responsible for contributing to the cause of hypertension.
 </body>
 
 \pagebreak
@@ -407,6 +435,13 @@ My future plans for this project is to further train the neural network and rand
 12. Biecek P (2018). “DALEX: Explainers for Complex Predictive Models in R.” _Journal of Machine Learning Research_, *19*(84), 1-5. <URL: https://jmlr.org/papers/v19/18-416.html>.
 13. Christopher J. Endres (2021). nhanesA: NHANES Data Retrieval. R package version 0.6.5.3. https://CRAN.R-project.org/package=nhanesA
 14. Catherine Hurley, Mark O'Connell and Katarina Domijan (2020). condvis2: Interactive Conditional Visualization for Supervised and Unsupervised Models in Shiny. R package version 0.1.1. https://CRAN.R-project.org/package=condvis2
+15. A. Liaw and M. Wiener (2002). Classification and Regression by randomForest. R News 2(3), 18--22.
+16. Venables, W. N. & Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth Edition. Springer, New York. ISBN 0-387-95457-0.
+17. Ho, T.K., 1995, August. Random decision forests. *In Proceedings of 3rd international conference on document analysis and recognition*, 1, pp. 278-282.
+18. Prasad, A.M., Iverson, L.R. and Liaw, A., 2006. Newer classification and regression tree techniques: bagging and random forests for ecological prediction. *Ecosystems*, 9(2), pp.181-199.
+19. Breiman, L., 2001. Random forests. *Machine learning*, 45(1), pp.5-32.
+20 Breiman, L., 2002. Using models to infer mechanisms. *IMS Wald Lecture*, 2, pp.59-71.
+21. Hall, G.H. and Round, A.P., 1994. Logistic regression—explanation and use. Journal of the Royal College of Physicians of London, 28(3), p.242.
 
 
 
