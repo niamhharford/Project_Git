@@ -2,13 +2,17 @@
 title: "Predicting Hypertension - Interim Report"
 author: "Niamh Harford 20251644"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-output: pdf_document
+output: 
+  pdf_document
 linestretch: 1.5
 ---
 
-{center}
-\includegraphics{logo}
-{center}
+<center>
+
+![](logo.png){width=50%}
+
+</center>
+
 
 \pagenumbering{gobble}
 \newpage 
@@ -46,9 +50,10 @@ Hypertension is a systolic blood pressure that is greater than 139 mm Hg or a di
 
 Results published in 1998 from the National Health and Nutrition Examination Survey indicated that roughly 50 million adults in America were diagnosed with hypertension (Kulkarni et al.,1998). The American Heart Association have stated that the estimates for hypertension prevalence are comparable between both men and women, were seen to be highest among African Americans where 44% of people surveyed that had hypertension were African American, and showed that only 53% of all hypertensive adults have their blood pressure under some control (Go et al., 2013). This statement highlights how the different racial groups may have an effect of the prevalence of hypertension, which association may not have been initially considered. An interesting statistic has revealed that hypertension is considered in the group of risk factors for cardiovascular disease that caused up to 17.7 million deaths around the world in 2015 alone (López-Martínez et al, 2020). This figure reveals how serious hypertension is to our health and the effect it can potentially have on all life if blood pressure measures are not monitored and controlled.\ 
 
-Machine learning techniques are commonly used to predict models. Nowadays, in medical fields there is an extensive use of machine learning based techniques to predict models (Kononenko, 2001; Deo, 2015; Obermeyer and Emanuel, 2016; Darcy, Louie and Roberts, 2016; Elshawi, Al-Mallah and Sakr, 2019), however, quite often highly trained medical personnel find it difficult to depend on such models in practice for numerous reasons. There may be several explanations as to why this is the case. Firstly, the majority of accessible predictive models often focus on certain diseases and reply upon the knowledge of highly trained medical personnel (Singal, 2013; He, Mathews, Kalloo and Hutfless, 2014; Pederson, et al, 2016; Elshawi, Al-Mallah and Sakr, 2019). Applying predictive models on immense health information systems perhaps will not perform efficiently as a result of the availability of multiple, elaborate data sources and the diverse mixture of both patients and diagnoses (Elshawi, Al-Mallah and Sakr, 2019). Secondly, the majority of models that are developed by data analysts mainly focus on the prediction accuracy as a performance metric but rarely produce a meaningful explainations of their prediction (Futoma, Morris and Lucas, 2015; Elshawi, Al-Mallah and Sakr, 2019).\  
 
-Recently, various predictive models have been developed to predict hypertension (Chang, Wang and Jiang, 2011; Abdullah, Zakaria and Mohamad, 2011; Farran,Channanath, Behbehani and Thanaraj, 2013; Elshawi, Al-Mallah and Sakr, 2019). The emphasis of these studies was to determine the best fitting model in predicting hypertension. Many papers focused on adopting neural network models to make some inference on hypertension, whereas other papers centered their focus on logistic regression models, to both examine classification capabilities and accuracy measures. Additionally, there were papers that used both models mentioned above along with the random forest model. Major focal points in these papers included examining training and test sets, model error rate assessment and model accuracy. López-Martínez et al. (2020) paper shows that their artificial neural network model improved the overall performance and accuracy of a logistic regression model proposed in a previous paper that used the same input features as their paper. The results showed that the artificial neural network was more fitting than the logistic regression to a small degree. This paper compared their results using an artificial neural network to those of a previous paper that only used a logistic regression to predict hypertension.\ 
+Machine learning (Alpaydin, 2020; Marsland, 2015) is a contemporary data analysis technique with the distinctive ability to learn and ameliorate its performance without being obviously programmed and without user instruction (Sakr et al., 2018). The principal objective of supervised machine learning classification algorithms is to provide an explanation of the dependent variable with regard to the independent variables (Sakr et al., 2018). Machine learning techniques are commonly used to predict models. Nowadays, in medical fields there is an extensive use of machine learning based techniques to predict models (Kononenko, 2001; Deo, 2015; Obermeyer and Emanuel, 2016; Darcy, Louie and Roberts, 2016; Elshawi, Al-Mallah and Sakr, 2019), however, quite often highly trained medical personnel find it difficult to depend on such models in practice for numerous reasons. There is several explanations as to why this is the case. Firstly, the majority of accessible predictive models often focus on certain diseases and reply upon the knowledge of highly trained medical personnel (Singal, 2013; He, Mathews, Kalloo and Hutfless, 2014; Pederson, et al, 2016; Elshawi, Al-Mallah and Sakr, 2019). Applying predictive models on immense health information systems perhaps will not perform efficiently as a result of the availability of multiple, elaborate data sources and the diverse mixture of both patients and diagnoses (Elshawi, Al-Mallah and Sakr, 2019). Secondly, the majority of models that are developed by data analysts mainly focus on the prediction accuracy as a performance metric but rarely produce a meaningful explainations of their prediction (Futoma, Morris and Lucas, 2015; Elshawi, Al-Mallah and Sakr, 2019).\  
+
+Recently, various predictive models have been developed to predict hypertension (Chang, Wang and Jiang, 2011; Abdullah, Zakaria and Mohamad, 2011; Farran,Channanath, Behbehani and Thanaraj, 2013; Elshawi, Al-Mallah and Sakr, 2019). The emphasis of these studies are to determine the best fitting model in predicting hypertension. Many papers focused on adopting neural network models to make some inference on hypertension, whereas other papers centered their focus on logistic regression models, to both examine classification capabilities and accuracy measures. Additionally, there were papers that used both models mentioned above along with the random forest model. Major focal points in these papers included examining training and test sets, model error rate assessment and model accuracy. López-Martínez et al. (2020) paper shows that their artificial neural network model improved the overall performance and accuracy of a logistic regression model proposed in a previous paper that used the same input features as their paper. The results showed that the artificial neural network was more fitting than the logistic regression to a small degree. This paper compared their results using an artificial neural network to those of a previous paper that only used a logistic regression to predict hypertension.\ 
 
 Predicting Hypertension can help establish leading causes of hypertension and thus can contribute to preventing extensive occurrences of hypertension cases in addition to potential knock-on effects that comprehensive hypertension can go on to cause, by offering useful advise in maintaining healthy blood pressure measures. I hypothesised that selected variables (age, gender, race, smoking, diabetes, kidney disease, BMI, physical activity, alcohol use, salt use and potassium levels) have the most significant contribution in causing hypertension. Further to this I hope to determine which model is the most appropriate model to predict hypertension.\ 
 
@@ -120,7 +125,7 @@ where ${\small \eta}$ is the systematic component of the model. Eg. ${\small \et
 I used the function residualPlots() from the 'car' package (Fox and Sanford, 2019) to examine how well each variable fit in the model. The first model I fit included all explanatory variables. Upon inspection on how well each variable fit, it was evident that two continuous variables age and BMI did not fit well. I decided to add two quadratic terms to the model on Age and BMI, while keeping all variables in the model. Using the function anova(), I determined the model including quadratic terms was a better fit model. I examined potential interactions with the Gender variable. I fit a model where Gender had an interaction with all other variables, including the two quadratic terms. Using the function Anova(), I could see how both interactions with the quadratic terms were significant. I fit a final model, where Gender had an interaction with Age, Age^2^, BMI and BMI^2^. I used anova() to determine the best model.\ 
 
 
-### 2.3.2 Random Forest{rf}
+### 2.3.2 Random Forest{#rf}
 
 A random forest model (Prasad, Iverson,and Liaw, 2006; Ho, 1995) is a classification algorithm that operates by producing a large number of decision trees at both training and at testing (Sakr et al., 2018). Random forest models were created to generate accurate predictions for a model that do not over-fit the data (Breiman 2001, 2002). Random forest models uses bootstrap samples to construct multiple trees, although each tree is created with a randomised subset of predictors (Prasad, Iverson,and Liaw, 2006). The quantity of trees utlised in random forest models is controlled by the user, the default number of trees used is 500. I fit a random forest model with importance equals true using the 'randomForest' package (Liaw and Wiener 2002).\ 
 
@@ -168,24 +173,16 @@ The value of the partial dependence profile for model $f()$ and explanatory vari
 
 ## 3.1 Logistic Regression{#resultslogreg}
 
-The logistic regression model chosen for fitting the model included two quadratic terms on the Age and BMI variable, in addition to an interaction with Gender on Age, Age^2^, BMI and BMI^2^. Using this logistic regression model, I investigated potential increases and decreases in odds ratios for hypertension across different explanatory variables. Figure \ref{fig:hist1} displays all the odds ratios for each variable. The highest odds ratio evidently belongs to Gender[Female]. This figure interprets to, the odds of having hypertension is expected to be 7 times higher for females than for males. Several predictable results displayed in figure \ref{fig:hist1}}, include increased odds of having hypertension for individuals who have kidney disease, diabetes, borderline diabetes and individuals who smoke. All levels within the Race variable are seen to have increased odds of having hypertension. The highest odds ratio for these levels with Race, was for non-hispanic black individuals. For a one unit increase in Age and BMI measures the odds of having hypertension is seen to slightly decrease for females than for males. Being physically active is also seen to decrease the odds of having hypertension. The addition of salt to food prep at the table is not seen to have a significant effect on hypertension. An unexpected result displayed in figure \ref{fig:hist1}, is Salt[Very Often], which is seen to decrease the odds of having hypertension. However, it is important to note figure \ref{fig:hist1} is not a great representation for the odds ratios of Age, Age^2^, BMI and BMI^2^ and the interaction terms associated with the quadratic terms on these variables (For the future I must look at how to properly display these results and interpret them correctly). 
+The logistic regression model chosen for fitting the model included two quadratic terms on the Age and BMI variable, in addition to an interaction with Gender on Age, Age^2^, BMI and BMI^2^. Using this logistic regression model, I investigated potential increases and decreases in odds ratios for hypertension across different explanatory variables. Figure \ref{fig:hist1} displays all the odds ratios for each variable. The highest odds ratio evidently belongs to Gender[Female]. This figure interprets to, the odds of having hypertension is expected to be 7 times higher for females than for males. Several predictable results displayed in figure \ref{fig:hist1}}, include increased odds of having hypertension for individuals who have kidney disease, diabetes, borderline diabetes and individuals who smoke. All levels within the Race variable are seen to have increased odds of having hypertension. The highest odds ratio for these levels with Race, was for non-hispanic black individuals. For a one unit increase in Age and BMI measures the odds of having hypertension is seen to slightly decrease for females than for males. Being physically active is also seen to decrease the odds of having hypertension. The addition of salt to food prep at the table is not seen to have a significant effect on hypertension. An unexpected result displayed in figure \ref{fig:hist1}, is Salt[Very Often], which is seen to decrease the odds of having hypertension. However, it is important to note figure \ref{fig:hist1} is not a great representation for the odds ratios of Age, Age^2^, BMI and BMI^2^ and the interaction terms associated with the quadratic terms on these variables (For the future I must look at how to properly display these results and interpret them correctly).\  
 
 
 
-```{r, echo = F, results='hide', fig.height=4}
+```{r, echo = F, results='hide'}
 suppressMessages(library(sjPlot))
 suppressMessages(library(gridExtra))
 suppressMessages(library(grid))
 suppressMessages(library(gtable))
 suppressMessages(library(ggplot2))
-load("Data/data1_11a.RData") 
-
-data_11a$Hypertension <-factor(ifelse(data_11a$Hypertension == "Yes", 1 ,0))
-
-f4 <-glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Diabetes + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
-
-
-set.seed(123)
 suppressMessages(library(randomForest))
 suppressMessages(library(e1071))
 suppressMessages(library(DALEX))
@@ -194,56 +191,74 @@ suppressMessages(library(nnet))
 suppressMessages(library(neuralnet))
 suppressMessages(library(devtools))
 suppressMessages(source_url('https://gist.githubusercontent.com/fawda123/7471137/raw/466c1474d0a505ff044412703516c34f1a4684a5/nnet_plot_update.r'))
+load("Data/data1_11a.RData") 
+
+data_11a$Hypertension <-factor(ifelse(data_11a$Hypertension == "Yes", 1 ,0))
+
+f4 <-glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Diabetes + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
+
+
+set.seed(123)
+
 
 
 model_log1 <- f4
 
-model_rf <- randomForest(Hypertension ~ .,data_11a, importance = T)
+model_rf <- randomForest(Hypertension ~ .,data_11a, mtry = 2,importance = T)
 
-model_nn <- nnet(Hypertension ~ ., data=data_11a, size=10)
+model_nn <- nnet(Hypertension ~ ., data_11a, size = 1, decay = 0.5)
+
 
 hypn <- as.numeric(data_11a$Hypertension)-1
-ex_rf <- explain(model_rf, data = data_11a, y = hypn )
-ex_log <- explain(model_log1, data = data_11a, y = hypn)
-ex_nn <- explain(model_nn, data = data_11a, y = hypn)
+ex_rf <- explain(model_rf, data = data_11a, y = hypn, type = "classification")
+ex_log <- explain(model_log1, data = data_11a, y = hypn, type = "classification")
+ex_nn <- explain(model_nn, data = data_11a, y = hypn, type = "classification")
 
 ```
 
-``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=4, fig.cap="The odds ratios for the logistic regression. The purple dots indicate increased odds ratios. The green dots indicate decreased odds ratios.\\label{fig:hist1}"}
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="The odds ratios for the logistic regression. The purple dots indicate increased odds ratios. The green dots indicate decreased odds ratios.\\label{fig:hist1}",fig.show='hold'}
 plot_model(f4, vline.color = "black", sort.est = TRUE,colors = "Accent")
 ```
 
-The partial dependence plot (figure \ref{fig:hist2}) for the logistic regression model reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension continues to increase for a one unit increase in BMI for females, however, from figure \ref{fig:hist2} it is evident there is a sharp decrease in the prediction of hypertension for males when BMI reaches roughly 40. Potassium appears to have a steady, however minor decrease in the prediction for hypertension for both genders.
+\pagebreak
 
-``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Partial dependence plot for the logistic regression response for age, bmi and potassium, showing the effect of gender\\label{fig:hist2}"}
-plot(model_profile(ex_log,groups="Gender")) + ggtitle("Response for Logistic Regression") + theme(plot.title = element_text(size = 12))
+The partial dependence plot (figure \ref{fig:hist2}) for the logistic regression model reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension continues to increase for a one unit increase in BMI for females, however, from figure \ref{fig:hist2} it is evident there is a sharp decrease in the prediction of hypertension for males when BMI reaches roughly 40. Potassium appears to have a steady, however minor decrease in the prediction for hypertension for both genders.\ 
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Partial dependence plot for the logistic regression response for age, bmi and potassium, showing the effect of gender\\label{fig:hist2}",fig.show='hold'}
+plot(model_profile(ex_log,groups="Gender")) + ggtitle("Response for Logistic Regression") + theme(plot.title = element_text(size = 10))
 ```
-
 
 
 ## 3.2. Random Forest{#resultsrf}
 
-Similarly,the partial dependence plot for the random forest model (figure \ref{fig:hist3}) reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension here continues to increase for a one unit increase in BMI for both females and males. The increasing trend for BMI begins to level off around BMI of 50. Potassium appears to have a comparable trend to the logistic regression model, the predictions for hypertension for both genders level off quite rapidly.
+Similarly,the partial dependence plot for the random forest model (figure \ref{fig:hist3}) reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension here continues to increase for a one unit increase in BMI for both females and males. The increasing trend for BMI begins to level off around BMI of 50. Potassium appears to have a comparable trend to the logistic regression model, the predictions for hypertension for both genders level off quite rapidly.\ 
 
-``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Partial dependence plot for the random forest response for age, bmi and potassium, showing the effect of gender\\label{fig:hist3}"}
-plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Random Forest") + theme(plot.title = element_text(size = 12))
+\pagebreak
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Partial dependence plot for the random forest response for age, bmi and potassium, showing the effect of gender\\label{fig:hist3}",fig.show='hold'}
+plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Random Forest") + theme(plot.title = element_text(size = 10))
 ```
 
 
 ## 3.3. Neural Network{#resultsnn}
 
-The results for the neural network are not very informative. The partial dependence plots for the neural network model (figure \ref{fig:hist4}) all show the same pattern. Age, BMI and Potassium appear to have no trend as all lines appear to be leveled off for both genders. This model will need further improvement.
+The results for the neural network are not very informative. The partial dependence plots for the neural network model (figure \ref{fig:hist4}) all show the same pattern. Age, BMI and Potassium appear to have no trend as all lines appear to be leveled off for both genders. This model will need further improvement.\ 
 
-``````{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Partial dependence plot for the neural network response for age, bmi and potassium, showing the effect of gender\\label{fig:hist4}"}
-plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 12))
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Partial dependence plot for the neural network response for age, bmi and potassium, showing the effect of gender\\label{fig:hist4}",fig.show='hold'}
+plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 10))
 ```
+
+
 
 ## 3.4. Measures of Accuracy{#accuracy}
 
-The random forest model was the most accurate model. This model produced an AUC value of 0.999. Figure \ref{fig:hist5} shows how well the random forest model is fit. The random forest model had an accuracy of 0.994. The logistic regression model also performed well, it produced an AUC value of 0.818. The accuracy for the logistic regression was 0.747. The ROC curve shows the logistic regression model is quite satisfactory. The neural network model shows very little accuracy and appears to be a poor fit for the data. 
+The random forest model was the most accurate model. This model produced an AUC value of 0.999. Figure \ref{fig:hist5} shows how well the random forest model is fit. The random forest model had an accuracy of 0.994. The logistic regression model also performed well, it produced an AUC value of 0.818. The accuracy for the logistic regression was 0.747. The ROC curve shows the logistic regression model is quite satisfactory. The neural network model shows very little accuracy and appears to be a poor fit for the data.\  
 
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="ROC curve for all models\\label{fig:hist5}"}
-plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn), geom = "roc")+ theme(plot.title = element_text(size = 12)) 
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="ROC curve for all models\\label{fig:hist5}",fig.show='hold'}
+plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn), geom = "roc")+ theme(plot.title = element_text(size = 10)) 
 ```
 
 Table 2 displays the error rate for all models. The random forest model produced the lowest test error rate at 25.82%, with the logistic regression at 27.01%. The random forest model is the better fit model.
@@ -251,110 +266,62 @@ Table 2 displays the error rate for all models. The random forest model produced
 
 </body>
 
-```{r, echo=FALSE, eval=FALSE, message=FALSE, warning=FALSE}
-
-plot(model_profile(ex_rf, variables = c("Gender", "Race")))  + ggtitle("Response for Random Forest")
-plot(model_profile(ex_rf, variables = c("Smoking", "Diabetes"))) + ggtitle("Response for Random Forest")
-plot(model_profile(ex_rf, variables = c("KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Random Forest")
-plot(model_profile(ex_rf)) + ggtitle("Response for Random Forest")
-plot(model_profile(ex_log, variables = c("Gender", "Race","Smoking", "Diabetes"))) + ggtitle("Response for Logistic Regression")
-plot(model_profile(ex_log, variables = c("KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Logistic Regression")
-plot(model_profile(ex_log)) + ggtitle("Response for Logistic Regression")
-plot(model_profile(ex_nn, variables = c("Gender", "Race","Smoking", "Diabetes"))) + ggtitle("Response for Neural Network")
-plot(model_profile(ex_nn, variables = c("KidneyF","PhysActivity", "Alcohol", "Salt"))) + ggtitle("Response for Neural Network")
-plot(model_profile(ex_nn)) + ggtitle("Response for Neural Network")
-
-
-
- 
-
-
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 # look at model_performance and plot model_performance for nice way of getting roc and model summaries.
 
  
 
-model_performance(ex_rf)$measures$auc
-model_performance(ex_log)
-model_performance(ex_rf)$measures$accuracy
-model_performance(ex_log)$measures$accuracy
-mod_nn <-model_performance(ex_nn)
-mod_nn$measures$mad
+rf_auc <- model_performance(ex_rf)$measures$auc
+log_auc <- model_performance(ex_log)$measures$auc
+rf_acc <- model_performance(ex_rf)$measures$accuracy
+log_acc <- model_performance(ex_log)$measures$accuracy
+nn_auc <-model_performance(ex_nn)$measures$auc
+nn_acc <- model_performance(ex_nn)$measures$accuracy
+
+load("Data/hyp1.RData")
+Test <- hyp1
+Test$Hypertension <- factor(ifelse(Test$Hypertension == "Yes", 1 ,0))
+pred1 <- predict(model_log1, Test, type="response")
+pred1 <- factor(ifelse(pred1 < .5, 0,1))
+tab1 <- table(Test$Hypertension, pred1)
+log_test_testerror <- mean(pred1 != Test$Hypertension) # test error
+predb <- predict(model_rf, Test, type = "class")
+rf_test_error <- mean(predb != Test$Hypertension) #around 27%
+pred2 <- factor(ifelse(predict(model_nn, Test, type ="raw") > 0.5,1,0))
+tab3 <- table(pred2, Test$Hypertension)
+# Neural Network test Error rate
+nn_test_error <- (tab3[2]+tab3[3]) / sum(tab3) # around 25%
+
+log_test_acc <- (tab1[4]+tab1[1])/sum(tab1)
+prediction <- predict(model_rf, Test, type = "class")
+rf_test_acc <-mean(prediction == Test$Hypertension)
+nn_test_acc <- (tab3[4]+tab3[1])/sum(tab3)
 ```
 
 
 
-```{r, echo = FALSE, eval=F}
-p1<- plot_model(f4, type = "pred", terms = c("BMI"))
-p2 <- plot_model(f4, type = "pred", terms = c("BMI","Gender"))
-p3 <-plot_model(f4, type = "pred", terms = c("Age"))
-p4 <- plot_model(f4, type = "pred", terms = c("Age","Gender"))
-
-g2 <- ggplotGrob(p1)
-g3 <- ggplotGrob(p3)
-g <- rbind(g2, g3, size = "first")
-g$widths <- unit.pmax(g2$widths, g3$widths)
-grid.newpage()
-grid.draw(g)
 
 
-g2 <- ggplotGrob(p2)
-g3 <- ggplotGrob(p4)
-g <- rbind(g2, g3, size = "first")
-g$widths <- unit.pmax(g2$widths, g3$widths)
-grid.newpage()
-grid.draw(g)
-
-p5 <- plot_model(f4, type = "pred", terms = c("Potassium"))
-p6 <- plot_model(f4, type = "pred", terms = c("Smoking"))
-
-g2 <- ggplotGrob(p5)
-g3 <- ggplotGrob(p6)
-g <- rbind(g2, g3, size = "first")
-g$widths <- unit.pmax(g2$widths, g3$widths)
-grid.newpage()
-grid.draw(g)
-
-p7 <-plot_model(f4, type = "pred", terms = c("Diabetes"))
-p8 <-plot_model(f4, type = "pred", terms = c("KidneyF"))
-
-g2 <- ggplotGrob(p7)
-g3 <- ggplotGrob(p8)
-g <- rbind(g2, g3, size = "first")
-g$widths <- unit.pmax(g2$widths, g3$widths)
-grid.newpage()
-grid.draw(g)
-
-p9 <-plot_model(f4, type = "pred", terms = c("Race"))
-p10 <-plot_model(f4, type = "pred", terms = c("PhysActivity"))
-
-g2 <- ggplotGrob(p9)
-g3 <- ggplotGrob(p10)
-g <- rbind(g2, g3, size = "first")
-g$widths <- unit.pmax(g2$widths, g3$widths)
-grid.newpage()
-grid.draw(g)
-
-p11 <-plot_model(f4, type = "pred", terms = c("Alcohol"))
-p12 <-plot_model(f4, type = "pred", terms = c("Salt"))
-
-g2 <- ggplotGrob(p12)
-g3 <- ggplotGrob(p11)
-g <- rbind(g2, g3, size = "first")
-g$widths <- unit.pmax(g2$widths, g3$widths)
-grid.newpage()
-grid.draw(g)
-
-```
-
-
-```{r}
+```{r, echo=FALSE}
 Model = factor(c("Logistic Regression","Random Forest", "Neural Network"))
-Error_Rate = c(25.86,27.05, 25.86)
-AUC = c(0.816,0.8,0.818)
-data=data.frame(Model,Error_Rate,AUC)
+Training_Accuracy = c(log_acc,rf_acc,nn_acc)  %>% round(digits = 3)
+AUC = c(log_auc,rf_auc,nn_acc)  %>% round(digits = 3)
+data1=data.frame(Model,Training_Accuracy,AUC)
 
-kable(data, "latex", col.names =c("Model","Error Rate","AUC"),  booktabs=TRUE, linesep="", caption="Test Error Rate\\label{tbl:data1}") %>%
-    kable_styling(latex_options=c("HOLD_position"))
+
+kable(data1, "latex", col.names =c("Model","Training Accuracy","AUC"),  booktabs=TRUE, linesep="", caption="Training Statistics\\label{tbl:data1}") %>%
+    kable_styling(latex_options=c("HOLD_position")) 
+
+```
+
+```{r, echo=FALSE}
+
+Error_Rate = c(log_test_testerror,rf_test_error,nn_test_error)  %>% round(digits = 3)
+Test_Accuracy = c(log_test_acc,rf_test_acc,nn_test_acc)  %>% round(digits = 3)
+data2 <-data.frame(Model,Test_Accuracy,Error_Rate)
+
+kable(data2, "latex", col.names =c("Model","Test Accuracy","Test Error Rate"),  booktabs=TRUE, linesep="", caption="Test Statistics\\label{tbl:data2}") %>%
+    kable_styling(latex_options=c("HOLD_position")) 
 ```
 
 
@@ -418,41 +385,53 @@ https://www.sciencedirect.com/science/article/abs/pii/S095741741830352X?via%3Dih
 3. Staessen, J., Wang, J., Bianchi, G. and Birkenhäger, W., 2003. Essential hypertension. *The Lancet*, 361(9369), pp.1629-1641.
 4. Go, A.S., Mozaffarian, D., Roger, V.L., Benjamin, E.J., Berry, J.D., Borden, W.B., Bravata, D.M., Dai, S., Ford, E.S., Fox, C.S. and Franco, S., 2013. Heart disease and stroke statistics—2013 update: a report from the American Heart Association. *Circulation*, 127(1), pp.e6-e245.
 5. López-Martínez, F., Núñez-Valdez, E., Crespo, R. and García-Díaz, V., 2020. An artificial neural network approach for predicting hypertension using NHANES data. *Scientific Reports*, 10(1).
-6. Christopher J. Endres (2021). nhanesA: NHANES Data Retrieval. R package version 0.6.5.3. https://CRAN.R-project.org/package=nhanesA
-7. Cdc.gov. 2021. NHANES - About the National Health and Nutrition Examination Survey. [online] Available at: <https://www.cdc.gov/nchs/nhanes/about_nhanes.htm> [Accessed 31 May 2021].
-8. Hall, G.H. and Round, A.P., 1994. Logistic regression—explanation and use. Journal of the Royal College of Physicians of London, 28(3), p.242.
-9. Prasad, A.M., Iverson, L.R. and Liaw, A., 2006. Newer classification and regression tree techniques: bagging and random forests for ecological prediction. *Ecosystems*, 9(2), pp.181-199.
-10. Ho, T.K., 1995, August. Random decision forests. *In Proceedings of 3rd international conference on document analysis and recognition*, 1, pp. 278-282.
-11. Breiman, L., 2001. Random forests. *Machine learning*, 45(1), pp.5-32.
-12. Breiman, L., 2002. Using models to infer mechanisms. *IMS Wald Lecture*, 2, pp.59-71.
-13. Liaw, A. and Wiener, M. (2002). Classification and Regression by randomForest. R News 2(3), pp. 18-22.
-14. Venables, W. N. & Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth Edition. Springer, New York. ISBN 0-387-95457-0.
-15. Catherine Hurley, Mark O'Connell and Katarina Domijan (2020). condvis2: Interactive Conditional Visualization for Supervised and Unsupervised Models in Shiny. R package version 0.1.1. https://CRAN.R-project.org/package=condvis2
-16. Swets, J.A., 1979. ROC analysis applied to the evaluation of medical imaging techniques. *Investigative radiology*, 14(2), pp.109-121.
-17. Metz, C.E., 1986. ROC methodology in radiologic imaging. *Investigative radiology*, 21(9), pp.720-733.
-18. Hanley, J.A. and McNeil, B.J., 1982. The meaning and use of the area under a receiver operating characteristic (ROC) curve. *Radiology*, 143(1), pp.29-36.
-19. Biecek, P. and Burzykowski, T., 2021. *Explanatory model analysis: explore, explain, and examine predictive model*s. CRC Press.
-20. Biecek P (2018). “DALEX: Explainers for Complex Predictive Models in R.” _Journal of Machine Learning Research_, *19*(84), 1-5. <URL: https://jmlr.org/papers/v19/18-416.html>.
+6. Alpaydin, E., 2020. *Introduction to machine learning*. MIT press.
+7. Marsland, S., 2015.  *Machine learning: an algorithmic perspective*. CRC press.
+8. Kononenko, I., 2001. Machine learning for medical diagnosis: history, state of the art and perspective. *Artificial Intelligence in medicine*, 23(1), pp.89-109.
+9. Deo, R.C., 2015. Machine learning in medicine. *Circulation*, 132(20), pp.1920-1930.
+10. Obermeyer, Z. and Emanuel, E.J., 2016. Predicting the future—big data, machine learning, and clinical medicine. The New England journal of medicine, 375(13), p.1216.
+11. Darcy, A.M., Louie, A.K. and Roberts, L.W., 2016. Machine learning and the profession of medicine. Jama, 315(6), pp.551-552.
+12. Elshawi, R., Al-Mallah, M.H. and Sakr, S., 2019. On the interpretability of machine learning-based model for predicting hypertension. BMC medical informatics and decision making, 19(1), pp.1-32.
+13. Singal, A.G., Rahimi, R.S., Clark, C., Ma, Y., Cuthbert, J.A., Rockey, D.C. and Amarasingham, R., 2013. An automated model using electronic medical record data identifies patients with cirrhosis at high risk for readmission. *Clinical Gastroenterology and Hepatology*, 11(10), pp.1335-1341.
+14. He, D., Mathews, S.C., Kalloo, A.N. and Hutfless, S., 2014. Mining high-dimensional administrative claims data to predict early hospital readmissions. *Journal of the American Medical Informatics Association*, 21(2), pp.272-279.
+15. Pederson, J.L., Majumdar, S.R., Forhan, M., Johnson, J.A., McAlister, F.A. and PROACTIVE Investigators, 2016. Current depressive symptoms but not history of depression predict hospital readmission or death after discharge from medical wards: a multisite prospective cohort study. *General hospital psychiatry*, 39, pp.80-85.
+16. Futoma, J., Morris, J. and Lucas, J., 2015. A comparison of models for predicting early hospital readmissions. *Journal of biomedical informatics*, 56, pp.229-238.
+17. Chang, C.D., Wang, C.C. and Jiang, B.C., 2011. Using data mining techniques for multi-diseases prediction modeling of hypertension and hyperlipidemia by common risk factors. *Expert systems with applications*, 38(5), pp.5507-5513.
+18. Abdullah, A.A., Zakaria, Z. and Mohamad, N.F., 2011. Design and development of fuzzy expert system for diagnosis of hypertension. *Second international conference on intelligent systems, modelling and simulation*, pp. 113-117.
+19. Farran, B., Channanath, A.M., Behbehani, K. and Thanaraj, T.A., 2013. Predictive models to assess risk of type 2 diabetes, hypertension and comorbidity: machine-learning algorithms and validation using national health data from Kuwait—a cohort study. *BMJ open*, 3(5), pp.e002457.
+20. Cdc.gov. 2021. NHANES - About the National Health and Nutrition Examination Survey. [online] Available at: <https://www.cdc.gov/nchs/nhanes/about_nhanes.htm> [Accessed 31 May 2021].
+21. Christopher J. Endres (2021). nhanesA: NHANES Data Retrieval. R package version 0.6.5.3. https://CRAN.R-project.org/package=nhanesA
+22. Hall, G.H. and Round, A.P., 1994. Logistic regression—explanation and use. Journal of the Royal College of Physicians of London, 28(3), p.242.
+23. John Fox and Sanford Weisberg (2019). An {R} Companion to Applied Regression, Third Edition. Thousand Oaks CA: Sage. URL:https://socialsciences.mcmaster.ca/jfox/Books/Companion
+24. Prasad, A.M., Iverson, L.R. and Liaw, A., 2006. Newer classification and regression tree techniques: bagging and random forests for ecological prediction. *Ecosystems*, 9(2), pp.181-199.
+25. Ho, T.K., 1995, August. Random decision forests. *In Proceedings of 3rd international conference on document analysis and recognition*, 1, pp. 278-282.
+26. Breiman, L., 2001. Random forests. *Machine learning*, 45(1), pp.5-32.
+27. Breiman, L., 2002. Using models to infer mechanisms. *IMS Wald Lecture*, 2, pp.59-71.
+28. Liaw, A. and Wiener, M. (2002). Classification and Regression by randomForest. R News 2(3), pp. 18-22.
+29. Max Kuhn (2021). caret: Classification and Regression Training. R package version 6.0-88. https://CRAN.R-project.org/package=caret
+30. Venables, W. N. & Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth Edition. Springer, New York. ISBN 0-387-95457-0.
+31. Catherine Hurley, Mark O'Connell and Katarina Domijan (2020). condvis2: Interactive Conditional Visualization for Supervised and Unsupervised Models in Shiny. R package version 0.1.1. https://CRAN.R-project.org/package=condvis2
+32. Swets, J.A., 1979. ROC analysis applied to the evaluation of medical imaging techniques. *Investigative radiology*, 14(2), pp.109-121.
+33. Metz, C.E., 1986. ROC methodology in radiologic imaging. *Investigative radiology*, 21(9), pp.720-733.
+34. Hanley, J.A. and McNeil, B.J., 1982. The meaning and use of the area under a receiver operating characteristic (ROC) curve. *Radiology*, 143(1), pp.29-36.
+35. Biecek, P. and Burzykowski, T., 2021. *Explanatory model analysis: explore, explain, and examine predictive model*s. CRC Press.
+36. Biecek P (2018). “DALEX: Explainers for Complex Predictive Models in R.” _Journal of Machine Learning Research_, *19*(84), 1-5. <URL: https://jmlr.org/papers/v19/18-416.html>.
 
 
 
 
 
 
-+ Max Kuhn (2021). caret: Classification and Regression Training. R package version 6.0-88. https://CRAN.R-project.org/package=caret
-+ John Fox and Sanford Weisberg (2019). An {R} Companion to Applied Regression, Third Edition. Thousand Oaks CA: Sage. URL:https://socialsciences.mcmaster.ca/jfox/Books/Companion/
-+ Kononenko, I., 2001. Machine learning for medical diagnosis: history, state of the art and perspective. *Artificial Intelligence in medicine*, 23(1), pp.89-109.
-+ Deo, R.C., 2015. Machine learning in medicine. *Circulation*, 132(20), pp.1920-1930.
-+ Obermeyer, Z. and Emanuel, E.J., 2016. Predicting the future—big data, machine learning, and clinical medicine. The New England journal of medicine, 375(13), p.1216.
-+ Darcy, A.M., Louie, A.K. and Roberts, L.W., 2016. Machine learning and the profession of medicine. Jama, 315(6), pp.551-552.
-+ Elshawi, R., Al-Mallah, M.H. and Sakr, S., 2019. On the interpretability of machine learning-based model for predicting hypertension. BMC medical informatics and decision making, 19(1), pp.1-32.
-+ Singal, A.G., Rahimi, R.S., Clark, C., Ma, Y., Cuthbert, J.A., Rockey, D.C. and Amarasingham, R., 2013. An automated model using electronic medical record data identifies patients with cirrhosis at high risk for readmission. *Clinical Gastroenterology and Hepatology*, 11(10), pp.1335-1341.
-+ He, D., Mathews, S.C., Kalloo, A.N. and Hutfless, S., 2014. Mining high-dimensional administrative claims data to predict early hospital readmissions. *Journal of the American Medical Informatics Association*, 21(2), pp.272-279.
-+ Pederson, J.L., Majumdar, S.R., Forhan, M., Johnson, J.A., McAlister, F.A. and PROACTIVE Investigators, 2016. Current depressive symptoms but not history of depression predict hospital readmission or death after discharge from medical wards: a multisite prospective cohort study. *General hospital psychiatry*, 39, pp.80-85.
-+ Futoma, J., Morris, J. and Lucas, J., 2015. A comparison of models for predicting early hospital readmissions. *Journal of biomedical informatics*, 56, pp.229-238.
-+ Chang, C.D., Wang, C.C. and Jiang, B.C., 2011. Using data mining techniques for multi-diseases prediction modeling of hypertension and hyperlipidemia by common risk factors. *Expert systems with applications*, 38(5), pp.5507-5513.
-+ Abdullah, A.A., Zakaria, Z. and Mohamad, N.F., 2011. Design and development of fuzzy expert system for diagnosis of hypertension. *Second international conference on intelligent systems, modelling and simulation*, pp. 113-117.
-+ Farran, B., Channanath, A.M., Behbehani, K. and Thanaraj, T.A., 2013. Predictive models to assess risk of type 2 diabetes, hypertension and comorbidity: machine-learning algorithms and validation using national health data from Kuwait—a cohort study. *BMJ open*, 3(5), pp.e002457.
+
+
+
+
+
+
+
+
+
+
 
 
 </body>
