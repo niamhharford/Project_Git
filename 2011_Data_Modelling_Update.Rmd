@@ -15,6 +15,7 @@ suppressMessages(library(sjmisc))
 suppressMessages(library(MASS))
 suppressMessages(library(car))
 suppressMessages(library(arm))
+suppressMessages(library(caret))
 ```
 
 
@@ -135,20 +136,62 @@ suppressMessages(library(nnet))
 suppressMessages(library(neuralnet))
 suppressMessages(library(devtools))
 suppressMessages(source_url('https://gist.githubusercontent.com/fawda123/7471137/raw/466c1474d0a505ff044412703516c34f1a4684a5/nnet_plot_update.r'))
+```
 
 
+```{r, eval=FALSE}
+set.seed(123)
+
+fitControl <- trainControl(method = "repeatedcv", 
+                           number = 10, 
+                           repeats = 5, 
+                           classProbs = TRUE, 
+                           summaryFunction = twoClassSummary
+                           )
+
+
+nnet_grid <- expand.grid(decay = c(0.5, 0.1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6, 1e-7),                          size = c(3, 5, 10, 20))
+
+
+nnetFit <- train(Hypertension ~ ., 
+                 data = data_11a,
+                 method = "nnet",
+                 metric = "ROC",
+                 trControl = fitControl,
+                 tuneGrid = nnet_grid,
+                 verbose = FALSE)
+
+
+trellis.par.set(caretTheme())
+
+plot(nnetFit)
+ggplot(nnetFit)
+
+whichTwoPct <- tolerance(nnetFit$results, metric = "ROC", 
+                         tol = 2, maximize = TRUE)  
+cat("best model within 2 pct of best:\n")
+nnetFit$results[whichTwoPct,1:6]
+
+# size = 3, decay =0.1
+# size = 1, decay = 0.5
+
+```
+
+
+```{r}
 model_log1 <- f4
 
 model_rf <- randomForest(Hypertension ~ .,data_11a, importance = T)
 
+varImpPlot(model_rf) 
 
-model_nn <- nnet(Hypertension ~ ., data=data_11a, size=5)
+model_nn <- nnet(Hypertension ~ ., data_11a, size = 1, decay = 0.5)
 
 
 hypn <- as.numeric(data_11a$Hypertension)-1
-ex_rf <- explain(model_rf, data = data_11a, y = hypn )
-ex_log <- explain(model_log1, data = data_11a, y = hypn)
-ex_nn <- explain(model_nn, data = data_11a, y = hypn)
+ex_rf <- explain(model_rf, data = data_11a, y = hypn, type = "classification")
+ex_log <- explain(model_log1, data = data_11a, y = hypn, type = "classification")
+ex_nn <- explain(model_nn, data = data_11a, y = hypn, type = "classification")
 
 
 
@@ -202,7 +245,7 @@ plot(model_profile(ex_nn), model_profile(ex_rf), model_profile(ex_log)) + ggtitl
 ```
 
 
-```{r}
+```{r, eval = FALSE}
 library(condvis2)
 
 #Click on show probs on the shiny app. The plots are like the partial dependence plots from DALEX, except the DALEX plots are averaging curves over all observations. You can see from both DALEX and condvis2 (switch from Age to BMI in the condvis2 menu) that the glm curve decreasing for high BMIs for males is likely not a good fit and probably does not make sense
@@ -211,6 +254,85 @@ condvis(data_11a, model=list(rf=model_rf, glm=model_log1, nn =model_nn), respons
 ```
 
 
+Training and Test Sets
+
+
+```{r}
+# Load in 2011/2012 data
+load("Data/data1_11a.RData")
+
+# Load in 2015/2016 Data
+load("Data/hyp1.RData")
+```
+
+
+
+**Things to note **
+
++ 2011/2012 Data set will be my training and validation set
+
++ 2015/2016 Data set will be my test set
+
++ Training set where I am fitting the model 
+
++ Validation set where I am comparing results of the fit 
+
++ Test set is used to evaluate a model fit in the form of the test error rate
+
+
+**Setting up the data **
+
+```{r}
+# Training Data
+
+Train <- data_11a
+  
+#Test Data
+
+Test <- hyp1
+```
+
+
+
+```{r}
+set.seed(123)
+
+
+Train$Hypertension <- factor(ifelse(Train$Hypertension == "Yes", 1 ,0))
+Test$Hypertension <- factor(ifelse(Test$Hypertension == "Yes", 1 ,0))
+
+
+f1 <-glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Diabetes + 
+            KidneyF + PhysActivity + Alcohol + Salt +
+            Potassium, data=Train, family = binomial())
+ 
+
+f2 <- randomForest(Hypertension ~ .,Train, importance = T)
+
+
+f3 <- nnet(Hypertension ~ ., Train, size = 1, decay = 0.5)
+
+
+hypn <- as.numeric(Train$Hypertension)-1
+ex_log <- DALEX::explain(f1, data = Train, y = hypn, type = "classification")
+ex_rf <- DALEX::explain(f2, data = Train, y = hypn, type = "classification")
+ex_nn <-  DALEX::explain(f3, data = Train, y = hypn, type = "classification")
+
+ 
+
+
+# look at model_performance and plot model_performance for nice way of getting roc and model summaries.
+
+ 
+
+model_performance(ex_rf)
+model_performance(ex_log)
+model_performance(ex_nn)
+# model_performance(pp)
+# model_performance(pp1)
+plot(model_performance(ex_rf),model_performance(ex_log), model_performance(ex_nn), geom = "roc")
+
+```
 
 
 
