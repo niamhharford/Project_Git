@@ -22,6 +22,8 @@ linestretch: 1.5
 \newpage
 # Abstract{.unlisted .unnumbered}
 
+Don't need to include references. Summarise the problem and results on the analysis.
+
 \newpage
 
 # Acknowlegements{.unlisted .unnumbered} 
@@ -58,9 +60,9 @@ Machine learning (Alpaydin, 2020; Marsland, 2015) is a contemporary data analysi
 
 Recently, various predictive models have been developed to predict hypertension (Chang, Wang and Jiang, 2011; Abdullah, Zakaria and Mohamad, 2011; Farran,Channanath, Behbehani and Thanaraj, 2013; Elshawi, Al-Mallah and Sakr, 2019). The emphasis of these studies are to determine the best fitting model in predicting hypertension. Many papers focused on adopting neural network models to make some inference on hypertension, whereas other papers centered their focus on logistic regression models, to both examine classification capabilities and accuracy measures. Additionally, there were papers that used both models mentioned above along with the random forest model. Major focal points in these papers included examining training and test sets, model error rate assessment and model accuracy. López-Martínez et al. (2020) paper shows that their artificial neural network model improved the overall performance and accuracy of a logistic regression model proposed in a previous paper that used the same input features as their paper. The results showed that the artificial neural network was more fitting than the logistic regression to a small degree. This paper compared their results using an artificial neural network to those of a previous paper that only used a logistic regression to predict hypertension.\ 
 
-Predicting Hypertension can help establish leading causes of hypertension and thus can contribute to preventing extensive occurrences of hypertension cases in addition to potential knock-on effects that comprehensive hypertension can go on to cause, by offering useful advise in maintaining healthy blood pressure measures. I hypothesised that selected variables (age, gender, race, smoking, diabetes, kidney disease, BMI, physical activity, alcohol use, salt use and potassium levels) have the most significant contribution in causing hypertension. Further to this I hope to determine which model is the most appropriate model to predict hypertension.\ 
+Predicting hypertension can help establish leading causes of hypertension and thus can contribute to preventing extensive occurrences of hypertension cases in addition to potential knock-on effects that comprehensive hypertension can go on to cause, by offering useful advise in maintaining healthy blood pressure measures. I hypothesised that selected variables (age, gender, race, smoking, diabetes, kidney disease, BMI, physical activity, alcohol use, salt use and potassium levels) have the most significant contribution in causing hypertension. Further to this I hope to determine which model is the most appropriate model to predict hypertension.\ 
 
-The data I used is from the National Health and Nutrition Examination Survey, which is more simply known as NHANES. NHANES is an application of research created to evaluate the physical and nutritional status of both children and adults in America (NHANES - About the National Health and Nutrition Examination Survey, 2021). This data is published online and can be publicly accessed for extensive health related statistical analysis. The survey is distinctive in that it uses both interviews and physical assessments to examine the health of the particoants who are being sampled. The NHANES was first established in the early 1960s and has been ran as a number of surveys focusing on different population groups or health topics (NHANES - About the National Health and Nutrition Examination Survey, 2021). In 1999, the survey became a sustained program that has a changing focus on a variety of health and nutrition measurements to meet emerging needs (NHANES - About the National Health and Nutrition Examination Survey, 2021). NHANES surveys a nationally representative sample of about 5,000 persons annually (NHANES - About the National Health and Nutrition Examination Survey, 2021). The NHANES interview includes many components in particular demographic, socioeconomic, dietary, and health-related questions. The physical assessment component consists of medical, dental, and physiological measurements, as well as laboratory tests dispensed by highly trained medical personnel (NHANES - About the National Health and Nutrition Examination Survey, 2021). During the period of 1999 to 2010, the NHANES subject matter was altered biannually as parts were changed, added, or removed (NHANES - About the National Health and Nutrition Examination Survey, 2021). Changes were also made to focus on new age groups, alter data collection methods, and update technologies (NHANES - About the National Health and Nutrition Examination Survey, 2021). A complex, multi-step probability sampling plan was used to choose a sample representative sample of people in America (NHANES - About the National Health and Nutrition Examination Survey, 2021). Findings from surveys such as NHANES are  used to discover the prevalence of major diseases and risk factors for diseases (NHANES - About the National Health and Nutrition Examination Survey, 2021).\ 
+I will use data from the National Health and Nutrition Examination Survey, which is more simply known as NHANES. NHANES is an application of research created to evaluate the physical and nutritional status of both children and adults in America (NHANES - About the National Health and Nutrition Examination Survey, 2021). This data is published online and can be publicly accessed for extensive health related statistical analysis. The survey is distinctive in that it uses both interviews and physical assessments to examine the health of the particoants who are being sampled. The NHANES was first established in the early 1960s and has been ran as a number of surveys focusing on different population groups or health topics (NHANES - About the National Health and Nutrition Examination Survey, 2021). In 1999, the survey became a sustained program that has a changing focus on a variety of health and nutrition measurements to meet emerging needs (NHANES - About the National Health and Nutrition Examination Survey, 2021). NHANES surveys a nationally representative sample of about 5,000 persons annually (NHANES - About the National Health and Nutrition Examination Survey, 2021). The NHANES interview includes many components in particular demographic, socioeconomic, dietary, and health-related questions. The physical assessment component consists of medical, dental, and physiological measurements, as well as laboratory tests dispensed by highly trained medical personnel (NHANES - About the National Health and Nutrition Examination Survey, 2021). During the period of 1999 to 2010, the NHANES subject matter was altered biannually as parts were changed, added, or removed (NHANES - About the National Health and Nutrition Examination Survey, 2021). Changes were also made to focus on new age groups, alter data collection methods, and update technologies (NHANES - About the National Health and Nutrition Examination Survey, 2021). A complex, multi-step probability sampling plan was used to choose a sample representative sample of people in America (NHANES - About the National Health and Nutrition Examination Survey, 2021). Findings from surveys such as NHANES are  used to discover the prevalence of major diseases and risk factors for diseases (NHANES - About the National Health and Nutrition Examination Survey, 2021).\ 
 
 
 
@@ -113,12 +115,12 @@ I was required to clean the data, as quite often data obtained from surveys will
 
 <body>
 
-I choose to use three machine learning techniques to investigate and predict hypertension. These modelling techniques included logistic regression, random forest and neural network models. As the response variable is binary all models are quite appropriate for classification techniques.\ 
+I choose to use three machine learning techniques to investigate and predict hypertension. These modelling techniques are logistic regression, random forest and neural network models. As the response variable is binary all models are quite appropriate for classification techniques.\ 
 
 ### 2.3.1 Logistic Regression{#logreg}
 
 
-Logistic regression models are such models that generally deals with binary outcomes (Hall and Round, 1994). This model will always produce probabilities between 0 and 1. Logistic regression produces odds ratios, these are the probability of the event occurring to the probability of the event not occurring (Hall and Round, 1994). Initially, I fitted several logistic regression models. The equation for logistic regression is defined below:
+Logistic regression models are such models that generally deals with binary outcomes (Hall and Round, 1994). This model will always produce probabilities between 0 and 1. Logistic regression produces odds ratios, which are the ratios of the probability of the event occurring to the probability of the event not occurring (Hall and Round, 1994). Initially, I fitted several logistic regression models. The equation for logistic regression is defined below:
 
 \begin{center}
 
@@ -133,7 +135,7 @@ I used the function residualPlots() from the 'car' package (Fox and Sanford, 201
 
 ### 2.3.2 Random Forest{#rf}
 
-A random forest model (Prasad, Iverson,and Liaw, 2006; Ho, 1995) is a classification algorithm that operates by producing a large number of decision trees at both training and at testing (Sakr et al., 2018). Random forest models were created to generate accurate predictions for a model that do not over-fit the data (Breiman 2001, 2002). Random forest models uses bootstrap samples to construct multiple trees, although each tree is created with a randomised subset of predictors (Prasad, Iverson,and Liaw, 2006). The quantity of trees utlised in random forest models is controlled by the user, the default number of trees used is 500. I fit a random forest model with importance equals true using the 'randomForest' package (Liaw and Wiener 2002).\ 
+A random forest model (Prasad, Iverson and Liaw, 2006; Ho, 1995) is a classification algorithm that operates by producing a large number of decision trees at training (Sakr et al., 2018). Random forest models were created to generate accurate predictions for a model that do not over-fit the data (Breiman 2001, 2002). Random forest models uses bootstrap samples to construct multiple trees, although each tree is created with a randomised subset of predictors (Prasad, Iverson and Liaw, 2006). The quantity of trees utlised in random forest models is controlled by the user, the default number of trees used is 500. I fit a random forest model with importance equals true using the 'randomForest' package (Liaw and Wiener 2002).\ 
 
 
 ### 2.3.3 Neural Network{#nn}
@@ -161,8 +163,10 @@ This ROC curve evaluates the accuracy of models. This curve is the plot of sensi
 The partial dependence plots are produced using the 'DALEX' package (Biecek, 2018). The main point of partial dependence profiles is to investigate how the expected value of model prediction will behave as a function of a selected explanatory variable (Biecek and Burzykowski, 2021). Partial dependence profiles are beneficial for comparisons of different models. Partial dependence profiles use the mean of ceteris-paribus profiles (Biecek and Burzykowski, 2021). Ceteris-paribus profiles displays the dependence of an instance-level prediction on any explanatory variable, therefore the partial dependence profile is estimated by the mean of the ceteris-paribus profiles for all observations from a data set (Biecek and Burzykowski, 2021). The equation for the partial dependence profile is defined below:
 
 \begin{center}
+\newcommand\munderbar[1]{%
+  \underaccent{\bar}{#1}}
 
-$\hat{g}^j _{PD} (z) = \frac{1}{n}$$\sum_{i=1}^{n}f(\underbar{x}_i^{j|=z})$\
+\[\hat{g}^j _{PD} (z) = \frac{1}{n}\sum_{i=1}^{n}f(\underbar{x}_i^{j|=z})\]
 
 
 \end{center}
@@ -179,11 +183,11 @@ The value of the partial dependence profile for model $f()$ and explanatory vari
 
 ## 3.1 Logistic Regression{#resultslogreg}
 
-The logistic regression model chosen for fitting the model included two quadratic terms on the Age and BMI variable, in addition to an interaction with Gender on Age, Age^2^, BMI and BMI^2^. Using this logistic regression model, I investigated potential increases and decreases in odds ratios for hypertension across different explanatory variables. Figure \ref{fig:hist1} displays all the odds ratios for each variable. The highest odds ratio evidently belongs to Gender[Female]. This figure interprets to, the odds of having hypertension is expected to be 7 times higher for females than for males. Several predictable results displayed in figure \ref{fig:hist1}}, include increased odds of having hypertension for individuals who have kidney disease, diabetes, borderline diabetes and individuals who smoke. All levels within the Race variable are seen to have increased odds of having hypertension. The highest odds ratio for these levels with Race, was for non-hispanic black individuals. For a one unit increase in Age and BMI measures the odds of having hypertension is seen to slightly decrease for females than for males. Being physically active is also seen to decrease the odds of having hypertension. The addition of salt to food prep at the table is not seen to have a significant effect on hypertension. An unexpected result displayed in figure \ref{fig:hist1}, is Salt[Very Often], which is seen to decrease the odds of having hypertension. However, it is important to note figure \ref{fig:hist1} is not a great representation for the odds ratios of Age, Age^2^, BMI and BMI^2^ and the interaction terms associated with the quadratic terms on these variables (For the future I must look at how to properly display these results and interpret them correctly).\  
+The logistic regression model chosen for fitting the model included two quadratic terms on the Age and BMI variable, in addition to an interaction with Gender on Age, Age^2^, BMI and BMI^2^. Using this logistic regression model, I investigated potential increases and decreases in odds ratios for hypertension across different explanatory variables. Figure \ref{fig:hist1} displays all the odds ratios for each variable. The highest odds ratio evidently belongs to Gender[Female]. The odds of having hypertension is estimated to be 7 times higher for females than for males. Several predictable results displayed in figure \ref{fig:hist1}}, include increased odds of having hypertension for individuals who have kidney disease, diabetes, borderline diabetes and individuals who smoke. All levels within the Race variable are seen to have increased odds of having hypertension compared to the baseline race which was Mexican American. The highest odds ratio for these levels with Race, was for non-hispanic black individuals. For a one unit increase in Age and BMI measures the odds of having hypertension is seen to slightly decrease for females than for males. Being physically active is also seen to decrease the odds of having hypertension. The addition of salt to food prep at the table is not seen to have a significant effect on hypertension. An unexpected result displayed in figure \ref{fig:hist1}, is Salt[Very Often], which is seen to decrease the odds of having hypertension. However, it is important to note figure \ref{fig:hist1} is not a great representation for the odds ratios of Age, Age^2^, BMI and BMI^2^ and the interaction terms associated with the quadratic terms on these variables (For the future I must look at how to properly display these results and interpret them correctly).\  
 
 
 
-```{r, echo = F, results='hide'}
+```{r, echo = F, results='hide',message=FALSE, warning=FALSE}
 suppressMessages(library(sjPlot))
 suppressMessages(library(gridExtra))
 suppressMessages(library(grid))
@@ -216,10 +220,18 @@ model_nn <- nnet(Hypertension ~ ., data_11a, size = 1, decay = 0.5)
 
 
 hypn <- as.numeric(data_11a$Hypertension)-1
-ex_rf <- explain(model_rf, data = data_11a, y = hypn, type = "classification")
-ex_log <- explain(model_log1, data = data_11a, y = hypn, type = "classification")
-ex_nn <- explain(model_nn, data = data_11a, y = hypn, type = "classification")
+ex_rf <- DALEX::explain(model_rf, data = data_11a, y = hypn, type = "classification")
+ex_log <- DALEX::explain(model_log1, data = data_11a, y = hypn, type = "classification")
+ex_nn <- DALEX::explain(model_nn, data = data_11a, y = hypn, type = "classification")
 
+load("Data/hyp1.RData")
+Test <- hyp1
+Test$Hypertension <-factor(ifelse(Test$Hypertension == "Yes", 1 ,0))
+
+hypn1 <- as.numeric(Test$Hypertension)-1
+ex_log_test <- DALEX::explain(model_log1, data = Test, y = hypn1, type = "classification")
+ex_rf_test <- DALEX::explain(model_rf, data = Test, y = hypn1, type = "classification")
+ex_nn_test <-  DALEX::explain(model_nn, data = Test, y = hypn1, type = "classification")
 ```
 
 
@@ -233,7 +245,7 @@ plot_model(f4, vline.color = "black", sort.est = TRUE,colors = "Accent")
 The partial dependence plot (figure \ref{fig:hist2}) for the logistic regression model reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension continues to increase for a one unit increase in BMI for females, however, from figure \ref{fig:hist2} it is evident there is a sharp decrease in the prediction of hypertension for males when BMI reaches roughly 40. Potassium appears to have a steady, however minor decrease in the prediction for hypertension for both genders.\ 
 
 
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Partial dependence plot for the logistic regression response for age, bmi and potassium, showing the effect of gender\\label{fig:hist2}",fig.show='hold'}
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Partial dependence plot for the logistic regression response for age, bmi and potassium, for males and females separately\\label{fig:hist2}",fig.show='hold'}
 plot(model_profile(ex_log,groups="Gender")) + ggtitle("Response for Logistic Regression") + theme(plot.title = element_text(size = 10))
 ```
 
@@ -244,7 +256,7 @@ Similarly,the partial dependence plot for the random forest model (figure \ref{f
 
 \pagebreak
 
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Partial dependence plot for the random forest response for age, bmi and potassium, showing the effect of gender\\label{fig:hist3}",fig.show='hold'}
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Partial dependence plot for the random forest response for age, bmi and potassium, for males and females separately\\label{fig:hist3}",fig.show='hold'}
 plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Random Forest") + theme(plot.title = element_text(size = 10))
 ```
 
@@ -253,18 +265,16 @@ plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Random Forest
 
 The results for the neural network are not very informative. The partial dependence plots for the neural network model (figure \ref{fig:hist4}) all show the same pattern. Age, BMI and Potassium appear to have no trend as all lines appear to be leveled off for both genders. This model will need further improvement.\ 
 
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Partial dependence plot for the neural network response for age, bmi and potassium, showing the effect of gender\\label{fig:hist4}",fig.show='hold'}
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Partial dependence plot for the neural network response for age, bmi and potassium, for males and females separately\\label{fig:hist4}",fig.show='hold'}
 plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 10))
 ```
 
-
-
 ## 3.4. Measures of Accuracy{#accuracy}
 
-The random forest model was the most accurate model. This model produced an AUC value of 0.999. Figure \ref{fig:hist5} shows how well the random forest model is fit. The random forest model had an accuracy of 0.994. The logistic regression model also performed well, it produced an AUC value of 0.818. The accuracy for the logistic regression was 0.747. The ROC curve shows the logistic regression model is quite satisfactory. The neural network model shows very little accuracy and appears to be a poor fit for the data.\  
+The random forest model was the most accurate model. This model produced an AUC value of 0.999. Figure \ref{fig:hist5} shows how well the random forest model is fit. The random forest model had an accuracy of 0.994. The logistic regression model also performed well, it produced an AUC value of 0.818. The accuracy for the logistic regression was 0.747. The ROC curve shows the logistic regression model is quite satisfactory. The neural network model shows very little accuracy and appears to be a poor fit for the data. 
 
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="ROC curve for all models\\label{fig:hist5}",fig.show='hold'}
-plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn), geom = "roc")+ theme(plot.title = element_text(size = 10)) + geom_line(lwd = 1) 
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="ROC curve for all models test set\\label{fig:hist5}",fig.show='hold'}
+plot(model_performance(ex_rf_test),model_performance(ex_log_test),model_performance(ex_nn_test), geom = "roc")+ theme(plot.title = element_text(size = 10)) + geom_line(lwd = 0.8) 
 ```
 
 Table 2 displays the error rate for all models. The random forest model produced the lowest test error rate at 25.82%, with the logistic regression at 27.01%. The random forest model is the better fit model.
@@ -274,9 +284,7 @@ Table 2 displays the error rate for all models. The random forest model produced
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 # look at model_performance and plot model_performance for nice way of getting roc and model summaries.
-
  
-
 rf_auc <- model_performance(ex_rf)$measures$auc
 log_auc <- model_performance(ex_log)$measures$auc
 rf_acc <- model_performance(ex_rf)$measures$accuracy
@@ -284,24 +292,24 @@ log_acc <- model_performance(ex_log)$measures$accuracy
 nn_auc <-model_performance(ex_nn)$measures$auc
 nn_acc <- model_performance(ex_nn)$measures$accuracy
 
-load("Data/hyp1.RData")
-Test <- hyp1
-Test$Hypertension <- factor(ifelse(Test$Hypertension == "Yes", 1 ,0))
+
+rf_auc_test <- model_performance(ex_rf_test)$measures$auc
+log_auc_test <- model_performance(ex_log_test)$measures$auc
+rf_acc_test <- model_performance(ex_rf_test)$measures$accuracy
+log_acc_test <- model_performance(ex_log_test)$measures$accuracy
+nn_auc_test <-model_performance(ex_nn_test)$measures$auc
+nn_acc_test <- model_performance(ex_nn_test)$measures$accuracy
+
+
 pred1 <- predict(model_log1, Test, type="response")
 pred1 <- factor(ifelse(pred1 < .5, 0,1))
 tab1 <- table(Test$Hypertension, pred1)
-log_test_testerror <- mean(pred1 != Test$Hypertension) # test error
+log_test_error <-(tab1[2]+tab1[3]) / sum(tab1)  # test error
 predb <- predict(model_rf, Test, type = "class")
 rf_test_error <- mean(predb != Test$Hypertension) #around 27%
 pred2 <- factor(ifelse(predict(model_nn, Test, type ="raw") > 0.5,1,0))
 tab3 <- table(pred2, Test$Hypertension)
-# Neural Network test Error rate
 nn_test_error <- (tab3[2]+tab3[3]) / sum(tab3) # around 25%
-
-log_test_acc <- (tab1[4]+tab1[1])/sum(tab1)
-prediction <- predict(model_rf, Test, type = "class")
-rf_test_acc <-mean(prediction == Test$Hypertension)
-nn_test_acc <- (tab3[4]+tab3[1])/sum(tab3)
 ```
 
 
@@ -316,19 +324,19 @@ data1=data.frame(Model,Training_Accuracy,AUC)
 
 
 kable(data1, "latex", col.names =c("Model","Training Accuracy","AUC"),  booktabs=TRUE, linesep="", caption="Training Statistics\\label{tbl:data1}") %>%
-    kable_styling(latex_options=c("HOLD_position")) 
-
+    kable_styling(latex_options=c("HOLD_position"))
 ```
 
 ```{r, echo=FALSE}
+Error_Rate = c(log_test_error,rf_test_error,nn_test_error)  %>% round(digits = 3)
+Test_Accuracy = c(log_acc_test,rf_acc_test,nn_acc_test)  %>% round(digits = 3)
+AUC = c(log_auc_test,rf_auc_test,nn_auc_test)  %>% round(digits = 3)
+data2 <-data.frame(Model,Test_Accuracy,Error_Rate,AUC)
 
-Error_Rate = c(log_test_testerror,rf_test_error,nn_test_error)  %>% round(digits = 3)
-Test_Accuracy = c(log_test_acc,rf_test_acc,nn_test_acc)  %>% round(digits = 3)
-data2 <-data.frame(Model,Test_Accuracy,Error_Rate)
-
-kable(data2, "latex", col.names =c("Model","Test Accuracy","Test Error Rate"),  booktabs=TRUE, linesep="", caption="Test Statistics\\label{tbl:data2}") %>%
+kable(data2, "latex", col.names =c("Model","Test Accuracy","Test Error Rate","AUC"),  booktabs=TRUE, linesep="", caption="Test Statistics\\label{tbl:data2}") %>%
     kable_styling(latex_options=c("HOLD_position")) 
 ```
+
 
 
 
@@ -358,7 +366,7 @@ At present there are several variables that have proven to be significant in pre
 ## 4.3. Study Limitations{#limits}
 
 <body>
-
+A major limitation I encountered during this analysis was the large presence of missing values. As I gathered the data from the NHANES it was expected that missing values would be present as I personally had not conducted the survey. These missing values have potential to reduce statistical power. The loss of this data can also introduce bias in the estimation of the parameters. 
 
 </body>
 
@@ -373,24 +381,16 @@ My future plans for this project is to further train the neural network and rand
 ## 4.5. Conclusion{#con}
 
 <body>
-This analysis has further supported the findings of a previous study (), revealing that similar results for the logistic regression model. In conclusion, the logistic regression model produced an AUC of 0.818. The logistic regression model revealed the odds of having hypertension is much higher for individuals who are female than for males. The odds of having hypertension were significantly increased for non-Hispanic black individuals compared to the rest of the ethnic groups.
+This analysis has further supported the findings of a previous study (López-Martínez et al, 2018), revealing similar results for the logistic regression model. In conclusion, the logistic regression model produced an AUC of 0.818. The logistic regression model revealed the odds of having hypertension is much higher for individuals who are female than for males. The odds of having hypertension were significantly increased for non-Hispanic black individuals compared to the rest of the ethnic groups.
 
 
 **For me to make my conclusion I need to choose my model and from there determine the important variables that contribute to the cause of hypertension. For my future work I have a paper below that has found similar findings to my logistic regression**
-
-https://www.sciencedirect.com/science/article/abs/pii/S095741741830352X?via%3Dihub
-
-+ Best AUC 0.73 (95% CI [0.70–0.76]) showing fair result with the final diagnosis.
-+ This model predicts correctly hypertensive individuals 73% better than a randomly selected individual.
-+ According to the model Kidney disease and smoking habits do not affect odds of the outcome.
-+ According to the model odds of having hypertension is higher for female individuals than for male.
-+ Non-Hispanic black have higher odds of having hypertension than the rest of ethnics groups.
 
 </body>
 
 \pagebreak
 
-# 6. References{#ref}
+# References{.unnumbered}
 
 <body>
 
@@ -431,17 +431,17 @@ https://www.sciencedirect.com/science/article/abs/pii/S095741741830352X?via%3Dih
 34. Hanley, J.A. and McNeil, B.J., 1982. The meaning and use of the area under a receiver operating characteristic (ROC) curve. *Radiology*, 143(1), pp.29-36.
 36. Biecek, P. and Burzykowski, T., 2021. *Explanatory model analysis: explore, explain, and examine predictive models*. CRC Press.
 37. Biecek P (2018). “DALEX: Explainers for Complex Predictive Models in R.” _Journal of Machine Learning Research_, 19(84), 1-5. <URL: https://jmlr.org/papers/v19/18-416.html>.
+38. Lopez-Martinez, F., Schwarcz, A., Núñez-Valdez, E.R. and Garcia-Diaz, V., 2018. Machine learning classification analysis for a hypertensive population as a function of several risk factors. *Expert Systems with Applications*, 110, pp.206-215.
 
 
+</body>
 
 
+\newpage
 
 
-
-
-
-
-
+# Appendices{.unnumbered}
+<body>
 
 
 
