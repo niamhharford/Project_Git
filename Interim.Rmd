@@ -1,5 +1,5 @@
 ---
-title: "Predicting Hypertension - Interim Report"
+title: "A machine learning approach on NHANES data for predicting hypertension"
 author: "Niamh Harford 20251644"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
@@ -21,6 +21,14 @@ linestretch: 1.5
 
 \newpage
 # Abstract{.unlisted .unnumbered}
+
+<body>
+Hypertension is an extremely common, high risk condition where blood pressure measures are higher than normal measures. Hypertension can often be conducive to sever cardiovascular and renal complications. The effects of extensive hypertension may be detrimental on the health of individuals, if high blood pressure measures are not controlled and carefully monitored.
+There are multiple factors that can provide reasoning behind the cause of hypertension, although there may be no one cause, it is crucial to determine what of those factors have major influence on increasing blood pressure. This study assesses the performance of three machine learning techniques on predicting hypertension using data from NHANES. For each classification model, this study will evaluate the association between age, race, gender, smoking, diabetes, kidney disease, physical activity, alcohol use, salt use and potassium in hypertensive individuals.
+
+
+
+</body>
 
 Don't need to include references. Summarise the problem and results on the analysis.
 
@@ -53,7 +61,7 @@ Hypertension is a systolic blood pressure that is greater than 139 mm Hg or a di
 
 Results published in 1998 from the National Health and Nutrition Examination Survey indicated that roughly 50 million adults in America were diagnosed with hypertension (Kulkarni et al.,1998). The American Heart Association have stated that the estimates for hypertension prevalence are comparable between both men and women, were seen to be highest among African Americans where 44% of people surveyed that had hypertension were African American, and showed that only 53% of all hypertensive adults have their blood pressure under some control (Go et al., 2013). This statement highlights how the different racial groups may have an effect of the prevalence of hypertension, which association may not have been initially considered. An interesting statistic has revealed that hypertension is considered in the group of risk factors for cardiovascular disease that caused up to 17.7 million deaths around the world in 2015 alone (López-Martínez et al, 2020). This figure reveals how serious hypertension is to our health and the effect it can potentially have on all life if blood pressure measures are not monitored and controlled.\ 
 
-There are many things to consider when investigating potential contributing factors of hypertension. As previously discussed hypertension risk has been seen to rise with age, however there are multiple other characteristics that can cause hypertension. It is important to note that in many cases there may be no one specific cause of hypertension (Kaplan, 2010). Factors such as race, smoking, cerrain chronic conditions like diabetes and kidney disease, obesity, physical inactivity, high salt intake, extensive alcohol use, low potassium levels and including age and hereditary disorders can all contribute to the cause of hypertension (Kaplan, 2010).
+There are many things to consider when investigating potential contributing factors of hypertension. As previously discussed hypertension risk has been seen to rise with age, however there are multiple other characteristics that can cause hypertension. It is important to note that in many cases there may be no one specific cause of hypertension (Kaplan, 2010). Factors such as race, smoking, certain chronic conditions like diabetes and kidney disease, obesity, physical inactivity, high salt intake, extensive alcohol use, low potassium levels and including age and hereditary disorders can all contribute to the cause of hypertension (Kaplan, 2010).
 
 
 Machine learning (Alpaydin, 2020; Marsland, 2015) is a contemporary data analysis technique with the distinctive ability to learn and ameliorate its performance without being obviously programmed and without user instruction (Sakr et al., 2018). The principal objective of supervised machine learning classification algorithms is to provide an explanation of the dependent variable with regard to the independent variables (Sakr et al., 2018). Machine learning techniques are commonly used to predict models. Nowadays, in medical fields there is an extensive use of machine learning based techniques to predict models (Kononenko, 2001; Deo, 2015; Obermeyer and Emanuel, 2016; Darcy, Louie and Roberts, 2016; Elshawi, Al-Mallah and Sakr, 2019), however, quite often highly trained medical personnel find it difficult to depend on such models in practice for numerous reasons. There is several explanations as to why this is the case. Firstly, the majority of accessible predictive models often focus on certain diseases and reply upon the knowledge of highly trained medical personnel (Singal, 2013; He, Mathews, Kalloo and Hutfless, 2014; Pederson, et al, 2016; Elshawi, Al-Mallah and Sakr, 2019). Applying predictive models on immense health information systems perhaps will not perform efficiently as a result of the availability of multiple, elaborate data sources and the diverse mixture of both patients and diagnoses (Elshawi, Al-Mallah and Sakr, 2019). Secondly, the majority of models that are developed by data analysts mainly focus on the prediction accuracy as a performance metric but rarely produce a meaningful explainations of their prediction (Futoma, Morris and Lucas, 2015; Elshawi, Al-Mallah and Sakr, 2019).\  
@@ -273,11 +281,11 @@ plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Networ
 
 The random forest model was the most accurate model. This model produced an AUC value of 0.999. Figure \ref{fig:hist5} shows how well the random forest model is fit. The random forest model had an accuracy of 0.994. The logistic regression model also performed well, it produced an AUC value of 0.818. The accuracy for the logistic regression was 0.747. The ROC curve shows the logistic regression model is quite satisfactory. The neural network model shows very little accuracy and appears to be a poor fit for the data. 
 
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="ROC curve for all models test set\\label{fig:hist5}",fig.show='hold'}
-plot(model_performance(ex_rf_test),model_performance(ex_log_test),model_performance(ex_nn_test), geom = "roc")+ theme(plot.title = element_text(size = 10)) + geom_line(lwd = 0.8) 
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="Test ROC curve for all models\\label{fig:hist5}",fig.show='hold'}
+plot(model_performance(ex_rf_test),model_performance(ex_log_test),model_performance(ex_nn_test), geom = "roc")+ theme(plot.title = element_text(size = 10), plot.tag = element_text(size = 5)) + geom_line(lwd = 0.5) 
 ```
 
-Table 2 displays the error rate for all models. The random forest model produced the lowest test error rate at 25.82%, with the logistic regression at 27.01%. The random forest model is the better fit model.
+Table 2 displays the error rate for all models. The random forest model produced the lowest test error rate at `r`  25.82%, with the logistic regression at 27.01%. The random forest model is the better fit model.
 **(I cannot get the Neural Network error rate yet but I will)**
 
 </body>
@@ -313,9 +321,6 @@ nn_test_error <- (tab3[2]+tab3[3]) / sum(tab3) # around 25%
 ```
 
 
-
-
-
 ```{r, echo=FALSE}
 Model = factor(c("Logistic Regression","Random Forest", "Neural Network"))
 Training_Accuracy = c(log_acc,rf_acc,nn_acc)  %>% round(digits = 3)
@@ -326,6 +331,7 @@ data1=data.frame(Model,Training_Accuracy,AUC)
 kable(data1, "latex", col.names =c("Model","Training Accuracy","AUC"),  booktabs=TRUE, linesep="", caption="Training Statistics\\label{tbl:data1}") %>%
     kable_styling(latex_options=c("HOLD_position"))
 ```
+
 
 ```{r, echo=FALSE}
 Error_Rate = c(log_test_error,rf_test_error,nn_test_error)  %>% round(digits = 3)
