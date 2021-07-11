@@ -51,6 +51,13 @@ anova(f4,f3, test="LRT")
 
 Anova(f4)
 # Continue with f4 - that has two quadratic terms and 4 interactions
+
+f5 <- glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + (Diabetes*Age) + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
+
+anova(f4,f3, test="LRT")
+anova(f4,f5, test="LRT")
+
+Anova(f5)
 ```
 
 
@@ -74,7 +81,7 @@ binnedplot(data_11a$Age,
            col.int = "black")
 
 
-binnedplot(fitted(f4), 
+binnedplot(fitted(f5), 
            residuals(f4, type = "response"), 
            nclass = NULL, 
            xlab = "Expected Values", 
@@ -105,7 +112,7 @@ plot_model(f4, type = "pred", terms = c("Potassium"))
 plot_model(f4, type = "pred", terms = c("Potassium","Gender"))
 plot_model(f4, type = "pred", terms = c("Smoking"))
 plot_model(f4, type = "pred", terms = c("Smoking","Gender"))
-plot_model(f4, type = "pred", terms = c("Diabetes"))
+plot_model(f5, type = "pred", terms = c("Diabetes"))
 plot_model(f4, type = "pred", terms = c("Diabetes","Gender"))
 plot_model(f4, type = "pred", terms = c("KidneyF"))
 plot_model(f4, type = "pred", terms = c("KidneyF","Gender"))
@@ -178,8 +185,9 @@ nnetFit$results[whichTwoPct,1:6]
 ```
 
 
+
 ```{r}
-model_log1 <- f4
+model_log1 <- f5
 
 model_rf <- randomForest(Hypertension ~ .,data_11a, importance = T)
 
@@ -189,9 +197,9 @@ model_nn <- nnet(Hypertension ~ ., data_11a, size = 1, decay = 0.5)
 
 
 hypn <- as.numeric(data_11a$Hypertension)-1
-ex_rf <- explain(model_rf, data = data_11a, y = hypn, type = "classification")
-ex_log <- explain(model_log1, data = data_11a, y = hypn, type = "classification")
-ex_nn <- explain(model_nn, data = data_11a, y = hypn, type = "classification")
+ex_rf <- DALEX::explain(model_rf, data = data_11a, y = hypn, type = "classification")
+ex_log <- DALEX::explain(model_log1, data = data_11a, y = hypn, type = "classification")
+ex_nn <- DALEX::explain(model_nn, data = data_11a, y = hypn, type = "classification")
 
 
 
@@ -223,6 +231,135 @@ model_performance(ex_log)
 model_performance(ex_nn)
 plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn), geom = "roc") 
 ```
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 1\\label{fig:Appendix1}",fig.show='hold'}
+plot(model_profile(ex_rf, variable = "Gender")) + ggtitle("Response for Random Forest")+ theme(plot.title = element_text(size = 10))
+
+```
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 2\\label{fig:Appendix2}",fig.show='hold'}
+
+plot(model_profile(ex_rf, variable = "Race")) + ggtitle("Response for Random Forest")+ theme(plot.title = element_text(size = 10))
+
+```
+   
+   
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 3\\label{fig:Appendix3}",fig.show='hold'}                   
+plot(model_profile(ex_rf, variable = "Smoking")) + ggtitle("Response for Random Forest")+ theme(plot.title = element_text(size = 10))
+
+```
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 4\\label{fig:Appendix4}",fig.show='hold'}
+
+plot(model_profile(ex_rf, variable = "Diabetes")) + ggtitle("Response for Random Forest")+ theme(plot.title = element_text(size = 10))
+
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 5\\label{fig:Appendix5}",fig.show='hold'}
+plot(model_profile(ex_rf, variable = "KidneyF")) + ggtitle("Response for Random Forest")+ theme(plot.title = element_text(size = 10))
+
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 6\\label{fig:Appendix6}",fig.show='hold'}
+plot(model_profile(ex_rf, variable = "PhysActivity")) + ggtitle("Response for Random Forest")+ theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 7\\label{fig:Appendix7}",fig.show='hold'}
+plot(model_profile(ex_rf, variable ="Alcohol")) + ggtitle("Response for Random Forest")+ theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 8\\label{fig:Appendix8}",fig.show='hold'}
+plot(model_profile(ex_rf, variable ="Salt")) + ggtitle("Response for Random Forest")+ theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 9\\label{fig:Appendix9}",fig.show='hold'}
+plot(model_profile(ex_rf)) + ggtitle("Response for Random Forest")+ theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 10\\label{fig:Appendix10}",fig.show='hold'}
+plot(model_profile(ex_log, variable = "Gender")) + ggtitle("Response for Logistic Regression")+ theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 11\\label{fig:Appendix11}",fig.show='hold'}
+plot(model_profile(ex_log, variable = "Race")) + ggtitle("Response for Logistic Regression")+ theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 12\\label{fig:Appendix12}",fig.show='hold'}
+plot(model_profile(ex_log, variable = "Smoking")) + ggtitle("Response for Logistic Regression")+ theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 13s\\label{fig:Appendix13}",fig.show='hold'}
+
+plot(model_profile(ex_log, variable = "Diabetes")) + ggtitle("Response for Logistic Regression")+ theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 14\\label{fig:Appendix14}",fig.show='hold'}
+plot(model_profile(ex_log, variable = "KidneyF")) + ggtitle("Response for Logistic Regression")+ theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 15\\label{fig:Appendix15}",fig.show='hold'}
+plot(model_profile(ex_log, variable = "PhysActivity")) + ggtitle("Response for Logistic Regression")+ theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 16\\label{fig:Appendix16}",fig.show='hold'}
+plot(model_profile(ex_log, variable ="Alcohol")) + ggtitle("Response for Logistic Regression")+ theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 17\\label{fig:Appendix17}",fig.show='hold'}
+plot(model_profile(ex_log, variable ="Salt")) + ggtitle("Response for Logistic Regression")+ theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 18\\label{fig.Appendix18}",fig.show='hold'}
+plot(model_profile(ex_log)) + ggtitle("Response for Logistic Regression")+ theme(plot.title = element_text(size = 10))
+```
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 19\\label{fig:Appendix19}",fig.show='hold'}
+plot(model_profile(ex_nn, variable = "Gender")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 20\\label{fig:Appendix20}",fig.show='hold'}
+plot(model_profile(ex_nn, variable = "Race")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 21\\label{fig:Appendix21}",fig.show='hold'}
+plot(model_profile(ex_nn, variable = "Smoking")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 10))
+```
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 22\\label{fig:Appendix22}",fig.show='hold'}
+plot(model_profile(ex_nn, variable = "Diabetes")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 10))
+```
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 23\\label{fig:Appendix23}",fig.show='hold'}
+plot(model_profile(ex_nn, variable = "KidneyF")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 10))
+```
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 24\\label{fig:Appendix24}",fig.show='hold'}
+plot(model_profile(ex_nn, variable = "PhysActivity")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 25\\label{fig:Appendix25}",fig.show='hold'}
+plot(model_profile(ex_nn, variable ="Alcohol")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 10))
+```
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 26\\label{fig:Appendix26}",fig.show='hold'}
+plot(model_profile(ex_nn, variable ="Salt")) + ggtitle("Response for Neural Network") + theme(plot.title = element_text(size = 10))
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 27\\label{fig:Appendix27}",fig.show='hold'}
+plot(model_profile(ex_nn)) + ggtitle("Response for Neural Network") + theme(plot.title = element_text(size = 10))
+
+```
+
+
+
 
 ```{r}
 
