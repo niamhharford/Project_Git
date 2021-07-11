@@ -58,7 +58,7 @@ Test <- hyp1
 ```{r,eval=FALSE}
 control <- trainControl(method="repeatedcv", 
                         number=10, 
-                        repeats=1, 
+                        repeats=2, 
                         classProbs = TRUE, 
                         summaryFunction = twoClassSummary)
 tunegrid <- expand.grid(.mtry=c(1:15))
@@ -72,6 +72,8 @@ whichTwoPct <- tolerance(custom$results, metric = "ROC",
                          tol = 2, maximize = TRUE)  
 cat("best model within 2 pct of best:\n")
 custom$results[whichTwoPct,1:6]
+
+# mtry = 1 / 2
 ```
 
 
@@ -110,7 +112,7 @@ whichTwoPct <- tolerance(nnetFit$results, metric = "ROC",
 cat("best model within 2 pct of best:\n")
 nnetFit$results[whichTwoPct,1:6]
 
-# size = 3, decay =0.1
+
 # size = 1, decay = 0.5
 
 ```
@@ -131,7 +133,7 @@ f1 <-glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Di
             Potassium, data=Train, family = binomial())
  
 
-f2 <- randomForest(Hypertension ~ .,Train, mtry = 4,importance = T)
+f2 <- randomForest(Hypertension ~ .,Train,importance = T)
 
 
 f3 <- nnet(Hypertension ~ ., Train, size = 1, decay = 0.5)
@@ -163,6 +165,32 @@ plot(model_performance(ex_rf),model_performance(ex_log), model_performance(ex_nn
 
 ```
 
+
+```{r}
+# Test Stats
+hypn <- as.numeric(Test$Hypertension)-1
+ex_log <- DALEX::explain(f1, data = Test, y = hypn, type = "classification")
+ex_rf <- DALEX::explain(f2, data = Test, y = hypn, type = "classification")
+ex_nn <-  DALEX::explain(f3, data = Test, y = hypn, type = "classification")
+
+ 
+
+
+# look at model_performance and plot model_performance for nice way of getting roc and model summaries.
+
+ 
+
+model_performance(ex_rf)
+model_performance(ex_log)
+model_performance(ex_nn)
+
+
+
+
+
+plot(model_performance(ex_rf),model_performance(ex_log), model_performance(ex_nn), geom = "roc")
+
+```
 
 
 
@@ -367,6 +395,7 @@ citation(package = "nhanesA")
 citation(package = "condvis2")
 citation(package = "randomForest")
 citation(package = "nnet")
+citation(package = "car")
 ```
 
 ```{r}
@@ -378,6 +407,17 @@ data=data.frame(Model,Error_Rate,AUC)
 
 kable(data, "latex", booktabs=TRUE, linesep="", caption="Test Error Rate\\label{tbl:data1}") %>%
     kable_styling(latex_options=c("HOLD_position"))
+```
+
+```{r}
+reg_mod <- train(
+  Hypertension ~ .,
+  data = Train,
+  method = "glmnet",
+  tuneLength = 10,
+  preProc = c("center", "scale"),
+  trControl = trainControl(method = "cv", number = 10)
+)
 ```
 
 
