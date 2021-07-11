@@ -114,93 +114,15 @@ kable(data, "latex", booktabs=TRUE, linesep="", caption="NHANES data\\label{tbl:
 
 ## 2.2. Data Exploration{#explor}
 
-After completing the data collection process, the initial procedure I carried out was data visualisation to explore both the training and test data and to examine if any patterns or relationships were present among the variables. I plotted each explanatory variable with the response variable to assess if such patterns were present.
+After completing the data collection process, I used data visualisation techniques to explore both the training and test data and to examine if any patterns or relationships were present among the variables. I plotted each explanatory variable with the response variable to assess if such patterns were present. After exploring the plots I observed several issues with the data. Firstly, there were a significant amount of missing values present in the data (figure \ref{fig:hist0}). Secondly, after I investigated the levels of each categorical factor, I noticed there were two levels that were present in some of the variables. These levels were "Don't Know" and "Refused". Participants would have had the opportunity to respond with these such responses during the survey. Through further assessment, it was evident there was either no observations or very little observations in these levels. Thus these levels did not provide any useful information for modelling. Figure \ref{fig:smoke} and figure \ref{fig:kidney} display these levels and the presene of missing values in the data. After some consideration, the decision was made to remove the "Don't Know" and "Refused" responses from the variables. Following the removal of levels I omitted the remaining missing values from both the training and test sets. I omitted 52 missing values from the 2011/2012 data set and 45 missing values from the the 2015/2016 data set. I verified categorical variables were marked in R as factors and continuous variables as numeric. After data manipulation, the training set now had a total of 4312 observations and the test set had a total of 4626 observations. I  choose to control all categorical variables in such a way that they were positively associated with the response variable Hypertension. 
 
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height=2, fig.show='hold', fig.cap="Boxplot displaying the effect of Age on hypertension.\\label{fig:age"}
-#Creating plots to visualise the original data with all observations and levels
-suppressMessages(library(tidyverse))
-load("Data/data_11.RData")
-ggplot(data_11) +
-  geom_boxplot(aes(x= Age, y = Hypertension)) + labs(x="Age", y = "Hypertension") + coord_flip()
-#hypertension seems to be affecting older people in both genders
-```
-
-
-
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height=2, fig.show='hold', fig.cap="Boxplot displaying the effect of BMI on hypertension.\\label{fig:bmi"}
-ggplot(data_11) +
-      geom_boxplot(aes(x = BMI, y = Hypertension))+ labs(x="BMI", y = "Hypertension") + coord_flip()
-#in all ethnic groups hypertension seems to be affecting older people
-```
-
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.cap="Bar chart displaying the effect of Smoking on hypertension.\\label{fig:smoke}",fig.show='hold'}
-ggplot(data_11) +
-      geom_bar(aes(x = Smoking, fill = Hypertension),position = "dodge") + xlab("Smoking") + labs(fill= "Hypertension")
-#in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
-```
-
-
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.cap="Bar chart displaying the effect of Kidney disease on hypertension.\\label{fig:kidney}",fig.show='hold'}
-ggplot(data_11) +
-      geom_bar(aes(x = KidneyF, fill = Hypertension),position = "dodge") + labs(x="Kidney Disease") + labs(fill="Hypertension")
-#it seems as though hypertension is more common for people who do not have diabetes, however for those that do have diabetes, there is a higher proportion of people who have hypertension
-```
-
-
-
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.cap="Bar chart displaying the effect of Diabetes on hypertension.\\label{fig:diabetes}",fig.show='hold'}
-ggplot(data_11) +
-      geom_bar(aes(x = Diabetes, fill = Hypertension),position = "dodge") + labs(x="Diabetes") + labs(fill="Hypertension")
-#it seems as though hypertension is more common for people who do not have diabetes, however for those that do have diabetes, there is a higher proportion of people who have hypertension
-```
-
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.cap="Bar chart displaying the effect of Physical activity on hypertension.\\label{fig:pact}",fig.show='hold'}
-ggplot(data_11) +
-  geom_bar(aes(x = PhysActivity, fill = Hypertension), position = "dodge") + labs(x="Physical Activity", y = "Hypertension") 
-#It is obvious that people that do not exercise weekly have a higher proportion of hypertension cases among men and women.
-```
-
-
-
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.cap="Bar chart displaying the effect of Alcohol use on hypertension.\\label{fig:alco}",fig.show='hold'}
-ggplot(data_11) +
-  geom_bar(aes(x = Alcohol, fill = Hypertension), position = "dodge") + labs(x="Alcohol", y = "Hypertension") 
-#For both men and women with hypertension, it is clear that those who have had 12 alcoholic drinks in a year do have a higher proportion of hypertension cases.
-```
-
-
-
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.cap="Bar chart displaying the effect of Salt use on hypertension.\\label{fig:salt}",fig.show='hold'}
-
-ggplot(data_11) +
-      geom_bar(aes(x = Salt, fill = Hypertension),position = "dodge") + labs(x="Salt",fill="Hypertension")
-# it appears that the number of hypertension cases rise as the level of salt added to a meal increases. There is a clear difference for females with hypertension, that there are more cases for when salt used very often compared to never.
-```
-
-
-
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.cap="Boxplot displaying the effect of Potassium on hypertension.\\label{fig:pot}",fig.show='hold'}
-ggplot(data_11) +
-      geom_boxplot(aes(x = Potassium, y = Hypertension),position = "dodge") + labs(x="Potassium", y ="Hypertension") + coord_flip()
-```
-
-
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.cap="Boxplot displaying the effect of Race and Age on hypertension.\\label{fig:race}",fig.show='hold'}
-ggplot(data_11) +
-  geom_boxplot(aes(x= Age, y = Hypertension)) + labs(x="Age", y = "Hypertension") + facet_wrap(~Race) +coord_flip() 
-#in all ethnic groups hypertension seems to be affecting older people
-```
-
-## 2.3. Data Cleaning{#dataclean}
-<body>
-
-I initially choose to control all categorical variables in such a way that they were positively associated with the response variable Hypertension. Through data exploration, I observed several issues with the data. Firstly, there were a significant amount of missing values present in the data (figure \ref{fig:hist0}). Secondly, after I investigated the levels of each categorical factor and I noticed there were two levels that were present in some of the variables. These levels were "Don't Know" and "Refused". Participants would have had the opportunity to respond with these such responses during the survey. Through further assessment, it was evident there was either no observations or very little observations in these levels. Thus these levels did not provide any useful information for modelling. After some consideration, the decision was made to remove the "Don't Know" and "Refused" responses from the variables. Following the removal of levels I omitted the remaining missing values from both the training and test sets. I omitted 52 missing values from the 2011/2012 data set and 45 missing values from the the 2015/2016 data set. I verified categorical variables were marked in R as factors and continuous variables as numeric. After data manipulation, the training set now had a total of 4312 observations and the test set had a total of 4626 observations.
 
 </body>
 
 
 ```{r, echo =FALSE}
 suppressMessages(library(naniar))
+suppressMessages(library(tidyverse))
 load("Data/all_dat.RData")
 load("Data/data_11.RData")
 x <- gg_miss_var(data_11) + theme_bw() + labs(title ="2011/2012 Data") #All data 2011/2012
@@ -225,7 +147,18 @@ plot(g)
 
 ```
 
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.cap="Bar chart displaying the effect of Smoking on hypertension.\\label{fig:smoke}",fig.show='hold'}
+ggplot(data_11) +
+      geom_bar(aes(x = Smoking, fill = Hypertension),position = "dodge") + xlab("Smoking") + labs(fill= "Hypertension")
+#in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
+```
 
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.cap="Bar chart displaying the effect of Kidney disease on hypertension.\\label{fig:kidney}",fig.show='hold'}
+ggplot(data_11) +
+      geom_bar(aes(x = KidneyF, fill = Hypertension),position = "dodge") + labs(x="Kidney Disease") + labs(fill="Hypertension")
+#it seems as though hypertension is more common for people who do not have diabetes, however for those that do have diabetes, there is a higher proportion of people who have hypertension
+```
 
 \pagebreak
 
@@ -604,12 +537,89 @@ This analysis has further supported the findings of a previous study (López-Mar
 
 \newpage
 
+\renewcommand{\thesection}{\Alph{section}}
+\setcounter{section}{1}
 
-# Appendices{.unnumbered}
+# Appendix{-}
+## Supporting material{#app:mat}
+
 <body>
 
 
 
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.cap="Boxplot displaying the effect of Age on hypertension.\\label{fig:age}",fig.show='hold'}
+#Creating plots to visualise the original data with all observations and levels
+load("Data/data_11.RData")
+ggplot(data_11) +
+  geom_boxplot(aes(x= Age, y = Hypertension)) + labs(x="Age", y = "Hypertension") + coord_flip()
+#hypertension seems to be affecting older people in both genders
+```
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.cap="Boxplot displaying the effect of BMI on hypertension.\\label{fig:bmi}",fig.show='hold'}
+
+ggplot(data_11) +
+      geom_boxplot(aes(x = BMI, y = Hypertension))+ labs(x="BMI", y = "Hypertension") + coord_flip()
+#in all ethnic groups hypertension seems to be affecting older people
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.cap="Bar chart displaying the effect of Smoking on hypertension.\\label{fig:smoke1}",fig.show='hold'}
+ggplot(data_11) +
+      geom_bar(aes(x = Smoking, fill = Hypertension),position = "dodge") + xlab("Smoking") + labs(fill= "Hypertension")
+#in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
+```
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.cap="Bar chart displaying the effect of Kidney disease on hypertension.\\label{fig:kidney1}",fig.show='hold'}
+ggplot(data_11) +
+      geom_bar(aes(x = KidneyF, fill = Hypertension),position = "dodge") + labs(x="Kidney Disease") + labs(fill="Hypertension")
+#it seems as though hypertension is more common for people who do not have diabetes, however for those that do have diabetes, there is a higher proportion of people who have hypertension
+```
+
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.cap="Bar chart displaying the effect of Diabetes on hypertension.\\label{fig:diabetes}",fig.show='hold'}
+ggplot(data_11) +
+      geom_bar(aes(x = Diabetes, fill = Hypertension),position = "dodge") + labs(x="Diabetes") + labs(fill="Hypertension")
+#it seems as though hypertension is more common for people who do not have diabetes, however for those that do have diabetes, there is a higher proportion of people who have hypertension
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.cap="Bar chart displaying the effect of Physical activity on hypertension.\\label{fig:pact}",fig.show='hold'}
+ggplot(data_11) +
+  geom_bar(aes(x = PhysActivity, fill = Hypertension), position = "dodge") + labs(x="Physical Activity", y = "Hypertension") 
+#It is obvious that people that do not exercise weekly have a higher proportion of hypertension cases among men and women.
+```
+
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.cap="Bar chart displaying the effect of Alcohol use on hypertension.\\label{fig:alco}",fig.show='hold'}
+ggplot(data_11) +
+  geom_bar(aes(x = Alcohol, fill = Hypertension), position = "dodge") + labs(x="Alcohol", y = "Hypertension") 
+#For both men and women with hypertension, it is clear that those who have had 12 alcoholic drinks in a year do have a higher proportion of hypertension cases.
+```
+
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.cap="Bar chart displaying the effect of Salt use on hypertension.\\label{fig:salt}",fig.show='hold'}
+
+ggplot(data_11) +
+      geom_bar(aes(x = Salt, fill = Hypertension),position = "dodge") + labs(x="Salt",fill="Hypertension")
+# it appears that the number of hypertension cases rise as the level of salt added to a meal increases. There is a clear difference for females with hypertension, that there are more cases for when salt used very often compared to never.
+```
+
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.cap="Boxplot displaying the effect of Potassium on hypertension.\\label{fig:pot}",fig.show='hold'}
+ggplot(data_11) +
+      geom_boxplot(aes(x = Potassium, y = Hypertension),position = "dodge") + labs(x="Potassium", y ="Hypertension") + coord_flip()
+```
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.cap="Boxplot displaying the effect of Race and Age on hypertension.\\label{fig:race}",fig.show='hold'}
+ggplot(data_11) +
+  geom_boxplot(aes(x= Age, y = Hypertension)) + labs(x="Age", y = "Hypertension") + facet_wrap(~Race) +coord_flip() 
+#in all ethnic groups hypertension seems to be affecting older people
+```
 
 
 
