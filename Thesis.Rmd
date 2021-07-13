@@ -246,7 +246,7 @@ The final method I employed to compare the three models was the use of the condv
 
 ## 3.1 Logistic Regression{#resultslogreg}
 
-The logistic regression model chosen for fitting the model included two quadratic terms on the Age and BMI variable, in addition to an interaction with Gender on Age, Age^2^, BMI and BMI^2^. Using this logistic regression model, I investigated potential increases and decreases in odds ratios for hypertension across different explanatory variables. Figure \ref{fig:hist1} displays all the odds ratios for each variable. The highest odds ratio evidently belongs to Gender[Female]. The odds of having hypertension is estimated to be 7 times higher for females than for males. Several predictable results displayed in figure \ref{fig:hist1}, include increased odds of having hypertension for individuals who have kidney disease, diabetes, borderline diabetes and individuals who smoke. All levels within the Race variable are seen to have increased odds of having hypertension compared to the baseline race which was Mexican American. The highest odds ratio for these levels with Race, was for non-hispanic black individuals. For a one unit increase in Age and BMI measures the odds of having hypertension is seen to slightly decrease for females than for males. Being physically active is also seen to decrease the odds of having hypertension. The addition of salt to food prep at the table is not seen to have a significant effect on hypertension. An unexpected result displayed in figure \ref{fig:hist1}, is Salt[Very Often], which is seen to decrease the odds of having hypertension. However, it is important to note figure \ref{fig:hist1} is not a great representation for the odds ratios of Age, Age^2^, BMI and BMI^2^ and the interaction terms associated with the quadratic terms on these variables (For the future I must look at how to properly display these results and interpret them correctly).\  
+The logistic regression model chosen for fitting the model included two quadratic terms on the Age and BMI variable, in addition to an interaction with Gender on Age, Age^2^, BMI and BMI^2^ and an interaction with Age and Diabetes. Using this logistic regression model, I investigated potential increases and decreases in odds ratios for hypertension across different explanatory variables. Figure \ref{fig:hist1} displays all the odds ratios for each variable. The odds ratios of all explanatory variables that did not have an interaction with another variable is summarised in table \ref{tbl:data3}. 
 
 
 
@@ -268,14 +268,14 @@ load("Data/data1_11a.RData")
 
 data_11a$Hypertension <-factor(ifelse(data_11a$Hypertension == "Yes", 1 ,0))
 
-f4 <-glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Diabetes + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
+# f4 <-glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Diabetes + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
 
 
 set.seed(123)
 
-f5 <- glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Diabetes + (Diabetes*Age) + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
 
-model_log1 <- f4
+
+model_log1 <- glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Diabetes + (Diabetes*Age) + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
 
 model_rf <- randomForest(Hypertension ~ .,data_11a, mtry = 3,importance = T)
 
@@ -286,7 +286,6 @@ hypn <- as.numeric(data_11a$Hypertension)-1
 ex_rf <- DALEX::explain(model_rf, data = data_11a, y = hypn, type = "classification")
 ex_log <- DALEX::explain(model_log1, data = data_11a, y = hypn, type = "classification")
 ex_nn <- DALEX::explain(model_nn, data = data_11a, y = hypn, type = "classification")
-ex_f5 <- DALEX::explain(f5, data = data_11a, y = hypn, type = "classification")
 
 
 
@@ -298,7 +297,6 @@ hypn1 <- as.numeric(Test$Hypertension)-1
 ex_log_test <- DALEX::explain(model_log1, data = Test, y = hypn1, type = "classification")
 ex_rf_test <- DALEX::explain(model_rf, data = Test, y = hypn1, type = "classification")
 ex_nn_test <-  DALEX::explain(model_nn, data = Test, y = hypn1, type = "classification")
-ex_f5_test <- DALEX::explain(f5, data = Test, y = hypn1, type = "classification")
 
 
 Race_hispanic <- summary(model_log1)$coefficients[7,1] %>% exp() %>% round(digits = 3)
@@ -316,10 +314,10 @@ salt_voften <- summary(model_log1)$coefficients[19,1] %>% exp() %>% round(digits
 pota <- summary(model_log1)$coefficients[20,1] %>% exp() %>% round(digits = 3)
 ```
 
-\begin{singlespace}
+
 ```{r, echo = FALSE, include=TRUE,message=FALSE}
 
-Var = factor(c("Race - Other Hispanic","Race - Non-Hispanic White", "Race - Non-Hispanic Black", "Race - Other Race","Smoking - Yes", "Kidney Disease - Yes","Physical Activity - Yes", "Alcohol - Yes", "Salt - Rarely", "Salt -Occasionally", "Salt - Very Often", "Potassium"))
+Var = factor(c("Race - Other Hispanic","Race - Non-Hispanic White", "Race - Non-Hispanic Black", "Race - Other Race","Smoking - Yes", "Kidney Disease - Yes","Physical Activity - Yes", "Alcohol - Yes", "Salt - Rarely", "Salt - Occasionally", "Salt - Very Often", "Potassium"))
 Odds_Ratio = c(Race_hispanic,Race_white,Race_black,Race_other,Smoke,Kidn,pactivity,alco,salt_rarely,salt_occ,salt_voften,pota)
 data3=data.frame(Var,Odds_Ratio)
 
@@ -327,10 +325,13 @@ kable(data3, "latex", col.names =c("Variables","Odds Ratios"), booktabs=TRUE, li
     kable_styling(latex_options=c("HOLD_position"))
 ```
 
-\end{singlespace}
+
+
+
+Figure  \ref{fig:hist1} also displays the comparative odds ratios for all explanatory variables. The logistic regression model revealed some significant results, with some of these odds ratios being somewhat expected. Individuals who smoked more than 100 cigarettes in their lifetime had a 26% increase in their odds of having hypertension in comparison to individuals who have not smoked more than 100 cigarettes. For individuals who were diagnosed with kidney disease or failing kidneys, the odds of them having hypertension were estimated to be almost 3 times higher than those who did not have such renal complications. For individuals who were physically active, their odds of having hypertension were estimated to decrease by 10%. All levels within the Race variable are seen to have increased odds of having hypertension relative to the baseline race, Mexican American. The highest odds ratio for these levels within Race was for non-Hispanic black individuals. When you move from individuals who are American Mexican to Non-Hispanic Black, the odds of having hypertension is estimated to be 2.3 times higher. An unexpected results included the odds ratios for some levels of salt relative to the baseline "Never". The extensive use of salt to food at the table is not seen to have a significant effect on hypertension. Salt used "Very Often" is seen to decrease the odds of having hypertension by 2%, where as salt used "occasionally" is considered to have no real change in the odds of having hypertension, both levels relative to "Never" using salt. Additionally, salt used "Rarely" compared to "Never", does decrease the estimated odds of having hypertension by 14%. Finally, both a one unit increase potassium and individuals who have had more than 12 alcoholic drinks in a year are estimated to have no effect on the odds of having hypertension. Unfortunately, figure \ref{fig:hist1} does not produce a sufficient depiction of the odds ratios of Age, Age^2^, BMI, BMI^2^ and Diabetes and the interaction terms associated with the quadratic terms on these variables
 
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="The odds ratios for the logistic regression. The purple dots indicate increased odds ratios. The green dots indicate decreased odds ratios.\\label{fig:hist1}",fig.show='hold'}
-plot_model(f4, vline.color = "black", sort.est = TRUE,colors = "Accent")
+plot_model(model_log1, vline.color = "black", sort.est = TRUE,colors = "Accent")
 ```
 
 \pagebreak
@@ -342,10 +343,6 @@ The partial dependence plot (figure \ref{fig:hist2}) for the logistic regression
 plot(model_profile(ex_log,groups="Gender")) + ggtitle("Response for Logistic Regression") + theme(plot.title = element_text(size = 10))
 ```
 
-
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Partial dependence plot on the training data for the logistic regression response 2 for age, bmi and potassium, for males and females separately.\\label{fig:bla}",fig.show='hold'}
-plot(model_profile(ex_f5,groups="Gender")) + ggtitle("Response for Logistic Regression") + theme(plot.title = element_text(size = 10))
-```
 
 ## 3.2. Random Forest{#resultsrf}
 
@@ -386,11 +383,10 @@ plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Networ
 The random forest model was the most accurate model. This model produced an AUC value of 0.999. Figure \ref{fig:hist5} shows how well the random forest model is fit. The random forest model had an accuracy of 0.994. The logistic regression model also performed well, it produced an AUC value of 0.818. The accuracy for the logistic regression was 0.747. The ROC curve shows the logistic regression model is quite satisfactory. The neural network model shows very little accuracy and appears to be a poor fit for the data. 
 
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="Test ROC curve for all models.\\label{fig:hist5}",fig.show='hold'}
-plot(model_performance(ex_rf_test),model_performance(ex_log_test),model_performance(ex_nn_test),model_performance(ex_f5_test), geom = "roc")+ theme(plot.title = element_text(size = 10), plot.tag = element_text(size = 5)) + geom_line(lwd = 0.5) 
+plot(model_performance(ex_rf_test),model_performance(ex_log_test),model_performance(ex_nn_test), geom = "roc")+ theme(plot.title = element_text(size = 10), plot.tag = element_text(size = 5)) + geom_line(lwd = 0.5) 
 ```
 
 Table \ref{tbl:data1} displays the error rate for all models. The random forest model produced the lowest test error rate at `r`  25.82%, with the logistic regression at 27.01%. The random forest model is the better fit model.
-**(I cannot get the Neural Network error rate yet but I will)**
 
 </body>
 
@@ -403,8 +399,7 @@ rf_acc <- model_performance(ex_rf)$measures$accuracy
 log_acc <- model_performance(ex_log)$measures$accuracy
 nn_auc <-model_performance(ex_nn)$measures$auc
 nn_acc <- model_performance(ex_nn)$measures$accuracy
-f5_auc <- model_performance(ex_f5)$measures$auc
-f5_acc <- model_performance(ex_f5)$measures$accuracy
+
 
 rf_auc_test <- model_performance(ex_rf_test)$measures$auc
 log_auc_test <- model_performance(ex_log_test)$measures$auc
@@ -412,8 +407,7 @@ rf_acc_test <- model_performance(ex_rf_test)$measures$accuracy
 log_acc_test <- model_performance(ex_log_test)$measures$accuracy
 nn_auc_test <-model_performance(ex_nn_test)$measures$auc
 nn_acc_test <- model_performance(ex_nn_test)$measures$accuracy
-f5_auc_test <- model_performance(ex_f5_test)$measures$auc
-f5_acc_test <- model_performance(ex_f5_test)$measures$accuracy
+
 
 pred1 <- predict(model_log1, Test, type="response")
 pred1 <- factor(ifelse(pred1 < .5, 0,1))
@@ -428,9 +422,9 @@ nn_test_error <- (tab3[2]+tab3[3]) / sum(tab3) # around 25%
 
 
 ```{r, echo=FALSE}
-Model = factor(c("Logistic Regression","Random Forest", "Neural Network", "F5"))
-Training_Accuracy = c(log_acc,rf_acc,nn_acc,f5_acc)  %>% round(digits = 3)
-AUC = c(log_auc,rf_auc,nn_auc,f5_auc)  %>% round(digits = 3)
+Model = factor(c("Logistic Regression","Random Forest", "Neural Network"))
+Training_Accuracy = c(log_acc,rf_acc,nn_acc)  %>% round(digits = 3)
+AUC = c(log_auc,rf_auc,nn_auc)  %>% round(digits = 3)
 data1=data.frame(Model,Training_Accuracy,AUC)
 
 
@@ -441,8 +435,8 @@ kable(data1, "latex", col.names =c("Model","Training Accuracy","AUC"),  booktabs
 
 ```{r, echo=FALSE}
 Error_Rate = c(log_test_error,rf_test_error,nn_test_error)  %>% round(digits = 3)
-Test_Accuracy = c(log_acc_test,rf_acc_test,nn_acc_test,f5_acc_test)  %>% round(digits = 3)
-AUC = c(log_auc_test,rf_auc_test,nn_auc_test,f5_auc_test)  %>% round(digits = 3)
+Test_Accuracy = c(log_acc_test,rf_acc_test,nn_acc_test)  %>% round(digits = 3)
+AUC = c(log_auc_test,rf_auc_test,nn_auc_test)  %>% round(digits = 3)
 data2 <-data.frame(Model,Test_Accuracy,AUC)
 
 kable(data2, "latex", col.names =c("Model","Test Accuarcy","AUC"),  booktabs=TRUE, linesep="", caption="Test Statistics\\label{tbl:data2}") %>%
