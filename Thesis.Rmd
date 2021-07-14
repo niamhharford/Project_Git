@@ -58,6 +58,7 @@ There are multiple factors that can provide reasoning behind the cause of hypert
 <body>
 Hypertension is a systolic blood pressure that is greater than 139 mm Hg or a diastolic blood pressure that is greater than 89 mm Hg (Kulkarni et al.,1998). Systolic blood pressure is the highest pressure in the arteries when the heart beats and fills the arteries and diastolic blood pressure is the lowest pressure in the arteries when the heart is relaxed between beats (Kaplan, 2010). Hypertension can be a severe condition. It is often described as a common, chronic, age-related condition, which entails severe cardiovascular and kidney complications including stroke, heart disease and kidney disease (Sakr et al., 2018; Staessen, Wang, Bianchi and Birkenhäger, 2003). It mainly arises as a complex quantitative characteristic that is affected by varying relationships of genetic and environmental factors, whereby these characteristics have turned out to be extremely harmful habits that have caused weakened heart function due to increased blood pressure (Staessen, Wang, Bianchi and Birkenhäger, 2003).\  
 
+
 There are many things to consider when investigating potential contributing factors of hypertension. It is important to note that in many cases there may be no one specific cause of hypertension and it can more than often be a result of many factors working in combination with each other (Kaplan, 2010). Hypertension prevalence has been seen to rise with age, disregarding both the type of blood pressure measurements and the operative thresholds used for diagnosis (Staessen, Wang, Bianchi and Birkenhäger, 2003). Additional factors such as race, smoking, certain chronic conditions like diabetes and kidney disease, obesity, physical inactivity, high salt intake, extensive alcohol use and low potassium levels can all contribute to the cause of hypertension (Kaplan, 2010). Some of these factors may be a consequence as individuals age. There are many habits for example physical activity, that as people get older they may refrain from doing. Smoking has been seen to increase the risk of hypertension by up to 3 times, as a consequence of increased risk in vascular damage due to intense surges in the arterial pressure (Sleight, 1993). This is no surprise as smoking often causes a temporary immediate increase in blood pressure in addition to many other extreme effects on the body. Hypertension has had an impact on approximately 70% of patients diagnosed with diabetes and is approximately two times more common in individuals with diabetes than in those without diabetes (Lago, Singh and Nesto, 2007). Additionally, chronic kidney disease is known to be both a common cause of hypertension and also a complication of unmanaged hypertension (Hamrahian and Falkner, 2016). An important factor to consider is the interaction between kidney disease and hypertension is complicated and can increase the risk of adverse cardiovascular and cerebrovascular issues (Hamrahian and Falkner, 2016). Nowadays, obesity is a general problem in much of the western world and it is widely known to be linked directly with multiple diseases and conditions including hypertension (Aneja, El-Atat, McFarlane and Sowers, 2004). It is recognised that fat cells in our bodies are not merely an immobile organ for storing energy but they also secrete a host of factors that interact with each other and can bring about elevated blood pressure measures (Aneja, El-Atat, McFarlane and Sowers, 2004). In particular, the assumed role of leptin in the causation of hypertension through an activation of the sympathetic nervous system and a direct consequence on the kidneys, resulting in increased salt reabsorption leading to hypertension (Aneja, El-Atat, McFarlane and Sowers, 2004). This shows some indication of the effect of kidney complications, possible physical inactivity as a consequence of obesity and high salt levels in the body all have on influencing hypertension. Finally, not consuming enough potassium in your diet and consuming excessive amounts of sodium can raise blood pressure measures, thus giving rise to hypertension (The Role of Potassium and Sodium in Your Diet, 2021).\ 
 
 
@@ -168,8 +169,7 @@ ggplot(data_11) +
 ```
 
 
-
-\pagebreak
+$\vspace{1.5cm}$
 
 ## 2.4. Modelling{#model}
 
@@ -183,7 +183,7 @@ I choose to use three machine learning techniques to investigate and predict hyp
 Logistic regression models are such models that generally deal with binary dependent variables (Hall and Round, 1994). This model will always produce probabilities between 0 and 1. Odds ratios which are the ratios of the probability of the event occurring to the probability of the event not occurring, can be utilised for logistic regression models (Hall and Round, 1994).The equation for logistic regression is defined below:
 
 \begin{center}
-\[P(Y=1|X=x) = \dfrac{e^{\small \eta}}{1+e^{\small \eta}}\],\ 
+\[P(Y=1|X=x) = \dfrac{e^{\small \eta}}{1+e^{\small \eta}}\]\ 
 \end{center}
 
 Where ${\small \eta}$ is the systematic component of the model, eg. ${\small \eta} = \beta_0 + \beta_1x_1 + . . . +\beta_kx_k$. I fitted several logistic regression models to determine the most satisfactory model. I used the function residualPlots() from the 'car' package to examine how well each variable fit in the model (Fox and Sanford, 2019). The first model I fit included all explanatory variables. I inspected the fit of all variables and it was clear that two continuous variables Age and BMI did not fit well. I decided to add two quadratic terms to the model on Age and BMI, while keeping all variables in the model. However, the residualPlots() function here was not effective in portraying the significant difference between the two models. Instead using the function anova(), I was able to determine the model including quadratic terms was a better fit model. I examined potential interactions with the Gender variable. I fit a model where Gender had an interaction with all other variables, including the two quadratic terms. Using the function Anova(), I could see how both interactions with the quadratic terms (Age^2^ and BMI^2^) and Gender were significant. I then fit a model, where Gender had an interaction with Age, Age^2^, BMI and BMI^2^. I used anova() to determine the best model. The final model I fit was identical to the previous model, however I added one more interaction term with Age and Diabetes. Using anova() it was clear that this model was the most satisfactory model. The final model chosen for the logistic regression model is defined below:
@@ -246,7 +246,7 @@ The final method I employed to compare the three models was the use of the condv
 
 ## 3.1 Logistic Regression{#resultslogreg}
 
-The logistic regression model chosen for fitting the model included two quadratic terms on the Age and BMI variable, in addition to an interaction with Gender on Age, Age^2^, BMI and BMI^2^ and an interaction with Age and Diabetes. Using this logistic regression model, I investigated potential increases and decreases in odds ratios for hypertension across different explanatory variables. Figure \ref{fig:hist1} displays all the odds ratios for each variable. The odds ratios of all explanatory variables that did not have an interaction with another variable is summarised in table \ref{tbl:data3}. 
+The logistic regression model chosen for fitting the model included two quadratic terms on the Age and BMI variable, in addition to an interaction with Gender on Age, Age^2^, BMI and BMI^2^ and an interaction with Age and Diabetes. Using this logistic regression model, I investigated potential increases and decreases in odds ratios for hypertension across different explanatory variables. Figure \ref{fig:hist1} displays all the odds ratios for each variable. The odds ratios of all explanatory variables that did not have an interaction with another variable are summarised in table \ref{tbl:data3}.\ 
 
 
 
@@ -328,7 +328,9 @@ kable(data3, "latex", col.names =c("Variables","Odds Ratios"), booktabs=TRUE, li
 
 
 
-Figure  \ref{fig:hist1} also displays the comparative odds ratios for all explanatory variables. The logistic regression model revealed some significant results, with some of these odds ratios being somewhat expected. Individuals who smoked more than 100 cigarettes in their lifetime had a 26% increase in their odds of having hypertension in comparison to individuals who have not smoked more than 100 cigarettes. For individuals who were diagnosed with kidney disease or failing kidneys, the odds of them having hypertension were estimated to be almost 3 times higher than those who did not have such renal complications. For individuals who were physically active, their odds of having hypertension were estimated to decrease by 10%. All levels within the Race variable are seen to have increased odds of having hypertension relative to the baseline race, Mexican American. The highest odds ratio for these levels within Race was for non-Hispanic black individuals. When you move from individuals who are American Mexican to Non-Hispanic Black, the odds of having hypertension is estimated to be 2.3 times higher. An unexpected results included the odds ratios for some levels of salt relative to the baseline "Never". The extensive use of salt to food at the table is not seen to have a significant effect on hypertension. Salt used "Very Often" is seen to decrease the odds of having hypertension by 2%, where as salt used "occasionally" is considered to have no real change in the odds of having hypertension, both levels relative to "Never" using salt. Additionally, salt used "Rarely" compared to "Never", does decrease the estimated odds of having hypertension by 14%. Finally, both a one unit increase potassium and individuals who have had more than 12 alcoholic drinks in a year are estimated to have no effect on the odds of having hypertension. Unfortunately, figure \ref{fig:hist1} does not produce a sufficient depiction of the odds ratios of Age, Age^2^, BMI, BMI^2^ and Diabetes and the interaction terms associated with the quadratic terms on these variables
+Figure  \ref{fig:hist1} also displays the comparative odds ratios for all explanatory variables. The logistic regression model revealed some significant results, with some of these odds ratios being somewhat expected. Individuals who smoked more than 100 cigarettes in their lifetime had a 26% increase in their odds of having hypertension in comparison to individuals who have not smoked more than 100 cigarettes. For individuals who were diagnosed with kidney disease or failing kidneys, the odds of them having hypertension were estimated to be almost 3 times higher than those who did not have such renal complications. For individuals who were physically active, their odds of having hypertension were estimated to decrease by 10%. All levels within the Race variable are seen to have increased odds of having hypertension relative to the baseline race, Mexican American. The highest odds ratio within Race was for non-Hispanic black individuals. When you move from individuals who are American Mexican to Non-Hispanic Black, the odds of having hypertension is estimated to be 2.3 times higher. An unexpected result included the odds ratios for some levels of salt relative to the baseline "Never". The extensive use of salt to food at the table is not seen to have a significant increase on the effect of hypertension. Salt used "Very Often" is seen to decrease the odds of having hypertension by 2%, where as salt used "Occasionally" is considered to have no real change in the odds of having hypertension, both levels relative to "Never" using salt. Additionally, salt used "Rarely" compared to "Never", does decrease the estimated odds of having hypertension by 14%. Finally, both a one unit increase potassium and individuals who have had more than 12 alcoholic drinks in a year are estimated to have no effect on the odds of having hypertension. Unfortunately, figure \ref{fig:hist1} does not produce a sufficient depiction of the odds ratios of Age, Age^2^, BMI, BMI^2^ and Diabetes and the interaction terms associated with these variables.\ 
+
+$\vspace{1.5cm}$
 
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="The odds ratios for the logistic regression. The purple dots indicate increased odds ratios. The green dots indicate decreased odds ratios.\\label{fig:hist1}",fig.show='hold'}
 plot_model(model_log1, vline.color = "black", sort.est = TRUE,colors = "Accent")
@@ -336,7 +338,9 @@ plot_model(model_log1, vline.color = "black", sort.est = TRUE,colors = "Accent")
 
 \pagebreak
 
-The partial dependence plot (figure \ref{fig:hist2}) for the logistic regression model reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension continues to increase for a one unit increase in BMI for females, however, from figure \ref{fig:hist2} it is evident there is a sharp decrease in the prediction of hypertension for males when BMI reaches roughly 40. Potassium appears to have a steady, however minor decrease in the prediction for hypertension for both genders.\ 
+The partial dependence plot (figure \ref{fig:hist2}) for the logistic regression model reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension continues to increase for a one unit increase in BMI for females, however, it is evident there is a sharp decrease in the prediction of hypertension for males when BMI reaches 40. Potassium appears to have a very steady, however minor decrease in the prediction for hypertension for both genders.\ 
+
+$\vspace{1.5cm}$
 
 
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Partial dependence plot on the training data for the logistic regression response for age, bmi and potassium, for males and females separately.\\label{fig:hist2}",fig.show='hold'}
@@ -346,49 +350,41 @@ plot(model_profile(ex_log,groups="Gender")) + ggtitle("Response for Logistic Reg
 
 ## 3.2. Random Forest{#resultsrf}
 
-Similarly,the partial dependence plot for the random forest model (figure \ref{fig:hist3}) reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension here continues to increase for a one unit increase in BMI for both females and males. The increasing trend for BMI begins to level off around BMI of 50. Potassium appears to have a comparable trend to the logistic regression model, the predictions for hypertension for both genders level off quite rapidly.\ 
+Similarly,the partial dependence plot for the random forest model (figure \ref{fig:hist3}) reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension here continues to increase for a one unit increase in BMI for both females and males. The increasing trend for BMI begins to level off around a BMI of 50. Potassium appears to have a comparable trend to the logistic regression model, the predictions for hypertension for both genders level off quite rapidly. There is a considerable amount of over-fitting accounted for by the random forest model on the training data.\ 
 
 
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Partial dependence plot on the training data for the random forest response for age, bmi and potassium, for males and females separately.\\label{fig:hist3}",fig.show='hold'}
 plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Random Forest") + theme(plot.title = element_text(size = 10))
 ```
 
+$\vspace{1.5cm}$
+
+Figure \ref{fig:rf_var} displays the mean decrease in accuracy and the Gini index totaled over splits involving each predictor. The MeanDecreaseAccuracy contains a measure of the extent to which a variable improves the accuracy of the random forest in predicting the classification. The higher the variable is on this plot the more important the variable is and the more the variable improves the prediction of the model. Age is estimated to be the most important variable in the MeanDecreaseAccuracy plot in the random forest model. If the association with Age and Hypertension is removed, there is eveidently the greatest loss of accuracy in the model. The MeanDecreaseGini plot also exhibits the variable importance. MeanDecreaseGini provides a more nuanced measure of importance, which factors in both the contribution that variable makes to accuracy, and the degree of misclassification. This plot provides evidence that Age, BMI and Potassium, all continuous variables are the most importance variables in this data set. The splits on Age are producing the greatest reduction on the Gini index.
+
 \pagebreak
-
-Figure \ref{fig:rf_var} displays the mean decrease in accuracy and the Gini index totaled over splits involving each predictor. The mean decrease in accuracy is a measure of the model performance without each variable. The higher the variable is on this plot the more important the variable is. If the variable is removed, it was cause a decrease in model accuracy. Age is estimated to be the most important variable in the MeanDecreaseAccuracy plot in the random forest model, if it is removed there is a clear loss of accuracy in the model. Following the potential removal of the Age variable, there appears to be very small amounts of accuracy lost. This highlights the significant of Age. The mean decrease in Gini plot also exhibits the variable importance. The MeanDecreaseGini plot provides evidence that Age, BMI and Potassium, all continuous variables are the most importance variables in this data set. 
-
-
-
-MeanDecreaseAccuracy - The first measure is computed from the initial out of bag data (OOB data for each tree in the RF only a sample of the data is used, so for the data that is not used you can get a prediction from the tree, if you do the same after permuting the predictor variables, so you're not removing the variable age you're removing the association with age and hypertension, its telling you how much a shuffled age contributes to the accuracy).
-
-MeanDecreaseGini - Everytime you split on age on the tree, it calculates how much that is contributing to the Gini index and then it averages that over all the trees. The splits on age are giving you the most reduction on the Gini index.
-
-
 
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="Variable importance for the random forest model.\\label{fig:rf_var}",fig.show='hold'}
 varImpPlot(model_rf, main = "")
 ```
 
 
+$\vspace{1.5cm}$
+
 ## 3.3. Neural Network{#resultsnn}
 
-The results for the neural network are not very informative. The partial dependence plots for the neural network model (figure \ref{fig:hist4}) all show the same pattern. Age, BMI and Potassium appear to have no trend as all lines appear to be leveled off for both genders. This model will need further improvement.\ 
+In parallel, the partial dependence plot for the neural network model (figure \ref{fig:hist3}) reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension here continues to increase for a one unit increase in BMI for both females and males. Potassium appears to have a comparable trend to the contrasting models, the predictions for hypertension for both genders have a slow decreasing trend. There is a considerable amount of over-fitting accounted for by the random forest model on the training data. The neural network model appear to bit the data quite satisfactorily.\ 
+
 
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Partial dependence plot on the training data for the neural network response for age, bmi and potassium, for males and females separately.\\label{fig:hist4}",fig.show='hold'}
 plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 10))
 ```
 
+\pagebreak
+
 ## 3.4. Measures of Accuracy{#accuracy}
 
-The random forest model was the most accurate model. This model produced an AUC value of 0.999. Figure \ref{fig:hist5} shows how well the random forest model is fit. The random forest model had an accuracy of 0.994. The logistic regression model also performed well, it produced an AUC value of 0.818. The accuracy for the logistic regression was 0.747. The ROC curve shows the logistic regression model is quite satisfactory. The neural network model shows very little accuracy and appears to be a poor fit for the data. 
+Following investigation of all training accuracy and AUC measures, it is obvious the random forest model outperformed all other models (figure \ref{tbl:data1}). The random forest model produced AUC of 1 and an accuracy of 0.994. This model shows great indication of a power model in predicting hypertension. Using the training data, the logistic regression and neural network models have yielded almost identical measures of accuracy and AUC.\ 
 
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="Test ROC curve for all models.\\label{fig:hist5}",fig.show='hold'}
-plot(model_performance(ex_rf_test),model_performance(ex_log_test),model_performance(ex_nn_test), geom = "roc")+ theme(plot.title = element_text(size = 10), plot.tag = element_text(size = 5)) + geom_line(lwd = 0.5) 
-```
-
-Table \ref{tbl:data1} displays the error rate for all models. The random forest model produced the lowest test error rate at `r`  25.82%, with the logistic regression at 27.01%. The random forest model is the better fit model.
-
-</body>
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 # look at model_performance and plot model_performance for nice way of getting roc and model summaries.
@@ -418,10 +414,7 @@ rf_test_error <- mean(predb != Test$Hypertension) #around 27%
 pred2 <- factor(ifelse(predict(model_nn, Test, type ="raw") > 0.5,1,0))
 tab3 <- table(pred2, Test$Hypertension)
 nn_test_error <- (tab3[2]+tab3[3]) / sum(tab3) # around 25%
-```
 
-
-```{r, echo=FALSE}
 Model = factor(c("Logistic Regression","Random Forest", "Neural Network"))
 Training_Accuracy = c(log_acc,rf_acc,nn_acc)  %>% round(digits = 3)
 AUC = c(log_auc,rf_auc,nn_auc)  %>% round(digits = 3)
@@ -433,7 +426,11 @@ kable(data1, "latex", col.names =c("Model","Training Accuracy","AUC"),  booktabs
 ```
 
 
-```{r, echo=FALSE}
+
+The test data was utilised to evaluate the fit of all models and to examine all measures of accuracy. All models performed relatively uniformly. Table \ref{tbl:data2} presents the model accuracy and AUC values. It is clear that all models produced very similar measures of both accuracy and AUC values. The logistic regression model performed marginally better than the neural network model by a decimal of 0.01 (AUC = 0.743 and accuracy = 0.806) and is the most accurate model in predicting hypertension. Both the logistic regression and neural network models have outperformed the random forest model. It is clear the random forest model over-fit the training data set prior to evaluating the model fit. 
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+Model = factor(c("Logistic Regression","Random Forest", "Neural Network"))
 Error_Rate = c(log_test_error,rf_test_error,nn_test_error)  %>% round(digits = 3)
 Test_Accuracy = c(log_acc_test,rf_acc_test,nn_acc_test)  %>% round(digits = 3)
 AUC = c(log_auc_test,rf_auc_test,nn_auc_test)  %>% round(digits = 3)
@@ -443,9 +440,18 @@ kable(data2, "latex", col.names =c("Model","Test Accuarcy","AUC"),  booktabs=TRU
     kable_styling(latex_options=c("HOLD_position")) 
 ```
 
+ Figure \ref{fig:hist5} shows the ROC curve of all models using the test data set. The ROC curvle was generated by plotting all model performances and setting geom to "roc". From the plot it is clear how similar all model fits are. The logistic regression line is difficult to inspect as it is masked by the neural network line, although both performances were rather consistent. 
 
-RF over-fits training data so need to test them. -- https://mljar.com/blog/random-forest-overfitting/#:~:text=The%20Random%20Forest%20algorithm%20does,are%20added%20to%20the%20algorithm.&text=To%20avoid%20overfitting%20in%20Random,of%20samples%20in%20the%20leaf.
+$\vspace{1.5cm}$
 
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="Test ROC curve for all models.\\label{fig:hist5}",fig.show='hold'}
+plot(model_performance(ex_rf_test),model_performance(ex_log_test),model_performance(ex_nn_test),
+     geom = "roc")+ theme(plot.title = element_text(size = 10), plot.tag = element_text(size = 5)) + geom_line(lwd = 0.5) 
+```
+
+
+
+</body>
 
 
 \newpage
