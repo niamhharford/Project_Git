@@ -35,6 +35,11 @@ There are multiple factors that can provide reasoning behind the cause of hypert
 
 # Acknowlegements{.unlisted .unnumbered} 
 
+<body>
+I would like to express my most sincere gratitude to my supervisor Dr. Catherine Hurley for all the support and whose invaluable expertise guided me prosperously through the course of this project. Catherine's guidance and enthusiasm proved to be extremely motivational and pushed me to successfully complete this project. I would also like thank all of my friends and family who have supported me throughout this project.
+
+</body>
+
 \newpage
 
 \tableofcontents
@@ -162,6 +167,8 @@ ggplot(data_11) +
 #in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
 ```
 
+$\vspace{1.5cm}$
+
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.cap="Bar chart displaying the effect of alcohol on hypertension on the training data set.\\label{fig:alco1}",fig.show='hold'}
 ggplot(data_11) +
       geom_bar(aes(x = Alcohol, fill = Hypertension),position = "dodge") + xlab("Smoking") + labs(fill= "Hypertension")
@@ -169,7 +176,7 @@ ggplot(data_11) +
 ```
 
 
-$\vspace{1.5cm}$
+
 
 ## 2.4. Modelling{#model}
 
@@ -277,10 +284,13 @@ set.seed(123)
 
 model_log1 <- glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Diabetes + (Diabetes*Age) + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
 
-model_rf <- randomForest(Hypertension ~ .,data_11a, mtry = 3,importance = T)
+model_rf <- randomForest(Hypertension ~ .,data_11a,importance = T)
 
 model_nn <- nnet(Hypertension ~ ., data_11a, size = 1, decay = 0.5)
 
+# load("Data/model_log1.RData")
+# load("Data/model_rf.RData")
+# load("Data/model_nn.RData")
 
 hypn <- as.numeric(data_11a$Hypertension)-1
 ex_rf <- DALEX::explain(model_rf, data = data_11a, y = hypn, type = "classification")
@@ -363,16 +373,15 @@ Figure \ref{fig:rf_var} displays the mean decrease in accuracy and the Gini inde
 
 \pagebreak
 
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="Variable importance for the random forest model.\\label{fig:rf_var}",fig.show='hold'}
-varImpPlot(model_rf, main = "")
-```
 
-
-$\vspace{1.5cm}$
 
 ## 3.3. Neural Network{#resultsnn}
 
 In parallel, the partial dependence plot for the neural network model (figure \ref{fig:hist3}) reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension here continues to increase for a one unit increase in BMI for both females and males. Potassium appears to have a comparable trend to the contrasting models, the predictions for hypertension for both genders have a slow decreasing trend. There is a considerable amount of over-fitting accounted for by the random forest model on the training data. The neural network model appear to bit the data quite satisfactorily.\ 
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="Variable importance for the random forest model.\\label{fig:rf_var}",fig.show='hold'}
+varImpPlot(model_rf, main = "")
+```
 
 
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Partial dependence plot on the training data for the neural network response for age, bmi and potassium, for males and females separately.\\label{fig:hist4}",fig.show='hold'}
@@ -383,7 +392,7 @@ plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Networ
 
 ## 3.4. Measures of Accuracy{#accuracy}
 
-Following investigation of all training accuracy and AUC measures, it is obvious the random forest model outperformed all other models (figure \ref{tbl:data1}). The random forest model produced AUC of 1 and an accuracy of 0.994. This model shows great indication of a power model in predicting hypertension. Using the training data, the logistic regression and neural network models have yielded almost identical measures of accuracy and AUC.\ 
+Following investigation of all training accuracy and AUC measures, it was clear the random forest model outperformed all other models (figure \ref{tbl:data1}). The random forest model produced extremely high and satisfactory measures (AUC = 1 and accuracy = 0.994). This model shows great indication of a powerful model in predicting hypertension. Using the training data, the logistic regression and neural network models yielded almost identical measures of accuracy and AUC.\ 
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
@@ -405,15 +414,15 @@ nn_auc_test <-model_performance(ex_nn_test)$measures$auc
 nn_acc_test <- model_performance(ex_nn_test)$measures$accuracy
 
 
-pred1 <- predict(model_log1, Test, type="response")
-pred1 <- factor(ifelse(pred1 < .5, 0,1))
-tab1 <- table(Test$Hypertension, pred1)
-log_test_error <-(tab1[2]+tab1[3]) / sum(tab1)  # test error
-predb <- predict(model_rf, Test, type = "class")
-rf_test_error <- mean(predb != Test$Hypertension) #around 27%
-pred2 <- factor(ifelse(predict(model_nn, Test, type ="raw") > 0.5,1,0))
-tab3 <- table(pred2, Test$Hypertension)
-nn_test_error <- (tab3[2]+tab3[3]) / sum(tab3) # around 25%
+# pred1 <- predict(model_log1, Test, type="response")
+# pred1 <- factor(ifelse(pred1 < .5, 0,1))
+# tab1 <- table(Test$Hypertension, pred1)
+# log_test_error <-(tab1[2]+tab1[3]) / sum(tab1)  # test error
+# predb <- predict(model_rf, Test, type = "class")
+# rf_test_error <- mean(predb != Test$Hypertension) #around 27%
+# pred2 <- factor(ifelse(predict(model_nn, Test, type ="raw") > 0.5,1,0))
+# tab3 <- table(pred2, Test$Hypertension)
+# nn_test_error <- (tab3[2]+tab3[3]) / sum(tab3) # around 25%
 
 Model = factor(c("Logistic Regression","Random Forest", "Neural Network"))
 Training_Accuracy = c(log_acc,rf_acc,nn_acc)  %>% round(digits = 3)
@@ -421,26 +430,129 @@ AUC = c(log_auc,rf_auc,nn_auc)  %>% round(digits = 3)
 data1=data.frame(Model,Training_Accuracy,AUC)
 
 
-kable(data1, "latex", col.names =c("Model","Training Accuracy","AUC"),  booktabs=TRUE, linesep="", caption="Training Statistics\\label{tbl:data1}") %>%
+kable(data1, "latex", col.names =c("Model","Training Accuracy","AUC"),  booktabs=TRUE, linesep="", caption="The performance of all models evaluated using the training data.\\label{tbl:data1}") %>%
     kable_styling(latex_options=c("HOLD_position"))
 ```
 
 
+```{r, echo =FALSE, results='hide'}
 
-The test data was utilised to evaluate the fit of all models and to examine all measures of accuracy. All models performed relatively uniformly. Table \ref{tbl:data2} presents the model accuracy and AUC values. It is clear that all models produced very similar measures of both accuracy and AUC values. The logistic regression model performed marginally better than the neural network model by a decimal of 0.01 (AUC = 0.743 and accuracy = 0.806) and is the most accurate model in predicting hypertension. Both the logistic regression and neural network models have outperformed the random forest model. It is clear the random forest model over-fit the training data set prior to evaluating the model fit. 
+# Test Errors
+# Logistic Regression
+predicted <- predict(model_log1, Test, type="response")
+predicted <- factor(ifelse(predicted < .5, 0,1))
+tab1 <- table(Test$Hypertension, predicted)
+tab1
+# Logistic Regression  Error rate
+# (tab1[2]+tab1[3]) / sum(tab1) *100 # around 25%
+# mean(predicted != Test$Hypertension)*100 # test error
+
+
+
+# Random Forest
+# f2$confusion
+
+# Test error
+predicted <- predict(model_rf, Test, type = "class")
+tab2 <- table(Test$Hypertension, predicted)
+#mean(predicted != Test$Hypertension)*100 #around 27%
+
+
+
+# Test Data
+table(predict(model_nn, Test,type="class"), Test$Hypertension)
+predicted <- factor(ifelse(predict(model_nn, Test, type ="raw") > 0.5,1,0))
+tab3 <- table(Test$Hypertension, predicted)
+tab3
+# Neural Network test Error rate
+# (tab3[2]+tab3[3]) / sum(tab3) *100 # around 25%
+
+# Logistic 
+# Specificity 
+specificity_lr <- (tab1[1,1])/ (tab1[1,1]+tab1[1,2])
+specificity_lr *100 # 82%
+# Type 1 error
+type1_error_lr <- 1 - specificity_lr
+type1_error_lr
+#Sensitivity
+sensitivity_lr <- (tab1[2,2]) / (tab1[2,1]+tab1[2,2])
+sensitivity_lr *100 # 60%
+# Type 1 error
+type2_error_lr <- 1 - sensitivity_lr
+type2_error_lr
+# Precision
+precision_lr <- (tab1[2,2])/(tab1[1,2]+tab1[2,2])
+precision_lr *100 # 66%
+# Accuracy
+accuracy_lr <- (tab1[4]+tab1[1])/sum(tab1)
+accuracy_lr *100 # 74%
+
+
+# Random Forest
+specificity_rf <- (tab2[1,1])/ (tab2[1,1]+tab2[1,2])
+specificity_rf *100 # 
+# Type 1 error
+type1_error_rf <- 1 - specificity_rf
+type1_error_rf
+#Sensitivity
+sensitivity_rf <- (tab2[2,2]) / (tab2[2,1]+tab2[2,2])
+sensitivity_rf *100 
+# Type 1 error
+type2_error_rf <- 1 - sensitivity_rf
+type2_error_rf
+# Precision
+precision_rf <- (tab2[2,2])/(tab2[1,2]+tab2[2,2])
+precision_rf *100 
+# Accuracy
+accuracy_rf <- (tab2[4]+tab2[1])/sum(tab2)
+accuracy_rf *100 # 
+
+
+# Neural Network Test
+# Specificity
+specificity_nn  <- (tab3[1,1])/ (tab3[1,1]+tab3[1,2])
+specificity_nn  *100 # 79%
+# Type 1 error
+type1_error_nn  <- 1 - specificity_nn 
+type1_error_nn 
+#Sensitivity
+sensitivity_nn  <- (tab3[2,2]) / (tab3[2,1]+tab1[2,2])
+sensitivity_nn  *100 # 67%
+# Type 1 error
+type2_error_nn  <- 1 - sensitivity_nn 
+type2_error_nn 
+# Precision
+precision_nn  <- (tab3[2,2])/(tab3[1,2]+tab3[2,2])
+precision_nn  *100 # 65%
+# Accuracy
+accuracy_nn  <- (tab3[4]+tab3[1])/sum(tab3)
+accuracy_nn  *100 # 74%
+```
+
+
+The test data was utilised to evaluate the fit of all models and to examine all measures of accuracy. All models performed quite similarly. Table \ref{tbl:data2} presents the model performance with measures of accuracy and AUC values. It is clear that all models produced very similar measures of both accuracy and AUC values. The logistic regression model produced marginally highers measures than the neural network model by a decimal of 0.01 (AUC = `r log_auc_test %>% round(digits = 3)` and accuracy =  `r accuracy_lr %>% round(digits = 3)`). Both the logistic regression and neural network models have outperformed the random forest model. It is clear the random forest model over-fit the training data set prior to evaluating the model fit. 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 Model = factor(c("Logistic Regression","Random Forest", "Neural Network"))
-Error_Rate = c(log_test_error,rf_test_error,nn_test_error)  %>% round(digits = 3)
+# Error_Rate = c(log_test_error,rf_test_error,nn_test_error)  %>% round(digits = 3)
 Test_Accuracy = c(log_acc_test,rf_acc_test,nn_acc_test)  %>% round(digits = 3)
 AUC = c(log_auc_test,rf_auc_test,nn_auc_test)  %>% round(digits = 3)
-data2 <-data.frame(Model,Test_Accuracy,AUC)
+Specificity <- c(specificity_lr, specificity_rf, specificity_nn) %>% round(digits = 3)
+Sensitivity <- c(sensitivity_lr, sensitivity_rf, sensitivity_nn) %>% round(digits = 3)
+Type_1 <- c(type1_error_lr, type1_error_rf, type1_error_nn) %>% round(digits = 3)
+Type_2 <- c(type2_error_lr, type2_error_rf, type2_error_nn) %>% round(digits = 3)
+Precision <- c(precision_lr,precision_rf, precision_nn) %>% round(digits = 3)
+acc <- c(accuracy_lr, accuracy_rf, accuracy_nn)
+data2 <-data.frame(Model, Specificity, Type_1, Sensitivity, Type_2, Precision,Test_Accuracy,AUC)
 
-kable(data2, "latex", col.names =c("Model","Test Accuarcy","AUC"),  booktabs=TRUE, linesep="", caption="Test Statistics\\label{tbl:data2}") %>%
+kable(data2, "latex", col.names =c("Model", "Specificity", "Type 1 Error","Sensitivity", 
+                                   "Type 2 Error", "Precision", "Accuarcy","AUC"),  
+      booktabs=TRUE, linesep="", 
+      caption="The performance of all models evaluated using the test data.\\label{tbl:data2}") %>%
     kable_styling(latex_options=c("HOLD_position")) 
 ```
 
- Figure \ref{fig:hist5} shows the ROC curve of all models using the test data set. The ROC curvle was generated by plotting all model performances and setting geom to "roc". From the plot it is clear how similar all model fits are. The logistic regression line is difficult to inspect as it is masked by the neural network line, although both performances were rather consistent. 
+ Figure \ref{fig:hist5} shows the ROC curve of all models using the test data set. The ROC curve was generated by plotting all model performances and setting geom to "roc". From the plot it is clear how similar all model fits are. The logistic regression line is difficult to inspect as it is masked by the neural network line, although both performances were rather consistent. 
 
 $\vspace{1.5cm}$
 
@@ -458,14 +570,17 @@ plot(model_performance(ex_rf_test),model_performance(ex_log_test),model_performa
 # 4. Discussion{#diss}
 
 <body>
-This project investigated 'predicting hypertension' with the implementation of three machine learning models. Each model was examined to determine the most appropriate model in predicting hypertension. The findings are considered in 4.1. Model Selection and 4.2. Variable Importance.
+
+This project took a machine learning approach for predicting hypertension using data from NHANES data. Using this data, I focused on assessing three alternative models. The models implemented were logistic regression, random forest and neural network. Each model was examined to determine the most appropriate model in predicting hypertension. Additionally, each variable was investigated to establish potential leading causes of hypertension. The findings are considered in 4.1. Model Selection and 4.2. Variable Importance.
+
 </body>
 
 
 ## 4.1. Model Selection{#modsel}
 
 <body>
-Similar to a previous study (Sakr et al., 2018), the random forest model has outperformed the other models by showing the best overall performance (AUC = 0.999). The model proved to be extremely accurate in predicting hypertension (accuracy = 0.994). The logistic regression model was satisfactory (AUC = 0.818), however, it was not accurate as the random forest model (accuracy = 0.747). Currently, the neural network model does not appear to be at all satisfactory. 
+The most fitting model was selected based on measures obtained from using the test data to evaluate all model fits. The logistic regression model proved to be the best fitting model in predicting hypertension. This result shows contrast to a previous study (Sakr et al., 2018), that saw the random forest model outperform 5 other machine learning models including a neural network model. Although, the variance between model accuracy and AUC values was minuscule, the logistic regression model had the best performance. This model achieved an AUC of 0.806. The results indicate the logistic regression model was the most accurate model in predicting hypertension, as it produced an accuracy measure of 0.743. 
+
 
 **With a sensitivity of 40%, and specificity of 87%, the artificial neural network model demonstrates that it might be ineffective for healthcare diagnosis in detecting positive occurrences, but the true negative rate demonstrates that the model is effective at finding non-hypertensive patients. URL:https://www.nature.com/articles/s41598-020-67640-z#Sec20 **
 </body>
@@ -474,13 +589,17 @@ Similar to a previous study (Sakr et al., 2018), the random forest model has out
 ## 4.2. Variable Importance{#varimport}
 
 <body>
+This project utilised three machine learning approaches 
+
 At present there are several variables that have proven to be significant in predicting hypertension. One unit increases in both age and BMI are both significant in predicting hypertension. In the logistic regression, the presence of kidney disease, diabetes (including borderline diabetes), persistent smoking and different racial groups have all been seen to prove significant in increasing the odds of hypertension. 
+
+Age was a significant variable in all models. 
 </body>
 
 ## 4.3. Study Limitations{#limits}
 
 <body>
-A major limitation I encountered during this analysis was the large presence of missing values. As I gathered the data from the NHANES it was expected that missing values would be present as I personally had not conducted the survey. These missing values have potential to reduce statistical power. The loss of this data can also introduce bias in the estimation of the parameters. 
+A major limitation I encountered during this analysis was the large presence of missing values. As I gathered the data from the NHANES it was expected that missing values would be present as I personally had not conducted the survey. These missing values have potential to reduce statistical power. The loss of this data can also introduce bias in the estimation of the parameters. Another limitation was the process of variable selection. NHANES data has an enormous selection of data available, an initial issue was locating appropriate variables for the analysis. I was predominately efficient in discovering these variables, however despite the size of the available data there were some variables I sought after that I could not locate. Additionally, in relation to the size of the data, there were multiple variables that would relate to the same concept however alter in some regard. This hindered variable selection.
 
 </body>
 
@@ -488,21 +607,20 @@ A major limitation I encountered during this analysis was the large presence of 
 
 <body>
 
-My future plans for this project is to further train the neural network and random forest models and produce the best fit model I can for both of these models. I plan to further evaluate all model fits using the test set. Finally I will reach a conclusion as to which model will best predict hypertension and determine what of the variables used in these models are most responsible for contributing to the cause of hypertension.
+
 </body>
 
 
 ## 4.5. Conclusion{#con}
 
 <body>
-This analysis has further supported the findings of a previous study (López-Martínez et al, 2018), revealing similar results for the logistic regression model. In conclusion, the logistic regression model produced an AUC of 0.818. The logistic regression model revealed the odds of having hypertension is much higher for individuals who are female than for males. The odds of having hypertension were significantly increased for non-Hispanic black individuals compared to the rest of the ethnic groups.
 
 
-**For me to make my conclusion I need to choose my model and from there determine the important variables that contribute to the cause of hypertension. For my future work I have a paper below that has found similar findings to my logistic regression**
+Globally, cardiovascular diseases are responsible for one-third of mortality (Global health estimates, 2014) and in Ireland, they account for an almost identical proportion of deaths (Vital Statistics Fourth Quarter and Yearly Summary 2011, 2012). Although there was a dramatic drop in mortality rates since 1998, cardiovascular diseases still remain the leading cause of death in Ireland (Bennett, et al., 2006). A significant statistic has seen hypertension as a leading modifiable risk factor for cardiovascular diseases and has been estimated to be responsible for no less than 45% of ischaemic heart disease mortality and 51% of total stroke mortality globally (Global health estimates, 2014). The impact of hypertension is increasing around the world (Zhao, et al., 2013). It was estimated that there were approximately 972 million adults worldwide diagnosed with hypertension in 2000 alone, in the context of an aging population, the number of people diagnosed with hypertension is anticipated to increase by up to 60% to reach 1.5 billion people by 2025 (Kearney, et al., 2005). The need for model based prediction analysis for hypertension is colossal. Predicting hypertension can help establish leading causing of hypertension and assist with prevention measures to decrease the vast amount of people being diagnosed with hypertension every year. The repercussions of hypertension can be detrimental and the need for prevention is now.
 
 
+This analysis has further supported the findings of a previous study (López-Martínez et al, 2018), revealing similar results for the logistic regression model. In conclusion, the logistic regression model produced an AUC of 0.806. The logistic regression model revealed the odds of having hypertension is much higher for individuals who are female than for males. The odds of having hypertension were significantly increased for non-Hispanic black individuals compared to the rest of the ethnic groups.
 
-Globally, cardiovascular diseases are responsible for one-third of mortality (Global health estimates, 2014) and in Ireland, they account for an almost identical proportion of deaths (Vital Statistics Fourth Quarter and Yearly Summary 2011, 2012). Although there was a dramatic drop in mortality rates since 1998, cardiovascular diseases still remain the leading cause of death in Ireland (Bennett, et al., 2006). A significant statistic has seen hypertension as a leading modifiable risk factor for cardiovascular diseases and has been estimated to be responsible for no less than 45% of ischaemic heart disease mortality and 51% of total stroke mortality globally (Global health estimates, 2014). The impact of hypertension is increasing around the world (Zhao, et al., 2013). It was estimated that there were approximately 972 million adults worldwide diagnosed with hypertension in 2000 alone, in the context of an aging population, the number of people diagnosed with hypertension is anticipated to increase by up to 60% to reach 1.5 billion people by 2025 (Kearney, et al., 2005). 
 
 + World Health Organization, 2014. Global health estimates 2014 summary tables: deaths by cause, age and sex, 2000-2012 Geneva. 
 + Cso.ie. 2012. Vital Statistics Fourth Quarter and Yearly Summary 2011. [online] Available at: <https://www.cso.ie/en/csolatestnews/pressreleases/2012pressreleases/pressreleasevitalstatisticsfourthquarterandyearlysummary2011/> [Accessed 12 July 2021].
@@ -662,5 +780,7 @@ ggplot(data_11) +
 
 
 
-
+A couple more key metrics to keep in mind are sensitivity and specificity. Sensitivity is the percentage of true records that you predicted correctly.
+Specificity, on the other hand, is to measure what portion of the actual false records you predicted correctly.
+-- https://towardsdatascience.com/navigating-the-random-forest-algorithm-in-r-5ccbc0ef70e
 
