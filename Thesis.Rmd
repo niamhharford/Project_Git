@@ -532,7 +532,7 @@ accuracy_nn  <- (tab3[4]+tab3[1])/sum(tab3)
 accuracy_nn  *100 # 74%
 ```
 
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.width=2,  fig.cap="Logistic regression confusion matrix\\label{fig:cf1}",fig.show='hold'}
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.width=4,, fig.cap="Logistic regression confusion matrix\\label{fig:cf1}",fig.show='hold'}
 suppressMessages(library(yardstick))
 
 
@@ -547,14 +547,14 @@ autoplot(cm, type = "heatmap") +
   scale_fill_gradient(low="#D6EAF8",high = "#2E86C1")
 ```
 
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.width=2, fig.cap="Random forest confusion matrix.\\label{fig:cf2}",fig.show='hold'}
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.width=4, fig.cap="Random forest confusion matrix.\\label{fig:cf2}",fig.show='hold'}
 cm <- conf_mat(rf1, target2, predicted2)
 
 autoplot(cm, type = "heatmap") +
   scale_fill_gradient(low="#D6EAF8",high = "#2E86C1")
 ```
 
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.width=2,fig.cap="Neural Network confusion matrix\\label{fig:cf3}",fig.show='hold'}
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.width=4,fig.cap="Neural Network confusion matrix\\label{fig:cf3}",fig.show='hold'}
 cm <- conf_mat(nn1, target3, predicted3)
 
 autoplot(cm, type = "heatmap") +
