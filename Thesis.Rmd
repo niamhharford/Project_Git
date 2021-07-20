@@ -439,9 +439,10 @@ kable(data1, "latex", col.names =c("Model","Training Accuracy","AUC"),  booktabs
 
 # Test Errors
 # Logistic Regression
-predicted <- predict(model_log1, Test, type="response")
-predicted <- factor(ifelse(predicted < .5, 0,1))
-tab1 <- table(Test$Hypertension, predicted)
+predicted1 <- predict(model_log1, Test, type="response")
+predicted1 <- factor(ifelse(predicted1 < .5, 0,1))
+target1 <- Test$Hypertension
+tab1 <- table(target1, predicted1)
 tab1
 # Logistic Regression  Error rate
 # (tab1[2]+tab1[3]) / sum(tab1) *100 # around 25%
@@ -453,16 +454,18 @@ tab1
 # f2$confusion
 
 # Test error
-predicted <- predict(model_rf, Test, type = "class")
-tab2 <- table(Test$Hypertension, predicted)
+predicted2 <- predict(model_rf, Test, type = "class")
+target2 <- Test$Hypertension
+tab2 <- table(target2, predicted1)
 #mean(predicted != Test$Hypertension)*100 #around 27%
 
 
 
 # Test Data
 table(predict(model_nn, Test,type="class"), Test$Hypertension)
-predicted <- factor(ifelse(predict(model_nn, Test, type ="raw") > 0.5,1,0))
-tab3 <- table(Test$Hypertension, predicted)
+predicted3 <- factor(ifelse(predict(model_nn, Test, type ="raw") > 0.5,1,0))
+target3 <- Test$Hypertension
+tab3 <- table(target3, predicted3)
 tab3
 # Neural Network test Error rate
 # (tab3[2]+tab3[3]) / sum(tab3) *100 # around 25%
@@ -527,6 +530,36 @@ precision_nn  *100 # 65%
 # Accuracy
 accuracy_nn  <- (tab3[4]+tab3[1])/sum(tab3)
 accuracy_nn  *100 # 74%
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.width=2,  fig.cap="Logistic regression confusion matrix\\label{fig:cf1}",fig.show='hold'}
+suppressMessages(library(yardstick))
+
+
+logreg1 <- data.frame(target1,predicted1) 
+rf1 <- data.frame(target2,predicted2)
+nn1 <- data.frame(target3,predicted3)
+
+# The confusion matrix from a single assessment set (i.e. fold)
+cm <- conf_mat(logreg1, target1, predicted1)
+
+autoplot(cm, type = "heatmap") +
+  scale_fill_gradient(low="#D6EAF8",high = "#2E86C1")
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.width=2, fig.cap="Random forest confusion matrix.\\label{fig:cf2}",fig.show='hold'}
+cm <- conf_mat(rf1, target2, predicted2)
+
+autoplot(cm, type = "heatmap") +
+  scale_fill_gradient(low="#D6EAF8",high = "#2E86C1")
+```
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.width=2,fig.cap="Neural Network confusion matrix\\label{fig:cf3}",fig.show='hold'}
+cm <- conf_mat(nn1, target3, predicted3)
+
+autoplot(cm, type = "heatmap") +
+  scale_fill_gradient(low="#D6EAF8",high = "#2E86C1")
+
 ```
 
 
