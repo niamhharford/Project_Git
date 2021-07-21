@@ -1,0 +1,289 @@
+---
+title: "Tidymodels"
+author: "Niamh Harford 20251644"
+date: "7/16/2021"
+output: html_document
+---
+
+```{r}
+suppressMessages(library(tidymodels)) # for the parsnip package, along with the rest of tidymodels
+
+# Helper packages
+suppressMessages(library(broom)) # for converting bayesian models to tidy tibbles
+suppressMessages(library(dotwhisker))
+
+# Load in 2011/2012 data
+load("Data/data1_11a.RData")
+# Load in 2015/2016 Data 
+load("Data/hyp1.RData")
+Test <- hyp1
+```
+
+
+```{r}
+data_11a$Hypertension <- factor(ifelse(data_11a$Hypertension == "Yes", 1 ,0))
+
+glm_mod <- logistic_reg() %>%
+set_engine("glm")
+
+# glm_fit <-
+# glm_mod %>%
+# fit(Hypertension ~ (Age+I(Age^2) + BMI+ I(BMI^2))*Gender+Race+Smoking + (Diabetes*Age) + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
+
+load("Data/glm_fit.RData")
+
+tidy(glm_fit)
+
+tidy(glm_fit) %>% 
+dwplot(dot_args = list(size = 2, color = "black"),
+whisker_args = list(color = "black"),
+vline = geom_vline(xintercept = 0, colour = "grey50", linetype = 2))
+ 
+
+
+glm_pred <-
+predict(glm_fit, data_11a, type = "prob") %>%
+bind_cols(predict(glm_fit, data_11a)) %>%
+bind_cols(data_11a %>% dplyr::select(Hypertension))
+
+
+glm_pred %>%
+roc_curve(truth = Hypertension, .pred_0) %>%
+autoplot()
+
+
+glm_pred %>%
+roc_curve(truth = Hypertension, .pred_1) %>%
+autoplot()
+
+glm_pred %>%
+roc_auc(truth = Hypertension, .pred_0)
+
+glm_pred %>%
+roc_auc(truth = Hypertension, .pred_1)
+
+glm_pred %>%
+accuracy(truth = Hypertension, .pred_class)
+
+# save(glm_fit, file = "glm_fit.Rdata")
+```
+
+```{r}
+rf_mod <- rand_forest(mode = "classification") %>% 
+set_engine("ranger")
+# 
+# rf_fit <-
+# rf_mod %>%
+# fit(Hypertension ~ ., data=data_11a)
+
+
+load("Data/rf_fit.RData")
+
+rf_pred <-
+predict(rf_fit, data_11a, type = "prob") %>%
+bind_cols(predict(rf_fit, data_11a)) %>%
+bind_cols(data_11a %>% dplyr::select(Hypertension))
+
+
+rf_pred %>%
+roc_curve(truth = Hypertension, .pred_0) %>%
+autoplot()
+
+rf_pred %>%
+roc_curve(truth = Hypertension, .pred_1) %>%
+autoplot()
+
+rf_pred %>%
+roc_auc(truth = Hypertension, .pred_0)
+
+rf_pred %>%
+roc_auc(truth = Hypertension, .pred_1)
+
+rf_pred %>%
+accuracy(truth = Hypertension, .pred_class)
+
+library(DALEX)
+ex_rf <- explain(rf_fit, data= data_11a)
+plot(model_profile(ex_rf))
+class(rf_fit)
+
+# save(rf_fit, file = "rf_fit.Rdata")
+
+
+```
+
+
+```{r}
+# nn_mod <- mlp(mode = "classification") %>% 
+# set_engine("keras")
+
+nn_mod <- mlp(mode = "classification") %>% 
+set_engine("nnet")
+
+nn_fit <-
+nn_mod %>%
+fit(Hypertension ~ ., data=data_11a)
+
+nn_pred <-
+predict(nn_fit, data_11a, type = "prob") %>%
+bind_cols(predict(nn_fit, data_11a)) %>%
+bind_cols(data_11a %>% dplyr::select(Hypertension))
+
+
+nn_pred %>%
+roc_curve(truth = Hypertension, .pred_0) %>%
+autoplot()
+
+nn_pred %>%
+roc_curve(truth = Hypertension, .pred_1) %>%
+autoplot()
+
+nn_pred %>%
+roc_auc(truth = Hypertension, .pred_0)
+
+nn_pred %>%
+roc_auc(truth = Hypertension, .pred_1)
+
+nn_pred %>%
+accuracy(truth = Hypertension, .pred_class)
+```
+
+
+```{r}
+#Tune
+set.seed(123)
+nn_mod <- mlp(mode = "classification") %>% 
+set_engine("nnet")
+
+
+nnet_mod1 <-
+nn_mod %>%
+update(hidden_units = tune(), penalty=tune(), epochs=tune())
+
+
+nnet_grid <- grid_regular(hidden_units(range=c(0,20)),
+penalty(range =c(0.5,0.0000001)), epochs(range= c(10,1000)))
+
+folds <- vfold_cv(data_11a, v = 10)
+
+nn_wf <- workflow() %>%
+  add_model(nnet_mod1) %>% add_formula(Hypertension ~ .)
+
+# nn_res <-
+#   nn_wf %>%
+#   tune_grid(
+#     resamples = folds,
+#     grid = nnet_grid
+#     )
+
+load("Data/nn_res.RData")
+
+nn_res %>%
+  collect_metrics()
+
+
+# nn_res %>%
+#   collect_metrics() %>%
+#   mutate(hidden_units = factor(hidden_units)) %>%
+#   ggplot(aes(penalty, mean, color = hidden_units)) +
+#   geom_line(size = 1.5, alpha = 0.6) +
+#   geom_point(size = 2) +
+#   facet_wrap(~ .metric, scales = "free", nrow = 2) +
+#   scale_x_log10(labels = scales::label_number()) +
+#   scale_color_viridis_d(option = "plasma", begin = .9, end = 0)
+
+# save(nn_res, file = "nn_res.Rdata")
+load("Data/nn_res.RData")
+
+nn_res %>%
+  show_best("roc_auc")
+
+best_nn <- nn_res %>%
+  select_best("roc_auc")
+
+best_nn
+
+
+final_wf <- 
+  nn_wf %>% 
+  finalize_workflow(best_nn)
+
+
+final_nn <- 
+  final_wf %>%
+  fit(data = data_11a) 
+
+final_nn
+
+# save(final_nn, file = "final_nn.Rdata")
+load("Data/final_nn.RData")
+
+nn_pred1 <-
+predict(final_nn, data_11a, type = "prob") %>%
+bind_cols(predict(final_nn, data_11a)) %>%
+bind_cols(data_11a %>% dplyr::select(Hypertension))
+
+
+nn_pred1 %>%
+roc_curve(truth = Hypertension, .pred_0) %>%
+autoplot()
+
+nn_pred %>%
+roc_curve(truth = Hypertension, .pred_1) %>%
+autoplot()
+
+nn_pred %>%
+roc_auc(truth = Hypertension, .pred_0)
+
+nn_pred %>%
+roc_auc(truth = Hypertension, .pred_1)
+
+nn_pred %>%
+accuracy(truth = Hypertension, .pred_class)
+```
+
+
+
+
+
+```{r}
+
+suppressMessages(library(DALEXtra))
+hypn <- as.numeric(data_11a$Hypertension)-1
+ex_log <- DALEX::explain(glm_fit, data = data_11a, y = hypn, type = "classification")
+ex_rf <- DALEX::explain(rf_fit, data = data_11a, y = hypn, type = "classification")
+ex_nn <- DALEXtra::explain_tidymodels(final_nn, data = data_11a, y = hypn) # need this for workflow object
+
+
+model_performance(ex_log)
+model_performance(ex_rf)
+model_performance(ex_nn)
+
+plot(model_performance(ex_log),model_performance(ex_rf),model_performance(ex_nn), geom = "roc")
+```
+
+
+```{r}
+
+Test$Hypertension <- factor(ifelse(Test$Hypertension == "Yes", 1 ,0))
+
+
+hypn <- as.numeric(Test$Hypertension)-1
+ex_log <- DALEX::explain(glm_fit, data = Test, y = hypn, type = "classification")
+ex_rf <- DALEX::explain(rf_fit, data = Test, y = hypn, type = "classification")
+ex_nn <- explain_tidymodels(final_nn, data = Test, y = hypn) # need this for workflow object
+
+
+model_performance(ex_log)
+model_performance(ex_rf)
+model_performance(ex_nn)
+
+plot(model_performance(ex_log),model_performance(ex_rf),model_performance(ex_nn), geom = "roc")
+```
+
+
+
+
+
+
+
