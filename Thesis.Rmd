@@ -74,7 +74,7 @@ Machine learning (Alpaydin, 2020; Marsland, 2015) is a contemporary data analysi
 Recently, various studies have been using models to predict hypertension (Chang, Wang and Jiang, 2011; Abdullah, Zakaria and Mohamad, 2011; Farran,Channanath, Behbehani and Thanaraj, 2013; Elshawi, Al-Mallah and Sakr, 2019). The emphasis of these studies are to determine the best fitting model in predicting hypertension. Many papers focused on adopting multiple models using machine learning techniques which included examining neural network models, logistic regression models and random forest models to make some inference on hypertension. These papers focused on using training and test sets and assessing model error rates and model accuracy to determine the best machine learning approach to predict hypertension. One study solely implemented an artificial neural network model and carried out a thorough analysis comparing previous studies using alternative models (López-Martínez et al., 2020). This study revealed their artificial neural network model had an improved overall performance and accuracy in contract to a previous logistic regression model they had worked on and published (López-Martínez et al., 2020, 2018). Both of these models used NHANES data in addition to examining the same explanatory variables. The artificial neural network model produced AUC of 0.77, whereas the logistic regression model produced AUC of 0.73. From the comparison of these two models analsyed by López-Martínez et al. (2018,2020), it is evident that an artificial neural network perhaps dependent on explanatory variables is a moderately better model to predict hypertension. Another study assessed six machine learning techniques to establish the most fitting model to predict hypertension, these models were logitBoost, bayesian network classifier, locally weighted naive bayes, artificial neural network, support vector machine and random forest (Sakr et al., 2018). This analysis revealed that the random forest model outperformed all other models and produced AUC of 0.93. Although this study did not examine the logistic regression model like the previous papers, it is evident that the random forest model when compared with multiple machine learning techniques including the artificial neural network model is the most fitting model utilised here.\ 
 
 
-Predicting hypertension can help establish leading causes of hypertension. Furthermore, using models to predict hypertension can contribute to preventing extensive occurrences of hypertension cases in addition to potential knock-on effects of hypertension, by offering useful advise in maintaining healthy blood pressure measures. I plan to build a model that will provide practical and beneficial information regarding hypertension. I will employ three machine learning techniques (logistic regression, random forest and neural network) to determine which model is the most appropriate model in predicting hypertension. I will determine significant contributing factors of hypertension by exploring the effect of multiple variables on hypertension. These variables are age, gender, race, smoking, diabetes, kidney disease, BMI, physical activity, alcohol use, salt use and potassium levels.\ 
+Predicting hypertension can help establish leading causes of hypertension. Furthermore, using models to predict hypertension can contribute to preventing extensive occurrences of hypertension cases in addition to potential knock-on effects of hypertension, by offering useful advise in maintaining healthy blood pressure measures. I plan to build in a model R-Studio that will provide practical and beneficial information regarding hypertension. I will employ three machine learning techniques (logistic regression, random forest and neural network) to determine which model is the most appropriate model in predicting hypertension. I will determine significant contributing factors of hypertension by exploring the effect of multiple variables on hypertension. These variables are age, gender, race, smoking, diabetes, kidney disease, BMI, physical activity, alcohol use, salt use and potassium levels.\ 
 
 I will use data from the National Health and Nutrition Examination Survey, which is more simply known as NHANES. NHANES is an application of research created to evaluate the physical and nutritional status of both children and adults in America (NHANES - About the National Health and Nutrition Examination Survey, 2021). This data is published online and can be publicly accessed for extensive health related statistical analysis. The survey is distinctive in that it uses both interviews and physical assessments to examine the health of the particoants who are being sampled. The NHANES was first established in the early 1960s and has been ran as a number of surveys focusing on different population groups or health topics (NHANES - About the National Health and Nutrition Examination Survey, 2021). In 1999, the survey became a sustained program that has a changing focus on a variety of health and nutrition measurements to meet emerging needs (NHANES - About the National Health and Nutrition Examination Survey, 2021). NHANES surveys a nationally representative sample of about 5,000 persons annually (NHANES - About the National Health and Nutrition Examination Survey, 2021). The NHANES interview includes many components in particular demographic, socioeconomic, dietary, and health-related questions. The physical assessment component consists of medical, dental, and physiological measurements, as well as laboratory tests dispensed by highly trained medical personnel (NHANES - About the National Health and Nutrition Examination Survey, 2021). During the period of 1999 to 2010, the NHANES subject matter was altered biannually as parts were changed, added, or removed (NHANES - About the National Health and Nutrition Examination Survey, 2021). Changes were also made to focus on new age groups, alter data collection methods, and update technologies (NHANES - About the National Health and Nutrition Examination Survey, 2021). A complex, multi-step probability sampling plan was used to choose a sample representative sample of people in America (NHANES - About the National Health and Nutrition Examination Survey, 2021). Findings from surveys such as NHANES are  used to discover the prevalence of major diseases and risk factors for diseases (NHANES - About the National Health and Nutrition Examination Survey, 2021).\ 
 
@@ -92,7 +92,7 @@ Machine learning techniques currently have been well suited for analysing medica
 
 </body>
 
-## 2.1. Setting Up the Data{#setup}
+## 2.1. Data Source{#setup}
 
 <body>
 
@@ -155,7 +155,7 @@ plot(g)
 ```
 
     
-I inspected the levels of the categorical variables. I noticed there were two levels present in some of the categorical variables. These levels were "Don't Know" and "Refused". Participants would have had the opportunity to respond with these such responses during the survey. Through further assessment, it was evident there was either no observations or very little observations in these levels. Thus these levels did not provide any useful information for modelling and also made interpretation difficult. Figure \ref{fig:smoke} and figure \ref{fig:alco1} displays these levels and also highlights the presence of missing values in the data. After some consideration, the decision was made to delete the observations where participants responded either "Don't Know" or "Refused". Following the removal of these levels I omitted the remaining missing values from both the training and test sets. I omitted 52 missing values from the 2011/2012 training data set and 45 missing values from the the 2015/2016 test data set. Sequentially, I verified categorical variables were marked in R as factors and continuous variables as numeric. After all data cleaning, the training set now had a total of 4312 observations and the test set had a total of 4624 observations. I choose to control all categorical variables in such a way that they were positively associated with the response variable Hypertension. In the training data, the response variable had a total of 1576 individuals diagnosed with hypertension and 2376 individuals who did not have hypertension. In the test data, the response variable had a total of 1711 individuals diagnosed with hypertension and 2913 individuals who did not have hypertension. The final step I performed involved releveling the categorical variables using the relevel() function.\ 
+I inspected the levels of the categorical variables. I noticed there were two levels present in some of the categorical variables. These levels were "Don't Know" and "Refused". Participants would have had the opportunity to respond with these such responses during the survey. Through further assessment, it was evident there was either no observations or very little observations in these levels. Thus these levels did not provide any useful information for modelling and also made interpretation difficult. Figure \ref{fig:smoke} and figure \ref{fig:alco1} displays these levels and also highlights the presence of missing values in the data prior to any cleaning processes. After some consideration, the decision was made to delete the observations where participants responded either "Don't Know" or "Refused". Following the removal of these levels I omitted the remaining missing values from both the training and test sets. I omitted 52 missing values from the 2011/2012 training data set and 45 missing values from the 2015/2016 test data set. Subsequent to this, I verified categorical variables were marked in R as factors and continuous variables as numeric. After all data cleaning, the training set now had a total of 4312 observations and the test set had a total of 4624 observations. I choose to control all categorical variables in such a way that they were positively associated with the response variable Hypertension. In the training data, the response variable had a total of 1576 individuals diagnosed with hypertension and 2376 individuals who did not have hypertension. In the test data, the response variable had a total of 1711 individuals diagnosed with hypertension and 2913 individuals who did not have hypertension. The final step I performed involved releveling the categorical variables using the relevel() function.\ 
 
 
 </body>
@@ -167,7 +167,7 @@ ggplot(data_11) +
 #in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
 ```
 
-$\vspace{1.5cm}$
+
 
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.cap="Bar chart displaying the effect of alcohol on hypertension on the training data set.\\label{fig:alco1}",fig.show='hold'}
 ggplot(data_11) +
@@ -182,18 +182,18 @@ ggplot(data_11) +
 
 <body>
 
-I choose to use three machine learning techniques to investigate and predict hypertension. These modelling techniques are logistic regression, random forest and neural network models. The response variable is binary taking on either "Yes" or "No" responses. The response variable was re-coded to take on values of either 0 or 1.\ 
+For this analysis, I examined three different machine learning classification techniques to investigate and predict hypertension in R-Studio. These modelling techniques were logistic regression, random forest and neural network models. The response variable Hypertension is binary taking on either "Yes" or "No" responses. The Hypertension was re-coded to take on values of either 0 or 1. All models are competent in classification analysis.\ 
 
 ### 2.4.1 Logistic Regression{#logreg}
 
 
-Logistic regression models are such models that generally deal with binary dependent variables (Hall and Round, 1994). This model will always produce probabilities between 0 and 1. Odds ratios which are the ratios of the probability of the event occurring to the probability of the event not occurring, can be utilised for logistic regression models (Hall and Round, 1994).The equation for logistic regression is defined below:
+Logistic regression models are such models that generally deal with binary dependent variables (Hall and Round, 1994). This model will always produce probabilities between 0 and 1. Odds ratios which are the ratios of the probability of the event occurring to the probability of the event not occurring, can be utilised for logistic regression models (Hall and Round, 1994). The equation for logistic regression is defined below:
 
 \begin{center}
 \[P(Y=1|X=x) = \dfrac{e^{\small \eta}}{1+e^{\small \eta}}\]\ 
 \end{center}
 
-Where ${\small \eta}$ is the systematic component of the model, eg. ${\small \eta} = \beta_0 + \beta_1x_1 + . . . +\beta_kx_k$. I fitted several logistic regression models to determine the most satisfactory model. I used the function residualPlots() from the 'car' package to examine how well each variable fit in the model (Fox and Sanford, 2019). The first model I fit included all explanatory variables. I inspected the fit of all variables and it was clear that two continuous variables Age and BMI did not fit well. I decided to add two quadratic terms to the model on Age and BMI, while keeping all variables in the model. However, the residualPlots() function here was not effective in portraying the significant difference between the two models. Instead using the function anova(), I was able to determine the model including quadratic terms was a better fit model. I examined potential interactions with the Gender variable. I fit a model where Gender had an interaction with all other variables, including the two quadratic terms. Using the function Anova(), I could see how both interactions with the quadratic terms (Age^2^ and BMI^2^) and Gender were significant. I then fit a model, where Gender had an interaction with Age, Age^2^, BMI and BMI^2^. I used anova() to determine the best model. The final model I fit was identical to the previous model, however I added one more interaction term with Age and Diabetes. Using anova() it was clear that this model was the most satisfactory model. The final model chosen for the logistic regression model is defined below:
+Where ${\small \eta}$ is the systematic component of the model, eg. ${\small \eta} = \beta_0 + \beta_1x_1 + . . . +\beta_kx_k$. I fitted several logistic regression models to determine the most satisfactory model in predicting hypertension. I used the function residualPlots() from the 'car' package to examine how well each variable fit in the model (Fox and Sanford, 2019). The first model I fit included all explanatory variables. I inspected the fit of all variables and it was clear that two continuous variables Age and BMI did not fit well. I decided to add two quadratic terms to the previous model on Age and BMI, while keeping all the Age and BMI variables constant in the model. However, the residualPlots() function here was not effective in portraying the significant difference between the two models. Instead using the function anova(), I was able to determine the model including quadratic terms was a better fit model. I examined potential interactions with the Gender variable. I fit a model where Gender had an interaction with all other variables, including the two quadratic terms. Using the function Anova(), I could see how both interactions with the quadratic terms (Age^2^ and BMI^2^) and Gender were significant. I then fit a model, where Gender had an interaction with Age, Age^2^, BMI and BMI^2^. I used anova() to determine the best model. The final model I fit was an extension to the previous model as I added one more interaction term with Age and Diabetes. I assessed the model fit using Anova() and it was evident that this interaction was significant. Using anova() it was apparent that this final model was the most satisfactory model. The final model chosen for the logistic regression model is defined below:
 
 \begin{center}
 
@@ -225,9 +225,50 @@ I tuned the neural network model using the package 'caret' (Kuhn, 2021). I used 
 
 <body>
  
-I used several methods to compare the logistic regression, random forest and neural network models. These methods included examining the confusion matrix, to estimate the error rate, Receiver Operating Characteristic (ROC) curve, the Area Under the Curve (AUC) value, partial dependence plots and profiles and the 'condvis2' package (Hurley, O'Connell and Domijan, 2020) in R. All measures were used to examine the accuracy of all models. Utilising the confusion matrix, I can produce measures of model accuracy and error rates to determine the fit of all models.\
+To evaluate the models I used several methods which included examining the confusion matrix, Receiver Operating Characteristic (ROC) curve, the Area Under the Curve (AUC) value, partial dependence plots and profiles and the application of the condvis() function in the 'condvis2' package (Hurley, O'Connell and Domijan, 2020) in R. All measures were used to examine the accuracy measures of all models by utilising the test data set.\ 
 
-This ROC curve evaluates the accuracy of models. This curve is the plot of sensitivity versus 1-specificity. It reveals the trade off between the false positive rate (FPR) and true positive fraction (TPR) as one change the criterion for positivity (Swets, 1979; Metz, 1986). The FPR is also referred to as 1-specificity and the TPR is also referred to as sensitivity. The AUC and ROC curve work hand in hand. The AUC is another technique to evaluate the accuracy of models. The ROC curve is a more visual representation of how accurate the model is, whereas the AUC is the measure of the area under the ROC curve and will produce a figure between 0 and 1, where an AUC value of 1 reveals a model is extremely accurate. The AUC value produces a summary of the entire location of the ROC curve instead of depending on a specific operating point (Swets, 1979; Hanley and McNeill, 1982).\
+The confusion matrix was effective in producing measures of model accuracy and error rates to determine the fit of all models. Confusion matrices were examined to investigate the performance of classification models on the test data by calculating key measures which included sensitivity, specificity, type 1 error rate, type 2 error rate, accuracy, precision and the F-score. TP refers to true positive where both actual and predicted values are positive. TN refers to true negative where both actual and predicted values are negative. FP refers to false positive where the predicted value is positive however the actual value is negative. FN refers to false negative where the predicted value is negative however the actual value is positive. N refers to the sum of all negative actual values and P refers to the sum of all positive actual values. All of these measures are defined below.
+
+Sensitivity = TP/P.\
+
+
+Specificity = TN/N.\ 
+
+
+Type 1 error = FP/N.\
+
+
+Type 2 error = FN/P.\ 
+
+
+Accuracy = (TP + TN)/N.\ 
+
+
+Precision = TP/(TP + FP).\ 
+
+
+Fscore = (2 * TP)/((2 * TP) + FP + FN).\ 
+
+
+
+\[Sensitivity = \dfrac{TP}{P}\]
+
+\[Specificity = \dfrac{TN}{N}\]
+
+\[Type  1 error = \dfrac{FP}{N}\] 
+
+\[Type  2 error = \dfrac{FN}{P}\] 
+
+\[Accuracy= \dfrac{(TP + TN)}{N}\]
+
+\[Precision = \dfrac{TP}{TP + FP}\]
+
+\[Fscore= \dfrac{2 \times TP}{(2 \times TP) + FP + FN}\] 
+
+
+
+
+This ROC curve evaluates the accuracy of models. This curve is the plot of sensitivity versus 1-specificity. It reveals the trade off between the false positive rate (FPR) and true positive fraction (TPR) as one change the criterion for positivity (Swets, 1979; Metz, 1986). The FPR is also referred to as 1-specificity and the TPR is also referred to as sensitivity. The AUC and ROC curve work hand in hand. The AUC is another technique to evaluate the accuracy of models. The ROC curve is a more visual representation of how accurate the model is, whereas the AUC is the measure of the area under the ROC curve and will produce a figure between 0 and 1, where an AUC value of 1 reveals a model is extremely accurate. The AUC value produces a summary of the entire location of the ROC curve instead of depending on a specific operating point (Swets, 1979; Hanley and McNeill, 1982).\ 
 
 The partial dependence plots are produced using the 'DALEX' package (Biecek, 2018). The main point of partial dependence profiles is to investigate how the expected value of model prediction will behave as a function of a selected explanatory variable (Biecek and Burzykowski, 2021). Partial dependence profiles are beneficial for comparisons of different models. Partial dependence profiles use the mean of ceteris-paribus profiles (Biecek and Burzykowski, 2021). Ceteris-paribus profiles display the dependence of an instance-level prediction on any explanatory variable, therefore the partial dependence profile is estimated by the mean of the ceteris-paribus profiles for all observations from a data set (Biecek and Burzykowski, 2021). The value of the partial dependence profile for model $f()$ and explanatory variables $\underbar{x}_i^{j}$ at $z$, where $z$ is fixed over the marginal distribution of $\underbar{x}$ is defined below:
 
@@ -340,7 +381,6 @@ kable(data3, "latex", col.names =c("Variables","Odds Ratios"), booktabs=TRUE, li
 
 Figure  \ref{fig:hist1} also displays the comparative odds ratios for all explanatory variables. The logistic regression model revealed some significant results, with some of these odds ratios being somewhat expected. Individuals who smoked more than 100 cigarettes in their lifetime had a 26% increase in their odds of having hypertension in comparison to individuals who have not smoked more than 100 cigarettes. For individuals who were diagnosed with kidney disease or failing kidneys, the odds of them having hypertension were estimated to be almost 3 times higher than those who did not have such renal complications. For individuals who were physically active, their odds of having hypertension were estimated to decrease by 10%. All levels within the Race variable are seen to have increased odds of having hypertension relative to the baseline race, Mexican American. The highest odds ratio within Race was for non-Hispanic black individuals. When you move from individuals who are American Mexican to Non-Hispanic Black, the odds of having hypertension is estimated to be 2.3 times higher. An unexpected result included the odds ratios for some levels of salt relative to the baseline "Never". The extensive use of salt to food at the table is not seen to have a significant increase on the effect of hypertension. Salt used "Very Often" is seen to decrease the odds of having hypertension by 2%, where as salt used "Occasionally" is considered to have no real change in the odds of having hypertension, both levels relative to "Never" using salt. Additionally, salt used "Rarely" compared to "Never", does decrease the estimated odds of having hypertension by 14%. Finally, both a one unit increase potassium and individuals who have had more than 12 alcoholic drinks in a year are estimated to have no effect on the odds of having hypertension. Unfortunately, figure \ref{fig:hist1} does not produce a sufficient depiction of the odds ratios of Age, Age^2^, BMI, BMI^2^ and Diabetes and the interaction terms associated with these variables.\ 
 
-$\vspace{1.5cm}$
 
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.cap="The odds ratios for the logistic regression. The purple dots indicate increased odds ratios. The green dots indicate decreased odds ratios.\\label{fig:hist1}",fig.show='hold'}
 plot_model(model_log1, vline.color = "black", sort.est = TRUE,colors = "Accent")
@@ -350,7 +390,7 @@ plot_model(model_log1, vline.color = "black", sort.est = TRUE,colors = "Accent")
 
 The partial dependence plot (figure \ref{fig:hist2}) for the logistic regression model reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension continues to increase for a one unit increase in BMI for females, however, it is evident there is a sharp decrease in the prediction of hypertension for males when BMI reaches 40. Potassium appears to have a very steady, however minor decrease in the prediction for hypertension for both genders.\ 
 
-$\vspace{1.5cm}$
+
 
 
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.cap="Partial dependence plot on the training data for the logistic regression response for age, bmi and potassium, for males and females separately.\\label{fig:hist2}",fig.show='hold'}
@@ -360,16 +400,16 @@ plot(model_profile(ex_log,groups="Gender")) + ggtitle("Response for Logistic Reg
 
 ## 3.2. Random Forest{#resultsrf}
 
-Similarly,the partial dependence plot for the random forest model (figure \ref{fig:hist3}) reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension here continues to increase for a one unit increase in BMI for both females and males. The increasing trend for BMI begins to level off around a BMI of 50. Potassium appears to have a comparable trend to the logistic regression model, the predictions for hypertension for both genders level off quite rapidly. There is a considerable amount of over-fitting accounted for by the random forest model on the training data.\ 
+Similarly, the partial dependence plot for the random forest model (figure \ref{fig:hist3}) reveals how the average prediction for hypertension continues to increase for a one unit increase in age for both males and females. The average prediction for hypertension here continues to increase for a one unit increase in BMI for both females and males. The increasing trend for BMI begins to level off around a BMI of 50. Potassium appears to have a comparable trend to the logistic regression model, the predictions for hypertension for both genders level off quite rapidly. There is a considerable amount of over-fitting accounted for by the random forest model on the training data.\ 
 
 
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Partial dependence plot on the training data for the random forest response for age, bmi and potassium, for males and females separately.\\label{fig:hist3}",fig.show='hold'}
 plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Random Forest") + theme(plot.title = element_text(size = 10))
 ```
 
-$\vspace{1.5cm}$
+\pagebreak
 
-Figure \ref{fig:rf_var} displays the mean decrease in accuracy and the Gini index totaled over splits involving each predictor. The MeanDecreaseAccuracy contains a measure of the extent to which a variable improves the accuracy of the random forest in predicting the classification. The higher the variable is on this plot the more important the variable is and the more the variable improves the prediction of the model. Age is estimated to be the most important variable in the MeanDecreaseAccuracy plot in the random forest model. If the association with Age and Hypertension is removed, there is eveidently the greatest loss of accuracy in the model. The MeanDecreaseGini plot also exhibits the variable importance. MeanDecreaseGini provides a more nuanced measure of importance, which factors in both the contribution that variable makes to accuracy, and the degree of misclassification. This plot provides evidence that Age, BMI and Potassium, all continuous variables are the most importance variables in this data set. The splits on Age are producing the greatest reduction on the Gini index.
+Figure \ref{fig:rf_var} displays the mean decrease in accuracy and the Gini index totaled over splits involving each predictor. The MeanDecreaseAccuracy contains a measure of the extent to which a variable improves the accuracy of the random forest in predicting the classification. The higher the variable is on this plot the more important the variable is and the more the variable improves the prediction of the model. Age is estimated to be the most important variable in the MeanDecreaseAccuracy plot in the random forest model. If the association with Age and Hypertension is removed, there is evidently the greatest loss of accuracy in the model. The MeanDecreaseGini plot also exhibits the variable importance. MeanDecreaseGini provides a more nuanced measure of importance, which factors in both the contribution that variable makes to accuracy, and the degree of misclassification. This plot provides evidence that Age, BMI and Potassium, all continuous variables are the most importance variables in this data set. The splits on Age are producing the greatest reduction on the Gini index.
 
 \pagebreak
 
@@ -392,10 +432,8 @@ plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Networ
 
 ## 3.4. Measures of Accuracy{#accuracy}
 
-Following investigation of all training accuracy and AUC measures, it was clear the random forest model outperformed all other models (figure \ref{tbl:data1}). The random forest model produced extremely high and satisfactory measures (AUC = 1 and accuracy = 0.994). This model shows great indication of a powerful model in predicting hypertension. Using the training data, the logistic regression and neural network models yielded almost identical measures of accuracy and AUC.\ 
 
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
 # look at model_performance and plot model_performance for nice way of getting roc and model summaries.
  
 rf_auc <- model_performance(ex_rf)$measures$auc
@@ -424,18 +462,6 @@ nn_acc_test <- model_performance(ex_nn_test)$measures$accuracy
 # tab3 <- table(pred2, Test$Hypertension)
 # nn_test_error <- (tab3[2]+tab3[3]) / sum(tab3) # around 25%
 
-Model = factor(c("Logistic Regression","Random Forest", "Neural Network"))
-Training_Accuracy = c(log_acc,rf_acc,nn_acc)  %>% round(digits = 3)
-AUC = c(log_auc,rf_auc,nn_auc)  %>% round(digits = 3)
-data1=data.frame(Model,Training_Accuracy,AUC)
-
-
-kable(data1, "latex", col.names =c("Model","Training Accuracy","AUC"),  booktabs=TRUE, linesep="", caption="The performance of all models evaluated using the training data.\\label{tbl:data1}") %>%
-    kable_styling(latex_options=c("HOLD_position"))
-```
-
-
-```{r, echo =FALSE, results='hide'}
 
 # Test Errors
 # Logistic Regression
@@ -457,11 +483,11 @@ tab1
 predicted2 <- predict(model_rf, Test, type = "class")
 target2 <- Test$Hypertension
 tab2 <- table(target2, predicted1)
-#mean(predicted != Test$Hypertension)*100 #around 27%
+#mean(predicted != Test$Hypertension)*100 #around 25%
 
 
 
-# Test Data
+# Neural Network Test Data
 table(predict(model_nn, Test,type="class"), Test$Hypertension)
 predicted3 <- factor(ifelse(predict(model_nn, Test, type ="raw") > 0.5,1,0))
 target3 <- Test$Hypertension
@@ -473,13 +499,13 @@ tab3
 # Logistic 
 # Specificity 
 specificity_lr <- (tab1[1,1])/ (tab1[1,1]+tab1[1,2])
-specificity_lr *100 # 82%
+specificity_lr *100 # 81%
 # Type 1 error
 type1_error_lr <- 1 - specificity_lr
 type1_error_lr
 #Sensitivity
 sensitivity_lr <- (tab1[2,2]) / (tab1[2,1]+tab1[2,2])
-sensitivity_lr *100 # 60%
+sensitivity_lr *100 # 62%
 # Type 1 error
 type2_error_lr <- 1 - sensitivity_lr
 type2_error_lr
@@ -493,22 +519,22 @@ accuracy_lr *100 # 74%
 
 # Random Forest
 specificity_rf <- (tab2[1,1])/ (tab2[1,1]+tab2[1,2])
-specificity_rf *100 # 
+specificity_rf *100 # 81
 # Type 1 error
 type1_error_rf <- 1 - specificity_rf
 type1_error_rf
 #Sensitivity
 sensitivity_rf <- (tab2[2,2]) / (tab2[2,1]+tab2[2,2])
-sensitivity_rf *100 
+sensitivity_rf *100  #62%
 # Type 1 error
 type2_error_rf <- 1 - sensitivity_rf
 type2_error_rf
 # Precision
 precision_rf <- (tab2[2,2])/(tab2[1,2]+tab2[2,2])
-precision_rf *100 
+precision_rf *100  #66%
 # Accuracy
 accuracy_rf <- (tab2[4]+tab2[1])/sum(tab2)
-accuracy_rf *100 # 
+accuracy_rf *100 # 74
 
 
 # Neural Network Test
@@ -526,11 +552,28 @@ type2_error_nn  <- 1 - sensitivity_nn
 type2_error_nn 
 # Precision
 precision_nn  <- (tab3[2,2])/(tab3[1,2]+tab3[2,2])
-precision_nn  *100 # 65%
+precision_nn  *100 # 64%
 # Accuracy
 accuracy_nn  <- (tab3[4]+tab3[1])/sum(tab3)
 accuracy_nn  *100 # 74%
 ```
+
+Following investigation of both training accuracy and AUC measures, it was clear the random forest model outperformed all other models (table \ref{tbl:data1}). The random forest model produced extremely high and satisfactory measures (AUC = `r rf_acc %>% round(digits = 3)` and accuracy = `r rf_auc %>% round(digits = 3)`). This model shows great indication of a powerful model in predicting hypertension. From the training data, the logistic regression and neural network models yielded almost identical measures of accuracy and AUC.\ 
+
+
+```{r, echo=FALSE}
+Model = factor(c("Logistic Regression","Random Forest", "Neural Network"))
+Training_Accuracy = c(log_acc,rf_acc,nn_acc)  %>% round(digits = 3)
+AUC = c(log_auc,rf_auc,nn_auc)  %>% round(digits = 3)
+data1=data.frame(Model,Training_Accuracy,AUC)
+
+
+kable(data1, "latex", col.names =c("Model","Training Accuracy","AUC"),  booktabs=TRUE, linesep="", caption="The performance of all models evaluated using the training data.\\label{tbl:data1}") %>%
+    kable_styling(latex_options=c("HOLD_position"))
+```
+
+
+With the application of the test data to evaluate the model fits, all three confusion matrices were produced to investigate the summary of predicted results for all models (figures \ref{fig:cf1}, \ref{fig:cf2}, \ref{fig:cf3}). 
 
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.width=4,, fig.cap="Logistic regression confusion matrix\\label{fig:cf1}",fig.show='hold'}
 suppressMessages(library(yardstick))
@@ -563,7 +606,12 @@ autoplot(cm, type = "heatmap") +
 ```
 
 
-The test data was utilised to evaluate the fit of all models and to examine all measures of accuracy. All models performed quite similarly. Table \ref{tbl:data2} presents the model performance with measures of accuracy and AUC values. It is clear that all models produced very similar measures of both accuracy and AUC values. The logistic regression model produced marginally highers measures than the neural network model by a decimal of 0.01 (AUC = `r log_auc_test %>% round(digits = 3)` and accuracy =  `r accuracy_lr %>% round(digits = 3)`). Both the logistic regression and neural network models have outperformed the random forest model. It is clear the random forest model over-fit the training data set prior to evaluating the model fit. 
+
+\pagebreak
+
+
+
+The test data was utilised to evaluate the fit of all models and to examine all measures of accuracy. All models performed quite similarly. Table \ref{tbl:data2} presents the model performance with measures of accuracy and AUC values. It is clear that all models produced very similar measures of both accuracy and AUC values. The logistic regression model produced marginally highers measures than the neural network model by a decimal of 0.02 (AUC = `r log_auc_test %>% round(digits = 3)` and accuracy =  `r accuracy_lr %>% round(digits = 3)`). Both the logistic regression and neural network models have outperformed the random forest model. It is clear the random forest model over-fit the training data set prior to evaluating the model fit. 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 Model = factor(c("Logistic Regression","Random Forest", "Neural Network"))
@@ -585,7 +633,7 @@ kable(data2, "latex", col.names =c("Model", "Specificity", "Type 1 Error","Sensi
     kable_styling(latex_options=c("HOLD_position")) 
 ```
 
- Figure \ref{fig:hist5} shows the ROC curve of all models using the test data set. The ROC curve was generated by plotting all model performances and setting geom to "roc". From the plot it is clear how similar all model fits are. The logistic regression line is difficult to inspect as it is masked by the neural network line, although both performances were rather consistent. 
+Figure \ref{fig:hist5} shows the ROC curve of all models using the test data set. The ROC curve was generated by plotting all model performances and setting geom to "roc". From the plot it is clear how similar all model fits are. The logistic regression line is difficult to inspect as it is masked by the neural network line, although both performances were rather consistent. 
 
 $\vspace{1.5cm}$
 
@@ -594,6 +642,21 @@ plot(model_performance(ex_rf_test),model_performance(ex_log_test),model_performa
      geom = "roc")+ theme(plot.title = element_text(size = 10), plot.tag = element_text(size = 5)) + geom_line(lwd = 0.5) 
 ```
 
+```{r, echo=FALSE}
+suppressMessages(library(MLmetrics))
+
+f1_lr <- F1_Score(y_true =  target1, y_pred = predicted1, positive = 0)
+print(paste("F score of the logitic regression model:", round(f1_lr,3)))
+
+f1_rf <- F1_Score(y_true = target2, y_pred = predicted2, positive = 1)
+print(paste("F score of the random forest model:", round(f1_rf,3)))
+
+f1_nn <- F1_Score(y_true = target3, predicted3, positive = 0)
+print(paste("F score of the neural network model:", round(f1_nn,3)))
+```
+
+
+\pagebreak
 
 
 </body>
