@@ -203,69 +203,31 @@ This model was then fit using tidymodels, using the function logistic_reg(). The
 
 ### 2.4.2 Random Forest{#rf}
 
-A random forest model (Ho, 1995) is a classification algorithm that operates by producing a large number of decision trees at training (Sakr et al., 2018). Random forest models were created to generate accurate predictions for a model that do not over-fit the data (Breiman 2001, 2002). Random forest models use bootstrap samples to construct multiple trees, although each tree is created with a randomised subset of predictors (Prasad, Iverson and Liaw, 2006). The quantity of trees utilised in random forest models is controlled by the user, the default number of trees used is 500. 
-
-I fit a random forest model with importance equals true using the 'randomForest' package (Liaw and Wiener 2002).\ 
+A random forest model (Ho, 1995) is a classification algorithm that operates by producing a large number of decision trees at training (Sakr et al., 2018). Random forest models were created to generate accurate predictions for a model that do not over-fit the data (Breiman 2001, 2002). Random forest models use bootstrap samples to construct multiple trees, although each tree is created with a randomised subset of predictors (Prasad, Iverson and Liaw, 2006). The quantity of trees utilised in random forest models is controlled by the user, the default number of trees used is 500. A random forest model was fit using tidymodels, using the rand_forest() function with the mode set to "classification". The engine was set to "ranger" and importance set to "impurity". The "impurity" measure is the Gini index for classification. The model fit comprised of the response variable and all explanatory variables.\ 
 
 
 ### 2.4.3 Neural Network{#nn}
 
-A neural network model is called a network as they can be associated with a directed acyclic graph describing how the functions are composed together. Neural network models are typically trained to treat the non-linearity of explanatory variables due to the non-linear nature of them, making the model more flexible compared to logistic regression (López-Martínez et al, 2020). Each node produced by neural networks are known as a unit. A neuron unit $u$ first takes a linear combination of the explanatory variables and applies a non-linear function $f$, called an activation function. I fit a neural network model with size = 1 and decay = 0.5 using the 'nnet package' (Venables and Ripley, 2002). 
+A neural network model is called a network as they can be associated with a directed acyclic graph describing how the functions are composed together. Neural network models are typically trained to treat the non-linearity of explanatory variables due to the non-linear nature of them, making the model more flexible compared to logistic regression (López-Martínez et al, 2020). Each node produced by neural networks are known as a unit. A neuron unit $u$ first takes a linear combination of the explanatory variables and applies a non-linear function $f$, called an activation function. The neural network model was fit with tidymodels, using the mlp() function with the mode set to "classification". The engine was set to "nnet". The model fit comprised of the response variable and all explanatory variables. 
 
-</body>
+
 
 
 ## 2.5. Tuning Models{#modeltune}
 
-<body>
-I tuned the neural network model using the package 'caret' (Kuhn, 2021). I used a grid search approach to determine what size and decay value was most appropriate to produce the best neural network model. The metric utilised to determine the best model was the ROC. 
+The neural network model required further tuning using tidymodels, as its fit was not satisfactory. The model fit was updated specifying tune() for the the hidden_units, penalty and epochs. A grid was created using the grid_regular() function and the range for tuning for each argument was specified. A range from 0 to 20 was defined for the hidden_units, 0.5 to 0.0000001 for the penalty and 10 to 10000 for the epochs. The best model was chosen based of the best "roc_auc" value. The final neural network model contained 20 hidden units, a penalty of	1.77828 and 5005 epochs.
+
 </body>
 
 
 ## 2.6. Comparing Models{#comparemodels}
 
-<body>
+
+Several methods were employed to evaluate the fit of all models. These methods included examining the confusion matrix, the ROC (receiver operating characteristic) curve, the AUC (area under the curve), partial dependent performances and the application of the condvis() function in the 'condvis2' package (Hurley, O'Connell and Domijan, 2020). All measures were used to examine the overall accuracy of all models by utilising the test data set.\ 
  
-To evaluate the models I used several methods which included examining the confusion matrix, Receiver Operating Characteristic (ROC) curve, the Area Under the Curve (AUC) value, partial dependence plots and profiles and the application of the condvis() function in the 'condvis2' package (Hurley, O'Connell and Domijan, 2020) in R. All measures were used to examine the accuracy measures of all models by utilising the test data set.\ 
-
-The confusion matrix was effective in producing measures of model accuracy and error rates to determine the fit of all models. Confusion matrices were examined to investigate the performance of classification models on the test data by calculating key measures which included sensitivity, specificity, type 1 error rate, type 2 error rate, accuracy, precision and the F-score. TP refers to true positive where both actual and predicted values are positive. TN refers to true negative where both actual and predicted values are negative. FP refers to false positive where the predicted value is positive however the actual value is negative. FN refers to false negative where the predicted value is negative however the actual value is positive. N refers to the sum of all negative actual values and P refers to the sum of all positive actual values. All of these measures are defined below.
-
-Sensitivity = TP/P.\
 
 
-Specificity = TN/N.\ 
-
-
-Type 1 error = FP/N.\
-
-
-Type 2 error = FN/P.\ 
-
-
-Accuracy = (TP + TN)/N.\ 
-
-
-Precision = TP/(TP + FP).\ 
-
-
-Fscore = (2 * TP)/((2 * TP) + FP + FN).\ 
-
-
-
-\[Sensitivity = \dfrac{TP}{P}\]
-
-\[Specificity = \dfrac{TN}{N}\]
-
-\[Type  1 error = \dfrac{FP}{N}\] 
-
-\[Type  2 error = \dfrac{FN}{P}\] 
-
-\[Accuracy= \dfrac{(TP + TN)}{N}\]
-
-\[Precision = \dfrac{TP}{TP + FP}\]
-
-\[Fscore= \dfrac{2 \times TP}{(2 \times TP) + FP + FN}\] 
-
+The confusion matrix was effective in producing measures of model accuracy and error rates to determine the fit of all models. Confusion matrices were examined to investigate the performance of classification models on the test data by calculating key measures which included sensitivity, specificity, type 1 error rate, type 2 error rate, accuracy, precision and the F-score. TP refers to true positive where both actual and predicted values are positive. TN refers to true negative where both actual and predicted values are negative. FP refers to false positive where the predicted value is positive however the actual value is negative. FN refers to false negative where the predicted value is negative however the actual value is positive. N refers to the sum of all negative actual values and P refers to the sum of all positive actual values. Sensitivity = TP/P. Specificity = TN/N. Type 1 error = FP/N. Type 2 error = FN/P. Accuracy = (TP + TN)/N. Precision = TP/(TP + FP). Finally, the Fscore = (2 * TP)/((2 * TP) + FP + FN).\ 
 
 
 
@@ -803,9 +765,11 @@ This analysis has further supported the findings of a previous study (López-Mar
 30. Ho, T.K., 1995, August. Random decision forests. *In Proceedings of 3rd international conference on document analysis and recognition*, 1, pp. 278-282.
 31. Breiman, L., 2001. Random forests. *Machine learning*, 45(1), pp.5-32.
 32. Breiman, L., 2002. Using models to infer mechanisms. *IMS Wald Lecture*, 2, pp.59-71.
-33. Liaw, A. and Wiener, M. (2002). Classification and Regression by randomForest. R News 2(3), pp. 18-22.
+
+
 34. Max Kuhn (2021). caret: Classification and Regression Training. R package version 6.0-88. https://CRAN.R-project.org/package=caret
-35. Venables, W. N. & Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth Edition. Springer, New York. ISBN 0-387-95457-0.
+
+
 36. Catherine Hurley, Mark O'Connell and Katarina Domijan (2020). condvis2: Interactive Conditional Visualization for Supervised and Unsupervised Models in Shiny. R package version 0.1.1. https://CRAN.R-project.org/package=condvis2
 37. Swets, J.A., 1979. ROC analysis applied to the evaluation of medical imaging techniques. *Investigative radiology*, 14(2), pp.109-121.
 38. Metz, C.E., 1986. ROC methodology in radiologic imaging. *Investigative radiology*, 21(9), pp.720-733.
