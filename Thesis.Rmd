@@ -173,12 +173,12 @@ ggplot(data_11) +
 
 
 
-## 2.4. Data Modelling{#model}
+## 2.3. Data Modelling{#model}
 
 
 This analysis examined three machine learning classification techniques to investigate and predict hypertension. These techniques were logistic regression, random forest and neural network models. All statistical analysis were performed in RStudio (Version 1.4.1120). The 'tidymodels' package (Kuhn et al., 2020) was utilised to execute all three models, as tidymodels are more flexible and often make it easier to specify the models being assessed. The response variable Hypertension is binary taking on either "Yes" or "No" responses, however it was re-coded to take on values of either 0 or 1 as numerical responses are further recognised in all model forms.\ 
 
-### 2.4.1 Logistic Regression{#logreg}
+### 2.3.1 Logistic Regression{#logreg}
 
 
 Logistic regression models are such models that generally deal with binary dependent variables (Hall and Round, 1994). This model will always produce probabilities between 0 and 1. Odds ratios which are the ratios of the probability of the event occurring to the probability of the event not occurring, are utilised for logistic regression models (Hall and Round, 1994). The equation for logistic regression is defined below:
@@ -200,43 +200,41 @@ log(Hypertension) $= \beta_0 + \beta_1$(Age) $+ \beta_2$(Age$^{2}$) $+ \beta_3$(
 This model was then fit using tidymodels, using the function logistic_reg(). The engine was set to "glm". I examined the odds ratios for this logistic regression model by exploring the exponential of the estimates produced from the tidy() function.
 
 
-### 2.4.2 Random Forest{#rf}
+### 2.3.2 Random Forest{#rf}
 
 A random forest model (Ho, 1995) is a classification algorithm that operates by producing a large number of decision trees at training (Sakr et al., 2018). Random forest models were created to generate accurate predictions for a model that do not over-fit the data (Breiman 2001, 2002). Random forest models use bootstrap samples to construct multiple trees, although each tree is created with a randomised subset of predictors (Prasad, Iverson and Liaw, 2006). The quantity of trees utilised in random forest models is controlled by the user, the default number of trees used is 500. A random forest model was fit using tidymodels, using the rand_forest() function with the mode set to "classification". The engine was set to "ranger" and importance set to "impurity". The "impurity" measure is the Gini index for classification. The model fit comprised of the response variable and all explanatory variables.\ 
 
 
-### 2.4.3 Neural Network{#nn}
+### 2.3.3 Neural Network{#nn}
 
 A neural network model is called a network as they can be associated with a directed acyclic graph describing how the functions are composed together. Neural network models are typically trained to treat the non-linearity of explanatory variables due to the non-linear nature of them, making the model more flexible compared to logistic regression (López-Martínez et al, 2020). Each node produced by neural networks are known as a unit. A neuron unit $u$ first takes a linear combination of the explanatory variables and applies a non-linear function $f$, called an activation function. The neural network model was fit with tidymodels, using the mlp() function with the mode set to "classification". The engine was set to "nnet". The model fit comprised of the response variable and all explanatory variables. 
 
 
-
-
-## 2.5. Tuning Models{#modeltune}
-
-The neural network model required further tuning using tidymodels, as its fit was not satisfactory. The model fit was updated specifying tune() for the the hidden_units, penalty and epochs. A grid was created using the grid_regular() function and the range for tuning for each argument was specified. A range from 0 to 20 was defined for the hidden_units, 0.5 to 0.0000001 for the penalty and 10 to 10000 for the epochs. The best model was chosen based of the best "roc_auc" value. The final neural network model contained 20 hidden units, a penalty of	1.77828 and 5005 epochs.
+The neural network model required further tuning using tidymodels, as its fit was not satisfactory. The model fit was updated specifying tune() for the the hidden_units, penalty and epochs. A grid was created using the grid_regular() function and the range for tuning each argument was specified. A range from 0 to 20 was defined for the hidden_units, 0.5 to 0.0000001 for the penalty and 10 to 10000 for the epochs. The best model was chosen based of the best "roc_auc" value. The best and final neural network model contained 20 hidden units, a penalty of	1.77828 and 5005 epochs.
 
 </body>
 
 
-## 2.6. Comparing Models{#comparemodels}
+## 2.4. Comparing Models{#comparemodels}
 
 
-Several methods were employed to evaluate the fit of all models. These methods included examining the confusion matrix, the ROC (receiver operating characteristic) curve, the AUC (area under the curve), partial dependent performances and the application of the condvis() function in the 'condvis2' package (Hurley, O'Connell and Domijan, 2020). All measures were used to examine the overall accuracy of all models by utilising the test data set.
+Several methods were employed to evaluate the fit of all models. These methods included examining the confusion matrix, the ROC (receiver operating characteristic) curve, the AUC (area under the curve), partial dependent profiles and performances and the application of the condvis() function in the 'condvis2' package (Hurley, O'Connell and Domijan, 2020). All measures were used to examine accuracy measures of all models by utilising the test data set.
  
 
-Confusion matrices were examined to investigate the performance of classification models on the test data by calculating key measures which included sensitivity, specificity, type 1 error rate, type 2 error rate, accuracy, precision and the Fscore. Confusion matrices were effective in producing measures to determine the best fit of all models. TP refers to true positive where both actual and predicted values are positive. TN refers to true negative where both actual and predicted values are negative. FP refers to false positive where the predicted value is positive however the actual value is negative. FN refers to false negative where the predicted value is negative however the actual value is positive. N refers to the sum of all negative actual values and P refers to the sum of all positive actual values. Sensitivity is the true positive rate (TPR), which is calculated by TP/P. Specificity is the true negative rate (TNR), which is calculated by TN/N. Type 1 error is the false positive rate (FPR), which is calculated by FP/N. Type 2 error is the false negative rate (FNR), which is calculated by FN/P. Accuracy is calculated by (TP + TN)/N. Precision is the positive predictive value, which is calculated by TP/(TP + FP). Finally, the Fscore another measure of accuracy, which is calculated by (TP)/(TP) + (FP + FN)/2).
+Confusion matrices were examined to investigate the performance of classification models on the test data by calculating key measures which included sensitivity, specificity, type 1 error rate, type 2 error rate, accuracy, precision and the Fscore. TP refers to true positive where both actual and predicted values are positive. TN refers to true negative where both actual and predicted values are negative. FP refers to false positive where the predicted value is positive however the actual value is negative. FN refers to false negative where the predicted value is negative however the actual value is positive. N refers to the sum of all negative actual values and P refers to the sum of all positive actual values. Sensitivity is the true positive rate (TPR), which is calculated by TP/P. Specificity is the true negative rate (TNR), which is calculated by TN/N. Type 1 error is the false positive rate (FPR), which is calculated by FP/N. Type 2 error is the false negative rate (FNR), which is calculated by FN/P. Accuracy is calculated by (TP + TN)/N. Precision is the positive predictive value, which is calculated by TP/(TP + FP). Finally, the Fscore another measure of accuracy is calculated by (TP)/(TP + (FP + FN)/2).
 
 
-This ROC curve evaluates the accuracy of models. This curve is the plot of sensitivity versus 1-specificity. It reveals the trade off between the FPR and TPR as one change the criterion for positivity (Swets, 1979; Metz, 1986). The AUC and ROC curve work hand in hand. The AUC is another technique to measure the accuracy of models. The ROC curve is a more visual representation of how accurate the model is, whereas the AUC is the measure of the area under the ROC curve and will produce a figure between 0 and 1, where an AUC value of 1 reveals a model is extremely accurate. The AUC value produces a summary of the entire location of the ROC curve instead of depending on a specific operating point (Swets, 1979; Hanley and McNeill, 1982).
+The ROC curve evaluates the accuracy of models. This curve is the plot of sensitivity versus 1-specificity, also known as type 1 error. It reveals the trade off between the FPR and TPR as one change the criterion for positivity (Swets, 1979; Metz, 1986). The AUC and ROC curve work hand in hand. The AUC is another technique to measure the accuracy of models. The ROC curve is a more visual representation of how accurate the model is, whereas the AUC is the measure of the area under the ROC curve and will produce a figure between 0 and 1. An AUC value of 1 is a modely that is perfectly accurate. The AUC value produces a summary of the entire location of the ROC curve instead of depending on a specific operating point (Swets, 1979; Hanley and McNeill, 1982).
 
 The partial dependence plots are produced using the 'DALEX' package (Biecek, 2018). The main point of partial dependence profiles is to investigate how the expected value of model prediction will behave as a function of a selected explanatory variable (Biecek and Burzykowski, 2021). Partial dependence profiles are beneficial for comparisons of different models. Partial dependence profiles use the mean of ceteris-paribus profiles (Biecek and Burzykowski, 2021). Ceteris-paribus profiles display the dependence of an instance-level prediction on any explanatory variable, therefore the partial dependence profile is estimated by the mean of the ceteris-paribus profiles for all observations from a data set (Biecek and Burzykowski, 2021). The value of the partial dependence profile for model $f()$ and explanatory variables $\underbar{x}_i^{j}$ at $z$, where $z$ is fixed over the marginal distribution of $\underbar{x}$ is defined below:
 
 \[\hat{g}^j _{PD} (z) = \dfrac{1}{n}\sum_{i=1}^{n}f(\underbar{x}_i^{j|=z})\]
 
+Explainers were produced for each model using the explain() function from the 'DALEX' package and the explain_tidymodels() function from the 'DALEXtra' package (Maksymiuk, Gosiewska and Biecek, 2020).  Using these explainers, the model performance for the training and test data was examined. Additionally, the explainers were used to visualise the model performance for each variable.
 
 
-The final method I employed to compare the three models was the use of the condvis() function. Using this function I could examine several plots to see the predicted probability of the explanatory variables and potential interactions with other explanatory variables.
+
+The final method employed to compare the three models was the use of the condvis() function. Using this function the several plots were examined to explore and compare the predicted probability of the explanatory variables and potential interactions with other explanatory variables.
 
 </body>
 
@@ -779,6 +777,10 @@ This analysis has further supported the findings of a previous study (López-Mar
 48.
 49.
 50.
+
+
+
+Maksymiuk S, Gosiewska A, Biecek P (2020). “Landscape of R packages for eXplainable Artificial Intelligence.” _arXiv_. Pages 6, 7, 11, 15, <URL: https://arxiv.org/abs/2009.13248>.
 
 
 \newpage
