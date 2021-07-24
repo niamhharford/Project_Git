@@ -54,10 +54,15 @@ Anova(f4)
 
 f5 <- glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + (Diabetes*Age) + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
 
-anova(f4,f3, test="LRT")
 anova(f4,f5, test="LRT")
 
 Anova(f5)
+
+
+f6 <- glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + (Smoking*Age) + (Diabetes*Age) + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
+
+anova(f5,f6, test="LRT")
+# Continue with f5 - that has two quadratic terms and 5 interactions
 ```
 
 
@@ -67,6 +72,12 @@ coefficients(f4) %>% exp() %>% round(digits = 5)
 # Have to look at age and age^2 together with logistic regression
 ```
 
+
+```{r}
+summary(f5)
+coefficients(f5) %>% exp() %>% round(digits = 5)
+# Have to look at age and age^2 together with logistic regression
+```
 
 ```{r}
 # better than residualPlots
@@ -82,7 +93,7 @@ binnedplot(data_11a$Age,
 
 
 binnedplot(fitted(f5), 
-           residuals(f4, type = "response"), 
+           residuals(f5, type = "response"), 
            nclass = NULL, 
            xlab = "Expected Values", 
            ylab = "Average residual", 
@@ -96,12 +107,12 @@ binnedplot(fitted(f5),
 
 
 ```{r}
-plot_model(f4, vline.color = "black", sort.est = TRUE,colors = "Accent")
+plot_model(f5, vline.color = "black", sort.est = TRUE,colors = "Accent")
 # Age ^2 - actual significance it is different to 0 - p-value is small. But numerically it does not impact the response so not practically significant
 # This plot is not good at interpreting Age and BMI
 ```
 
-```{r}
+```{r, eval = F}
 # library(gam)
 # f5 <- glm(Hypertension ~ (Age+poly(Age,2)+BMI+bs(BMI,4))*Gender+Race + Smoking + Diabetes + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
 plot_model(f4, type = "pred", terms = c("BMI"))
@@ -149,6 +160,7 @@ suppressMessages(source_url('https://gist.githubusercontent.com/fawda123/7471137
 ```{r, eval=FALSE}
 set.seed(123)
 
+load("Data/data1_11a.RData")
 fitControl <- trainControl(method = "repeatedcv", 
                            number = 10, 
                            repeats = 5, 
@@ -187,13 +199,20 @@ nnetFit$results[whichTwoPct,1:6]
 
 
 ```{r}
-model_log1 <- f5
+model_log1 <- glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + (Diabetes*Age) + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
 
-model_rf <- randomForest(Hypertension ~ .,data_11a, importance = T)
+model_rf <- randomForest(Hypertension ~ .,data_11a,importance = T)
 
 varImpPlot(model_rf) 
 
 model_nn <- nnet(Hypertension ~ ., data_11a, size = 1, decay = 0.5)
+
+
+
+
+# save(model_log1, file = "model_log1.Rdata")
+# save(model_rf, file =  "model_rf.Rdata")
+# save(model_nn, file =  "model_nn.Rdata")
 
 
 hypn <- as.numeric(data_11a$Hypertension)-1
@@ -219,7 +238,6 @@ plot(model_profile(ex_rf,groups="Gender")) + ggtitle("Response for Random Forest
 plot(model_profile(ex_nn,groups="Gender")) + ggtitle("Response for Neural Network")
 
 
- 
 
 
 # look at model_performance and plot model_performance for nice way of getting roc and model summaries.
@@ -230,6 +248,7 @@ model_performance(ex_rf)
 model_performance(ex_log)
 model_performance(ex_nn)
 plot(model_performance(ex_rf),model_performance(ex_log),model_performance(ex_nn), geom = "roc") 
+
 ```
 
 
@@ -465,13 +484,47 @@ ex_nn <-  DALEX::explain(f3, data = Train, y = hypn, type = "classification")
 model_performance(ex_rf)
 model_performance(ex_log)
 model_performance(ex_nn)
-# model_performance(pp)
-# model_performance(pp1)
+
 plot(model_performance(ex_rf),model_performance(ex_log), model_performance(ex_nn), geom = "roc")
 
+```
+
+```{r}
+load("Data/hyp1.RData")
+Test <- hyp1
+Test$Hypertension <-factor(ifelse(Test$Hypertension == "Yes", 1 ,0))
+
+hypn1 <- as.numeric(Test$Hypertension)-1
+ex_log_test <- DALEX::explain(model_log1, data = Test, y = hypn1, type = "classification")
+ex_rf_test <- DALEX::explain(model_rf, data = Test, y = hypn1, type = "classification")
+ex_nn_test <-  DALEX::explain(model_nn, data = Test, y = hypn1, type = "classification")
+model_performance(ex_rf_test)
+model_performance(ex_log_test)
+model_performance(ex_nn_test)
+plot(model_performance(ex_rf_test),model_performance(ex_log_test),model_performance(ex_nn_test),
+     geom = "roc")+ theme(plot.title = element_text(size = 10), plot.tag = element_text(size = 5)) + geom_line(lwd = 0.5) 
 ```
 
 
 
 
+
+```{r}
+suppressMessages(library(DALEXtra))
+suppressMessages(library(workflows))
+load("Data/glm_fit.RData")
+load("Data/rf_fit.RData")
+load("Data/final_nn.RData")
+
+ex_log2 <- DALEX::explain(glm_fit, data = Test, y = hypn1, type = "classification")
+ex_rf2 <- DALEX::explain(rf_fit, data = Test, y = hypn1, type = "classification")
+ex_nn2 <-  DALEXtra::explain_tidymodels(final_nn, data = Test, y = hypn1, type = "classification")
+ 
+# look at model_performance and plot model_performance for nice way of getting roc and model summaries.
+ 
+model_performance(ex_rf)
+model_performance(ex_log2)
+model_performance(ex_nn2)
+plot(model_performance(ex_rf2),model_performance(ex_log2), model_performance(ex_nn2), geom = "roc")
+```
 
