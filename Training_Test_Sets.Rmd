@@ -3,14 +3,13 @@ title: "Training / Test Sets"
 author: "Niamh Harford 20251644"
 date: "6/8/2021"
 output:
-  html_document: default
+  pdf_document: default
 ---
 
 ```{r}
 # Load in 2011/2012 data
 load("Data/data1_11a.RData")
-
-# Load in 2015/2016 Data
+# Load in 2015/2016 Data 
 load("Data/hyp1.RData")
 ```
 
@@ -26,31 +25,17 @@ suppressMessages(library(nnet))
 suppressMessages(library(DALEX))
 suppressMessages(library(caret))
 suppressMessages(library(e1071))
+suppressMessages(library(tidymodels))
 ```
 
 
-**Things to note **
 
-+ 2011/2012 Data set will be my training and validation set
-
-+ 2015/2016 Data set will be my test set
-
-+ Training set where I am fitting the model 
-
-+ Validation set where I am comparing results of the fit 
-
-+ Test set is used to evaluate a model fit in the form of the test error rate
-
-
-**Setting up the data **
 
 ```{r}
 # Training Data
-
 Train <- data_11a
   
 #Test Data
-
 Test <- hyp1
 ```
 
@@ -67,12 +52,10 @@ custom <- train(Hypertension~., data=Train, method="rf", metric="ROC", tuneGrid=
 summary(custom)
 plot(custom)
 ggplot(custom)
-
 whichTwoPct <- tolerance(custom$results, metric = "ROC", 
                          tol = 2, maximize = TRUE)  
 cat("best model within 2 pct of best:\n")
 custom$results[whichTwoPct,1:6]
-
 # mtry = 1 / 2
 ```
 
@@ -81,18 +64,13 @@ custom$results[whichTwoPct,1:6]
 
 ```{r, eval=FALSE}
 set.seed(123)
-
 fitControl <- trainControl(method = "repeatedcv", 
                            number = 10, 
                            repeats = 5, 
                            classProbs = TRUE, 
                            summaryFunction = twoClassSummary
                            )
-
-
 nnet_grid <- expand.grid(decay = c(0.5, 0.1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6, 1e-7),                          size = c(3, 5, 10, 20))
-
-
 nnetFit <- train(Hypertension ~ ., 
                  data = Train,
                  method = "nnet",
@@ -100,21 +78,14 @@ nnetFit <- train(Hypertension ~ .,
                  trControl = fitControl,
                  tuneGrid = nnet_grid,
                  verbose = FALSE)
-
-
 trellis.par.set(caretTheme())
-
 plot(nnetFit)
 ggplot(nnetFit)
-
 whichTwoPct <- tolerance(nnetFit$results, metric = "ROC", 
                          tol = 2, maximize = TRUE)  
 cat("best model within 2 pct of best:\n")
 nnetFit$results[whichTwoPct,1:6]
-
-
 # size = 1, decay = 0.5
-
 ```
 
 
@@ -122,76 +93,63 @@ nnetFit$results[whichTwoPct,1:6]
 
 ```{r}
 set.seed(123)
-
-
 Train$Hypertension <- factor(ifelse(Train$Hypertension == "Yes", 1 ,0))
 Test$Hypertension <- factor(ifelse(Test$Hypertension == "Yes", 1 ,0))
-
-
-f1 <-glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Diabetes + 
+f1 <-glm(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + (Diabetes*Age) + 
             KidneyF + PhysActivity + Alcohol + Salt +
             Potassium, data=Train, family = binomial())
  
-
 f2 <- randomForest(Hypertension ~ .,Train,importance = T)
-
-
 f3 <- nnet(Hypertension ~ ., Train, size = 1, decay = 0.5)
-
 # p <- nnet(Hypertension ~ ., Train, size = 1, decay = 0.5)
 # p1 <- nnet(Hypertension ~ ., Train, size = 3, decay = 0.1) 
-
 hypn <- as.numeric(Train$Hypertension)-1
 ex_log <- DALEX::explain(f1, data = Train, y = hypn, type = "classification")
 ex_rf <- DALEX::explain(f2, data = Train, y = hypn, type = "classification")
 ex_nn <-  DALEX::explain(f3, data = Train, y = hypn, type = "classification")
-
  
-
-
 # look at model_performance and plot model_performance for nice way of getting roc and model summaries.
-
  
-
 model_performance(ex_rf)
 model_performance(ex_log)
 model_performance(ex_nn)
-
-
-
-
-
 plot(model_performance(ex_rf),model_performance(ex_log), model_performance(ex_nn), geom = "roc")
-
 ```
 
 
 ```{r}
 # Test Stats
-hypn <- as.numeric(Test$Hypertension)-1
-ex_log <- DALEX::explain(f1, data = Test, y = hypn, type = "classification")
-ex_rf <- DALEX::explain(f2, data = Test, y = hypn, type = "classification")
-ex_nn <-  DALEX::explain(f3, data = Test, y = hypn, type = "classification")
-
+hypn1 <- as.numeric(Test$Hypertension)-1
+ex_log1 <- DALEX::explain(f1, data = Test, y = hypn1, type = "classification")
+ex_rf1 <- DALEX::explain(f2, data = Test, y = hypn1, type = "classification")
+ex_nn1 <-  DALEX::explain(f3, data = Test, y = hypn1, type = "classification")
  
-
-
 # look at model_performance and plot model_performance for nice way of getting roc and model summaries.
-
  
-
-model_performance(ex_rf)
-model_performance(ex_log)
-model_performance(ex_nn)
-
-
-
-
-
-plot(model_performance(ex_rf),model_performance(ex_log), model_performance(ex_nn), geom = "roc")
-
+model_performance(ex_rf1)
+model_performance(ex_log1)
+model_performance(ex_nn1)
+plot(model_performance(ex_rf1),model_performance(ex_log1), model_performance(ex_nn1), geom = "roc")
 ```
 
+```{r}
+suppressMessages(library(DALEXtra))
+load("Data/glm_fit.RData")
+load("Data/rf_fit.RData")
+load("Data/final_nn.RData")
+
+
+ex_log2 <- DALEX::explain(glm_fit, data = Test, y = hypn1, type = "classification")
+ex_rf2 <- DALEX::explain(rf_fit, data = Test, y = hypn1, type = "classification")
+ex_nn2 <-  DALEXtra::explain_tidymodels(final_nn, data = Test, y = hypn1, type = "classification")
+ 
+# look at model_performance and plot model_performance for nice way of getting roc and model summaries.
+ 
+model_performance(ex_rf)
+model_performance(ex_log2)
+model_performance(ex_nn2)
+plot(model_performance(ex_rf2),model_performance(ex_log2), model_performance(ex_nn2), geom = "roc")
+```
 
 
 
@@ -200,47 +158,30 @@ plot(model_performance(ex_rf),model_performance(ex_log), model_performance(ex_nn
 
 ```{r}
 # Test Errors
-
 # Logistic Regression
-
 pred1 <- predict(f1, Test, type="response")
 pred1 <- factor(ifelse(pred1 < .5, 0,1))
 tab1 <- table(Test$Hypertension, pred1)
 tab1
-
 # Logistic Regression  Error rate
 (tab1[2]+tab1[3]) / sum(tab1) *100 # around 25%
 mean(pred1 != Test$Hypertension)*100 # test error
-
-
 # Random Forest
-
 f2$confusion
-
 # Training error
 preda <- predict(f2, Train, type = "class")
 mean(preda != Train$Hypertension)*100 # training error
-
 # Test error
 predb <- predict(f2, Test, type = "class")
 mean(predb != Test$Hypertension)*100 #around 27%
-
-
 # Neural Network 
-
 # Training Data
-
 pred <- factor(ifelse(predict(f3) > 0.5,1,0))
 tab2 <- table(pred, Train$Hypertension)
 tab2
-
-
-
 # Neural Network training Error rate
 (tab2[2]+tab2[3]) / sum(tab2) *100 # around 25%
 mean(pred != Train$Hypertension)*100
-
-
 # Test Data
 table(predict(f3, Test,type="class"), Test$Hypertension)
 pred1 <- factor(ifelse(predict(f3, Test, type ="raw") > 0.5,1,0))
@@ -248,10 +189,6 @@ tab3 <- table(pred1, Test$Hypertension)
 tab3
 # Neural Network test Error rate
 (tab3[2]+tab3[3]) / sum(tab3) *100 # around 25%
-
-
-
-
 # CVpredict(f3)
 ```
 
@@ -259,103 +196,73 @@ tab3
 
 ```{r}
 # STATS
-
 # Logistic 
 # Specificity 
 specificity <- (tab1[1,1])/ (tab1[1,1]+tab1[1,2])
 specificity *100 # 82%
-
 # Type 1 error
 type1_error <- 1 - specificity
 type1_error
-
 #Sensitivity
 sensitivity <- (tab1[2,2]) / (tab1[2,1]+tab1[2,2])
 sensitivity *100 # 60%
-
 # Type 1 error
 type2_error <- 1 - sensitivity
 type2_error
-
 # Precision
 precision <- (tab1[2,2])/(tab1[1,2]+tab1[2,2])
 precision *100 # 66%
-
 # Accuracy
 accuracy <- (tab1[4]+tab1[1])/sum(tab1)
 accuracy *100 # 74%
-
-
-
 # Random Forest
 prediction <- predict(f2, Test, type = "class")
 mean(prediction == Test$Hypertension)
 postResample(prediction, Test$Hypertension)
-
-
-
 # Neural Network Training
 # Specificity 
 specificity <- (tab2[1,1])/ (tab2[1,1]+tab2[1,2])
 specificity *100 # 79%
-
 # Type 1 error
 type1_error <- 1 - specificity
 type1_error
-
 #Sensitivity
 sensitivity <- (tab2[2,2]) / (tab2[2,1]+tab2[2,2])
 sensitivity *100 # 66%
-
 # Type 1 error
 type2_error <- 1 - sensitivity
 type2_error
-
 # Precision
 precision <- (tab2[2,2])/(tab2[1,2]+tab2[2,2])
 precision *100 # 62%
-
 # Accuracy
 accuracy <- (tab2[4]+tab2[1])/sum(tab2)
 accuracy *100 # 74%
-
-
-
-
 # Neural Network Test
 # Specificity
 specificity <- (tab3[1,1])/ (tab3[1,1]+tab3[1,2])
 specificity *100 # 79%
-
 # Type 1 error
 type1_error <- 1 - specificity
 type1_error
-
 #Sensitivity
 sensitivity <- (tab3[2,2]) / (tab3[2,1]+tab1[2,2])
 sensitivity *100 # 67%
-
 # Type 1 error
 type2_error <- 1 - sensitivity
 type2_error
-
 # Precision
 precision <- (tab3[2,2])/(tab3[1,2]+tab3[2,2])
 precision *100 # 65%
-
 # Accuracy
 accuracy <- (tab3[4]+tab3[1])/sum(tab3)
 accuracy *100 # 74%
-
-
-
 ```
 
 
 
-```{r}
+```{r, eval=FALSE}
 suppressMessages(library(ROCR))
-
 #ROC RF
 prob <- predict(f2, type = "prob")[,2]
 pred <- prediction(prob, Train$Hypertension)
@@ -364,9 +271,6 @@ plot(perf,main="ROC Curve for Random Forest",col=2,lwd=2)
 abline(a=0,b=1,lwd=2,lty=2,col="gray")
 auc1 <- performance(pred,"auc")
 str(auc1) #AUC value
-
-
-
 #ROC NN
 prob <- predict(f3,  Train)
 pred <- prediction(prob, Train$Hypertension)
@@ -375,8 +279,6 @@ plot(perf,main="ROC Curve for Neural Network",col=2,lwd=2)
 abline(a=0,b=1,lwd=2,lty=2,col="gray")
 auc2 <- performance(pred,"auc")
 str(auc2) #AUC value
-
-
 #ROC Logistic Regression
 prob <- predict(f1,  Train)
 pred <- prediction(prob, Train$Hypertension)
@@ -388,7 +290,7 @@ str(auc3) #AUC value
 ```
 
 
-```{r, eval = F}
+```{r, eval = FALSE}
 citation(package = "sjPlot")
 citation(package = "DALEX")
 citation(package = "nhanesA")
@@ -396,28 +298,15 @@ citation(package = "condvis2")
 citation(package = "randomForest")
 citation(package = "nnet")
 citation(package = "car")
+citation(package = "tidymodels")
 ```
 
-```{r}
+```{r,eval = FALSE}
 suppressMessages(library(kableExtra))
 Model = factor(c("Logistic Regression","Random Forest", "Neural Network"))
 Error_Rate = c(25.86,27.05, 25.86)
 AUC = c(0.816,0.8,0.818)
 data=data.frame(Model,Error_Rate,AUC)
-
 kable(data, "latex", booktabs=TRUE, linesep="", caption="Test Error Rate\\label{tbl:data1}") %>%
     kable_styling(latex_options=c("HOLD_position"))
 ```
-
-```{r}
-reg_mod <- train(
-  Hypertension ~ .,
-  data = Train,
-  method = "glmnet",
-  tuneLength = 10,
-  preProc = c("center", "scale"),
-  trControl = trainControl(method = "cv", number = 10)
-)
-```
-
-
