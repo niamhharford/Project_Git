@@ -21,14 +21,114 @@ Test <- hyp1
 
 
 ```{r}
-data_11a$Hypertension <- factor(ifelse(data_11a$Hypertension == "Yes", 1 ,0))
+data_11a$Hypertension <-factor(ifelse(data_11a$Hypertension == "Yes", 1 ,0))
 
-glm_mod <- logistic_reg() %>%
+
+glm_mod <- logistic_reg(mixture = 1) %>%
 set_engine("glm")
 
-# glm_fit <-
-# glm_mod %>%
-# fit(Hypertension ~ (Age+I(Age^2) + BMI+ I(BMI^2))*Gender+Race+Smoking + (Diabetes*Age) + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
+glm_fit1 <-
+glm_mod %>%
+fit(Hypertension ~ .,data=data_11a, family = binomial())
+
+glm_fit2 <-
+glm_mod %>%
+fit(Hypertension ~ Gender + Age+I(Age^2) + Race + Smoking + Diabetes + KidneyF + BMI+I(BMI^2) + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
+
+
+glm_fit3 <-
+glm_mod %>%
+fit(Hypertension ~ (Age+I(Age^2) + Race + Smoking + Diabetes
+                     + KidneyF + BMI+I(BMI^2) + PhysActivity + Alcohol + Salt +
+                     Potassium)*Gender, data=data_11a, family = binomial())
+
+glm_fit4 <-
+glm_mod %>%
+fit(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + Diabetes + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
+
+glm_fit5 <-
+glm_mod %>%
+fit(Hypertension ~ (Age+I(Age^2) + BMI+I(BMI^2))*Gender+Race + Smoking + (Diabetes*Age) + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
+
+
+glm_pred1 <-
+predict(glm_fit1, data_11a, type = "prob") %>%
+bind_cols(predict(glm_fit1, data_11a)) %>%
+bind_cols(data_11a %>% dplyr::select(Hypertension))
+
+glm_pred2 <-
+predict(glm_fit2, data_11a, type = "prob") %>%
+bind_cols(predict(glm_fit2, data_11a)) %>%
+bind_cols(data_11a %>% dplyr::select(Hypertension))
+
+
+glm_pred3 <-
+predict(glm_fit3, data_11a, type = "prob") %>%
+bind_cols(predict(glm_fit3, data_11a)) %>%
+bind_cols(data_11a %>% dplyr::select(Hypertension))
+
+
+glm_pred4 <-
+predict(glm_fit4, data_11a, type = "prob") %>%
+bind_cols(predict(glm_fit4, data_11a)) %>%
+bind_cols(data_11a %>% dplyr::select(Hypertension))
+
+
+glm_pred5 <-
+predict(glm_fit5, data_11a, type = "prob") %>%
+bind_cols(predict(glm_fit5, data_11a)) %>%
+bind_cols(data_11a %>% dplyr::select(Hypertension))
+
+
+glm_pred1 %>%
+accuracy(truth = Hypertension, .pred_class)
+
+glm_pred2 %>%
+accuracy(truth = Hypertension, .pred_class)
+
+glm_pred3 %>%
+accuracy(truth = Hypertension, .pred_class)
+
+glm_pred4 %>%
+accuracy(truth = Hypertension, .pred_class)
+
+glm_pred5 %>%
+accuracy(truth = Hypertension, .pred_class)
+
+
+
+hypn <- as.numeric(data_11a$Hypertension)-1
+ex_log1 <- DALEX::explain(glm_fit1, data = data_11a, y = hypn, type = "classification")
+ex_log2 <- DALEX::explain(glm_fit2, data = data_11a, y = hypn, type = "classification")
+ex_log3 <- DALEX::explain(glm_fit3, data = data_11a, y = hypn, type = "classification") 
+ex_log4 <- DALEX::explain(glm_fit4, data = data_11a, y = hypn, type = "classification")
+ex_log5 <- DALEX::explain(glm_fit5, data = data_11a, y = hypn, type = "classification") 
+
+
+model_performance(ex_log1)
+model_performance(ex_log2)
+model_performance(ex_log3)
+model_performance(ex_log4)
+model_performance(ex_log5)
+
+plot(model_performance(ex_log1),model_performance(ex_log2),model_performance(ex_log3), model_performance(ex_log4), model_performance(ex_log5), geom = "roc")
+
+
+
+```
+
+
+
+
+```{r}
+data_11a$Hypertension <- factor(ifelse(data_11a$Hypertension == "Yes", 1 ,0))
+
+glm_mod <- logistic_reg(mixture = 1) %>%
+set_engine("glm")
+
+glm_fit <-
+glm_mod %>%
+fit(Hypertension ~ (Age+I(Age^2) + BMI+ I(BMI^2))*Gender+Race+Smoking + (Diabetes*Age) + KidneyF + PhysActivity + Alcohol + Salt + Potassium, data=data_11a, family = binomial())
 
 load("Data/glm_fit.RData")
 
@@ -66,11 +166,14 @@ glm_pred %>%
 accuracy(truth = Hypertension, .pred_class)
 
 # save(glm_fit, file = "glm_fit.Rdata")
+
+
+glm_pred %>% summarise(.pred_class,Hypertension)
 ```
 
 ```{r}
 rf_mod <- rand_forest(mode = "classification") %>% 
-set_engine("ranger")
+set_engine("ranger",importance = "impurity")
 # 
 # rf_fit <-
 # rf_mod %>%
@@ -162,7 +265,7 @@ update(hidden_units = tune(), penalty=tune(), epochs=tune())
 
 
 nnet_grid <- grid_regular(hidden_units(range=c(0,20)),
-penalty(range =c(0.5,0.0000001)), epochs(range= c(10,1000)))
+penalty(range =c(0.5,0.0000001)), epochs(range= c(10,10000)))
 
 folds <- vfold_cv(data_11a, v = 10)
 
@@ -252,7 +355,7 @@ suppressMessages(library(DALEXtra))
 hypn <- as.numeric(data_11a$Hypertension)-1
 ex_log <- DALEX::explain(glm_fit, data = data_11a, y = hypn, type = "classification")
 ex_rf <- DALEX::explain(rf_fit, data = data_11a, y = hypn, type = "classification")
-ex_nn <- DALEXtra::explain_tidymodels(final_nn, data = data_11a, y = hypn) # need this for workflow object
+ex_nn <- DALEXtra::explain_tidymodels(final_nn, data = data_11a, y = hypn, type = "classification") # need this for workflow object
 
 
 model_performance(ex_log)
@@ -282,8 +385,56 @@ plot(model_performance(ex_log),model_performance(ex_rf),model_performance(ex_nn)
 ```
 
 
+```{r}
+rf_auc <- 
+  rf_fir %>% 
+  collect_predictions(parameters = rf_best) %>% 
+  roc_curve(children, .pred_1) %>% 
+  mutate(model = "Random Forest")
+
+bind_rows(rf_auc, lr_auc) %>% 
+  ggplot(aes(x = 1 - specificity, y = sensitivity, col = model)) + 
+  geom_path(lwd = 1.5, alpha = 0.8) +
+  geom_abline(lty = 3) + 
+  coord_equal() + 
+  scale_color_viridis_d(option = "plasma", end = .6)
+```
+
+
+```{r}
+
+pred_class <- predict(glm_fit,
+                      new_data = Test,
+                      type = "class")
+
+pred_class[1:5,]
+pred_proba <- predict(glm_fit,
+                      new_data = Test,
+                      type = "prob")
+
+pred_proba[1:5,]
+
+hyp_results <- Test %>%
+  select(Hypertension) %>%
+  bind_cols(pred_class, pred_proba)
+
+hyp_results[1:5, ]
+
+conf_mat(hyp_results, truth = Hypertension,
+         estimate = .pred_class)
+
+glm_pred <-
+predict(glm_fit, new_data = Test, type = "prob") %>%
+bind_cols(data_11a %>% dplyr::select(Hypertension))
+```
 
 
 
+```{r}
+set.seed(123)
+rf_mod <- rand_forest() %>% set_mode(mode = "classification") %>% 
+set_engine("ranger",importance = "impurity")
 
+wflow_rf <- workflow() %>% add_model(rf_mod) %>% add_recipe()
+```
 
