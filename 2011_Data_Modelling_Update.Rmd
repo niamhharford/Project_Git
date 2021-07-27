@@ -336,6 +336,8 @@ plot(model_profile(ex_log)) + ggtitle("Response for Logistic Regression")+ theme
 ```
 
 
+$\vspace{1cm}$
+
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.cap="Appendix 19\\label{fig:Appendix19}",fig.show='hold'}
 plot(model_profile(ex_nn, variable = "Gender")) + ggtitle("Response for Neural Network")+ theme(plot.title = element_text(size = 10))
 ```
@@ -381,6 +383,8 @@ plot(model_profile(ex_nn)) + ggtitle("Response for Neural Network") + theme(plot
 
 
 ```{r}
+plot(model_profile(ex_rf, variables = c("Gender")), model_profile(ex_rf, variables = c("Race")), model_profile(ex_rf, variables = c("Smoking"))) + ggtitle("")
+
 
 # Gender and Race
 plot(model_profile(ex_rf, variables = c("Gender","Race")), model_profile(ex_nn, , variables = c("Gender","Race")), model_profile(ex_log, , variables = c("Gender","Race"))) + ggtitle("Response for Gender and Race")
@@ -406,7 +410,7 @@ library(condvis2)
 
 #Click on show probs on the shiny app. The plots are like the partial dependence plots from DALEX, except the DALEX plots are averaging curves over all observations. You can see from both DALEX and condvis2 (switch from Age to BMI in the condvis2 menu) that the glm curve decreasing for high BMIs for males is likely not a good fit and probably does not make sense
 
-condvis(data_11a, model=list(rf=model_rf, glm=model_log1, nn =model_nn), response="Hypertension", sectionvars=c("Age", "Gender"))
+condvis(data_11a, model=list(rf=rf_fit, glm=glm_fit, nn =final_nn), response="Hypertension", sectionvars=c("Age", "Gender"))
 ```
 
 
