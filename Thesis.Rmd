@@ -19,7 +19,7 @@ linestretch: 1.5
 # Abstract{.unlisted .unnumbered}
 
 
-Hypertension is an extremely common, high risk condition where blood pressure measures are higher than normal measures. Hypertension can often be conducive to severe cardiovascular and renal complications. The effects of prolonged hypertension may be detrimental on the health of individuals if high blood pressure measures are not controlled and carefully monitored. There are multiple factors that can provide reasoning behind the cause of hypertension, although there may be no one cause, it is crucial to determine what of those factors have major influence on increasing blood pressure. This study assessed the performance of 3 machine learning techniques on predicting hypertension using the NHANES data from 2011/2012 and 2015/2016. For each classification model, the analysis evaluated the association between age, race, gender, smoking, diabetes, kidney disease, physical activity, alcohol use, salt use and potassium levels in both hypertensive and non-hypertensive individuals. The results indicate the neural network and logistic regression models showed the best performance in predicting hypertension. This analysis confirmed a sensitivity of 66%, a specificity of 79%, accuracy of 74% and an AUC of 0.8 for both models. Both models are considered to be strong for predicting hypertension. The logistic regression model indicated individuals with kidney disease and non-Hispanic black individuals had the highest odds of having hypertension among all explanatory variables. This model also confirmed that individuals who smoke excessively, who are non-Hispanic white, other Hispanic and apart of other racial groups, who drink more than 12 alcoholic beverages in a year and who occasionally add salt to their meal all have higher odds of having hypertension. Smoking habits, alcohol use, salt use and potassium levels are factors that can be controlled. Further knowledge on hypertension and advanced machine learning techniques could be significant in the early prevention, detection and management of hypertension. 
+Hypertension is an extremely common, high risk condition where blood pressure measures are higher than normal measures. Hypertension can often be conducive to severe cardiovascular and renal complications. The effects of prolonged hypertension may be detrimental on the health of individuals if high blood pressure measures are not controlled and carefully monitored. There are multiple factors that can provide reasoning behind the cause of hypertension, although there may be no one cause, it is crucial to determine what of those factors have major influence on increasing blood pressure. This study assessed the performance of three machine learning techniques on predicting hypertension using the NHANES data from 2011/2012 and 2015/2016. For each classification model, the analysis evaluated the association between age, race, gender, smoking, diabetes, kidney disease, physical activity, alcohol use, salt use and potassium levels in both hypertensive and non-hypertensive individuals. The results indicate the neural network and logistic regression models showed the best performance in predicting hypertension. This analysis confirmed a sensitivity of 66%, a specificity of 79%, accuracy of 74% and an AUC of 0.8 for both models. Both models are considered to be strong for predicting hypertension. The logistic regression model indicated individuals with kidney disease and non-Hispanic black individuals had the highest odds of having hypertension among all explanatory variables. This model also confirmed that individuals who smoke excessively, who are non-Hispanic white, other Hispanic and apart of other racial groups, who drink more than 12 alcoholic beverages in a year and who occasionally add salt to their meal all have higher odds of having hypertension. Smoking habits, alcohol use, salt use and potassium levels are factors that can be controlled. Further knowledge on hypertension and advanced machine learning techniques could be significant in the early prevention, detection and management of hypertension. 
 
 
 
@@ -62,22 +62,22 @@ Hypertension is a systolic blood pressure that is greater than 139 mm Hg or a di
 
 
 
-Results published in 1998 from the National Health and Nutrition Examination Survey indicated that roughly 50 million adults in America were diagnosed with hypertension (Kulkarni et al., 1998). This statistic from one country alone exposes the severity of hypertension. The American Heart Association have reported that the estimates for hypertension prevalence comparable between both men and women, were seen to be highest among African Americans where 44% of people surveyed that had hypertension were African American, and showed that only 53% of all hypertensive adults have their blood pressure under some control (Go et al., 2013). This statement highlights how different ethnic groups may have atering effects on the prevalence of hypertension, which relationship may not have been initially considered. A gropping statistic revealed that hypertension is considered in the group of risk factors for cardiovascular disease that caused up to 17.7 million deaths around the world in 2015 alone (López-Martínez et al, 2020). It is very clear how serious hypertension is to our health and the effect it can potentially have on all life if blood pressure measures are not monitored and controlled.Results published in 1998 from the National Health and Nutrition Examination Survey indicated that roughly 50 million adults in America were diagnosed with hypertension (Kulkarni et al., 1998). This statistic from one country alone exposes the severity of hypertension. The American Heart Association have reported that the estimates for hypertension prevalence comparable between both men and women, were seen to be highest among African Americans where 44% of people surveyed that had hypertension were African American, and showed that only 53% of all hypertensive adults have their blood pressure under some control (Go et al., 2013). This statement highlights how different ethnic groups may have atering effects on the prevalence of hypertension, which relationship may not have been initially considered. A gropping statistic revealed that hypertension is considered in the group of risk factors for cardiovascular disease that caused up to 17.7 million deaths around the world in 2015 alone (López-Martínez et al, 2020). It is very clear how serious hypertension is to our health and the effect it can potentially have on all life if blood pressure measures are not monitored and controlled.
+Results published in 1998 from the National Health and Nutrition Examination Survey (NHANES) indicated that roughly 50 million adults in America were diagnosed with hypertension (Kulkarni et al., 1998). This statistic from one country alone exposes the severity of hypertension. The American Heart Association have reported that the estimates for hypertension prevalence comparable between both men and women, were seen to be highest among African Americans where 44% of people surveyed that had hypertension were African American, and showed that only 53% of all hypertensive adults have their blood pressure under some control (Go et al., 2013). This statement highlights how different ethnic groups may have altering effects on the prevalence of hypertension, which relationship may not have been initially considered. One statistic revealed that hypertension is considered in the group of risk factors for cardiovascular disease that caused up to 17.7 million deaths around the world in 2015 alone (López-Martínez et al, 2020). It is very clear how serious hypertension is to our health and the effect it can potentially have on all life if blood pressure measures are not monitored and controlled.  
 
 
 
-There are many things to consider when investigating potential contributing factors of hypertension. It is important to note that in many cases there may be no one specific cause of hypertension and it can more than often be a result of many factors working in combination with each other (Kaplan, 2010). Hypertension prevalence has been seen to rise with age, disregarding both the type of blood pressure measurements and the operative thresholds used for diagnosis (Staessen et al., 2003). Additional factors such as race, smoking, certain chronic conditions like diabetes and kidney disease, obesity, physical inactivity, high salt intake, extensive alcohol use and low potassium levels can all contribute to the cause of hypertension (Kaplan, 2010). Some of these factors may be a consequence as individuals age. There are many habits for example physical activity, that as people get older they may refrain from doing. It was reported that the relative risk for developing hypertension in inactive individuals with normal blood pressure at rest was estimated between 35% to 70% higher when compared to their individuals who are physically active (Kokkinos, Sheriff and Kheirbek, 2011). Interestingly, several epidemiological studies recommended increased physical activity to lower elevated blood pressure measures or to reduce or prevent the development of hypertension (Kokkinos, Sheriff and Kheirbek, 2011). Smoking has been seen to increase the risk of hypertension by up to 3 times, as a consequence of increased risk in vascular damage due to intense surges in the arterial pressure (Sleight, 1993). This is comes as no surprise as smoking often causes a temporary immediate increase in blood pressure measures in addition to many other extreme effects on the body. Hypertension has had an impact on approximately 70% of patients diagnosed with diabetes and is approximately 2 times more common in individuals with diabetes than in those without diabetes (Lago, Singh and Nesto, 2007). Additionally, chronic kidney disease is known to be both a common cause of hypertension and also a complication of uncontrolled hypertension (Hamrahian and Falkner, 2016). It is important to consider the interaction between kidney disease and hypertension is complicated and can increase the risk of adverse cardiovascular and cerebrovascular issues (Hamrahian and Falkner, 2016). Nowadays, obesity is a general problem in much of the western world and it is widely known to be linked directly with multiple diseases and conditions including hypertension (Aneja et al., 2004). It is recognised that fat cells in our bodies are not merely an immobile organ for storing energy but they also secrete a host of factors that interact with each other and can bring about elevated blood pressure measures (Aneja et al., 2004). In particular, the assumed role of leptin in the causation of hypertension through an activation of the sympathetic nervous system and a direct consequence on the kidneys, resulting in increased salt re-absorption leading to hypertension (Aneja et al., 2004). This shows some indication of the effect that kidney complications, possible physical inactivity as a consequence of obesity and high salt levels in the body all have on influencing hypertension. Finally, not consuming enough potassium in your diet and consuming excessive amounts of sodium can raise blood pressure measures, thus giving rise to hypertension (The Role of Potassium and Sodium in Your Diet, 2021). 
+There are many things to consider when investigating potential contributing factors of hypertension. It is important to note that in many cases there may be no one specific cause of hypertension and it can more than often be a result of many factors working in combination with each other (Kaplan, 2010). Hypertension prevalence has been seen to rise with age, disregarding both the type of blood pressure measurements and the operative thresholds used for diagnosis (Staessen et al., 2003). Additional factors such as race, smoking, certain chronic conditions like diabetes and kidney disease, obesity, physical inactivity, high salt intake, extensive alcohol use and low potassium levels can all contribute to the cause of hypertension (Kaplan, 2010). Some of these factors may be a consequence as individuals age. There are many habits for example physical activity, that as people get older they may refrain from doing. It was reported that the relative risk for developing hypertension in inactive individuals with normal blood pressure at rest was estimated between 35% to 70% higher when compared to individuals who are physically active (Kokkinos, Sheriff and Kheirbek, 2011). Interestingly, several epidemiological studies recommended increased physical activity to lower elevated blood pressure measures or to reduce or prevent the development of hypertension (Kokkinos, Sheriff and Kheirbek, 2011). Smoking has been seen to increase the risk of hypertension by up to three times, as a consequence of increased risk in vascular damage due to intense surges in the arterial pressure (Sleight, 1993). This is comes as no surprise as smoking often causes a temporary immediate increase in blood pressure measures in addition to many other extreme effects on the body. Hypertension has had an impact on approximately 70% of patients diagnosed with diabetes and is approximately two times more common in individuals with diabetes than in those without diabetes (Lago, Singh and Nesto, 2007). Additionally, chronic kidney disease is known to be both a common cause of hypertension and also a complication of uncontrolled hypertension (Hamrahian and Falkner, 2016). It is important to consider the interaction between kidney disease and hypertension is complicated and can increase the risk of adverse cardiovascular and cerebrovascular issues (Hamrahian and Falkner, 2016). Nowadays, obesity is a general problem in much of the western world and it is widely known to be linked directly with multiple diseases and conditions including hypertension (Aneja et al., 2004). It is recognised that fat cells in our bodies are not merely an immobile organ for storing energy but they also secrete a host of factors that interact with each other and can bring about elevated blood pressure measures (Aneja et al., 2004). In particular, the assumed role of leptin in the causation of hypertension through an activation of the sympathetic nervous system and a direct consequence on the kidneys, resulting in increased salt re-absorption leading to hypertension (Aneja et al., 2004). This shows some indication of the effect that kidney complications, possible physical inactivity as a consequence of obesity and high salt levels in the body all have on influencing hypertension. Finally, not consuming enough potassium in your diet and consuming excessive amounts of sodium can raise blood pressure measures, thus giving rise to hypertension (The Role of Potassium and Sodium in Your Diet, 2021). 
 
 
 
-Machine learning (Alpaydin, 2014; Marsland, 2015) is a contemporary data analysis technique with the distinctive ability to learn and ameliorate its performance without being obviously programmed and without user instruction (Sakr et al., 2018). The principal objective of supervised machine learning classification algorithms is to provide an explanation of the dependent variable with regard to the independent variables (Sakr et al., 2018). Machine learning techniques are commonly used to predict models and nowadays, in medical fields there is an extensive use of machine learning based techniques. However, quite often highly trained medical personnel find it difficult to depend on such models in practice for numerous reasons (Kononenko, 2001; Deo, 2015; Obermeyer and Emanuel, 2016; Darcy, Louie and Roberts, 2016; Elshawi, Al-Mallah and Sakr, 2019). There are several explanations as to why this is the case. Firstly, the majority of accessible predictive models often focus on certain diseases and reply upon the knowledge of highly trained medical personnel (Singal, 2013; He et al., 2014; Pederson, et al., 2016; Elshawi, Al-Mallah and Sakr, 2019). Applying predictive models on big health information systems may not perform efficiently as a result of the availability of multiple, elaborate data sources and the diverse mixture of both patients and diagnoses (Elshawi, Al-Mallah and Sakr, 2019). Secondly, the majority of models that are developed by data analysts mainly focus on the prediction accuracy as a performance metric but rarely produce a meaningful explanations of their prediction (Futoma, Morris and Lucas, 2015; Elshawi, Al-Mallah and Sakr, 2019). However, these such reasons are factors that data scientists can work with and improved on. Incidently, there has been an increase in analysis towards predicting medical conditions and diseases despite these reasons.
+Machine learning is a contemporary data analysis technique with the distinctive ability to learn and ameliorate its performance without being obviously programmed. The principal objective of supervised machine learning classification algorithms is to provide an explanation of the dependent variable with regard to the independent variables (Sakr et al., 2018). Machine learning techniques are commonly used to predict models and nowadays, in medical fields there is an extensive use of machine learning-based techniques. However, quite often highly trained medical personnel find it difficult to depend on such models in practice for numerous reasons (Kononenko, 2001). There are several explanations as to why this is the case. Firstly, the majority of accessible predictive models often focus on certain diseases and reply upon the knowledge of highly trained medical personnel (Elshawi, Al-Mallah and Sakr, 2019). Applying predictive models on big health information systems may not perform efficiently as a result of the availability of multiple, elaborate data sources and the diverse mixture of both patients and diagnoses (Elshawi, Al-Mallah and Sakr, 2019). Secondly, the majority of models that are developed by data analysts mainly focus on the prediction accuracy as a performance metric but rarely produce a meaningful explanations of their prediction (Elshawi, Al-Mallah and Sakr, 2019). However, despite these arguments there is still an ongoing increase in analysis towards predicting medical conditions and diseases.
 
 
 
-Recently, various studies have been using models to predict hypertension in particular (Chang, Wang and Jiang, 2011; Abdullah, Zakaria and Mohamad, 2011; Farran et al., 2013; Elshawi, Al-Mallah and Sakr, 2019). The emphasis of these studies are to determine the best fitting model in predicting hypertension. Many papers focused on adopting multiple models using machine learning techniques which have included neural network models, logistic regression models and random forest models to make some inference on hypertension. These papers focused on using training and test data sets, to assess model error rates and model accuracy values to determine the best machine learning approach to predict hypertension. One study merely fit a logistic regression model, (López-Martínez et al., 2018), additionally another study solely implemented an artificial neural network model and carried out a thorough analysis comparing previous studies using alternative models (López-Martínez et al., 2020). This study revealed their artificial neural network model had an improved overall performance and accuracy in contract to the previous study using the logistic regression model they had worked on and published (López-Martínez et al., 2018, 2020). Both of these models used NHANES data in addition to examining the same explanatory variables. The artificial neural network model produced AUC of 0.77, whereas the logistic regression model produced AUC of 0.73. From the comparison of these 2 models analsyed by López-Martínez et al. (2018, 2020), it is evident that an artificial neural network perhaps dependent on the data is a moderately better model to predict hypertension. Another study assessed 6 machine learning techniques to establish the most fitting model to predict hypertension, these models were logitBoost, Bayesian network classifier, locally weighted naive Bayes, artificial neural network, support vector machine and random forest (Sakr et al., 2018). This analysis revealed that the random forest model outperformed all other models and produced AUC of 0.93. Although this study did not examine the logistic regression model like the previous paper, it is evident that the random forest model when compared with multiple machine learning techniques including the artificial neural network model is the most fitting model utilised here.
+Recently, various studies have been using models to predict hypertension in particular (Elshawi, Al-Mallah and Sakr, 2019). The emphasis of these studies are to determine the best fitting model in predicting hypertension. Many papers focused on adopting multiple models using machine learning techniques which have included neural network models, logistic regression models and random forest models to make some inference on hypertension. These papers focused on using training and test data sets, to assess model error rates and model accuracy values to determine the best machine learning approach to predict hypertension. One study fit a logistic regression model, (López-Martínez et al., 2018), additionally another study solely implemented an artificial neural network model and carried out a thorough analysis comparing previous studies using alternative models (López-Martínez et al., 2020). This study revealed their artificial neural network model had an improved overall performance and accuracy in contrast to the previous study using the logistic regression model they had worked on and published (López-Martínez et al., 2018, 2020). Both of these models used NHANES data in addition to examining the same explanatory variables. The artificial neural network model produced AUC of 0.77, whereas the logistic regression model produced AUC of 0.73. From the comparison of these two models analsyed by López-Martínez et al. (2018, 2020), it is evident that an artificial neural network is a significant model to predict hypertension. Another study assessed six machine learning techniques to establish the most fitting model to predict hypertension, these models were logitBoost, Bayesian network classifier, locally weighted naive Bayes, artificial neural network, support vector machine and random forest (Sakr et al., 2018). This analysis revealed that the random forest model outperformed all other models and produced an AUC of 0.93. Although this study did not examine the logistic regression model like the previous paper, it is evident that the random forest model when compared with multiple machine learning techniques including the artificial neural network model is the best fitting model utilised here.
 
 
-Predicting hypertension can help establish leading causes of hypertension. Furthermore, using models to predict hypertension can contribute to preventing extensive occurrences of hypertension cases in addition to potential knock-on effects of hypertension, by offering useful advise in maintaining healthy blood pressure measures. I plan to build in a model in RStudio that will provide practical and beneficial information regarding hypertension. I will employ 3 machine learning techniques (logistic regression, random forest and neural network) to determine which model is the most appropriate model in predicting hypertension. I will determine significant contributing factors of hypertension by exploring the effect of multiple variables on hypertension. These variables are age, gender, race, smoking, diabetes, kidney disease, BMI, physical activity, alcohol use, salt use and potassium levels. I will use data from the National Health and Nutrition Examination Survey, which is more simply known as NHANES. NHANES is an application of research created to evaluate the physical and nutritional status of both children and adults in America (NHANES - About the National Health and Nutrition Examination Survey, 2021). This data is published online and can be publicly accessed for extensive health related statistical analysis. The survey is distinctive in that it uses both interviews and physical assessments to examine the health of the participants who are being sampled. The NHANES was first established in the early 1960s and has ran numerous surveys focusing on different population groups or health topics (NHANES - About the National Health and Nutrition Examination Survey, 2021). In 1999, the survey became a sustained program that has a changing focus on a variety of health and nutrition measurements to meet emerging needs (NHANES - About the National Health and Nutrition Examination Survey, 2021). NHANES surveys a nationally representative sample of about 5,000 persons annually (NHANES - About the National Health and Nutrition Examination Survey, 2021). The NHANES interview includes many components in particular demographic, socioeconomic, dietary and health-related questions. The physical assessment component consists of medical, dental, and physiological measurements, as well as laboratory tests dispensed by highly trained medical personnel (NHANES - About the National Health and Nutrition Examination Survey, 2021). During the period of 1999 to 2010, the NHANES subject matter was altered biannually as parts were changed, added, or removed (NHANES - About the National Health and Nutrition Examination Survey, 2021). Changes were also made to focus on new age groups, alter data collection methods, and update technologies (NHANES - About the National Health and Nutrition Examination Survey, 2021). A complex, multi-step probability sampling plan was used to choose a sample representative sample of people in America (NHANES - About the National Health and Nutrition Examination Survey, 2021). Findings from surveys such as NHANES are  used to discover the prevalence of major diseases and risk factors for diseases (NHANES - About the National Health and Nutrition Examination Survey, 2021).
+Predicting hypertension can help establish leading causes of hypertension. Furthermore, using models to predict hypertension can contribute to preventing extensive occurrences of hypertension cases in addition to potential knock-on effects of hypertension, by offering useful advise in maintaining healthy blood pressure measures. I plan to build in a model that will provide practical and beneficial information regarding hypertension. I will employ three machine learning techniques (logistic regression, random forest and neural network) to determine which model is the most appropriate model in predicting hypertension. I will determine significant contributing factors of hypertension by exploring the effect of multiple variables on hypertension. These variables are age, gender, race, smoking, diabetes, kidney disease, BMI, physical activity, alcohol use, salt use and potassium levels. I will use data from the NHANES. NHANES is an application of research created to evaluate the physical and nutritional status of both children and adults in America (About the NHANES, 2021). This data is published online and can be publicly accessed for extensive health related statistical analysis. The survey is distinctive in that it uses both interviews and physical assessments to examine the health of the participants who are being sampled. The NHANES was first established in the early 1960s and has ran numerous surveys focusing on different population groups or health topics (About the NHANES, 2021). In 1999, the survey became a sustained program that has a changing focus on a variety of health and nutrition measurements to meet emerging needs (About the NHANES, 2021). NHANES surveys a nationally representative sample of about 5,000 persons annually (About the NHANES, 2021). The NHANES interview includes many components in particular demographic, socioeconomic, dietary and health-related questions. The physical assessment component consists of medical, dental, and physiological measurements, as well as laboratory tests dispensed by highly trained medical personnel (About the NHANES, 2021). During the period of 1999 to 2010, the NHANES subject matter was altered biannually as parts were changed, added, or removed (About the NHANES, 2021). Changes were also made to focus on new age groups, alter data collection methods, and update technologies (About the NHANES, 2021). A complex, multi-step probability sampling plan was used to choose a sample representative sample of people in America (About the NHANES, 2021). Findings from surveys such as NHANES are  used to discover the prevalence of major diseases and risk factors for diseases (About the NHANES, 2021).
 
 
 
@@ -95,7 +95,8 @@ Predicting hypertension can help establish leading causes of hypertension. Furth
 
 
 
-The 2011/2012 data was used as the training set to fit the model. To evaluate the fit of each model, the 2015/2016 data was used. At the start of the analysis, multiple variables were examined from the NHANES data on the cdc.gov website to assess their appropriateness to the data. Several variables were chosen for the data, however large quantities of missing values were identified within these variables. After a full examination of their appropriateness to the data some of these variables were disregarded. Subsequently, 11 explanatory variables were ultimately chosen to contribute to analysing hypertension. The data was gathered and imported in RStudio (Version 1.4.1120) by using the 'nhanesA' package (Endres, 2021). Using 'nhanesA', 8 data files were imported from the 2011/2012 data. 6 out of the 8 files came from the questionnaire data. These files were SMQ_G, DIQ_G, KIQ_G, BPQ_G, PAQ_G and ALQ_G. The remaining 2 came from the dietary and examination data. These files were DR1TOT_G and BMX_G. In addition to these imported files, a final table from the NHANES data was imported. This was the demographics table (DEMO_G), which contains some personal information about the candidate including age and ethnicity. All of these files were merged to form one data set. The 11 explanatory variables and 1 response variable were extracted from this data set to form the final data set. The explanatory variables were RIAGENDR, RIDAGEYR, RIDRETH1, SMQ020, DIQ010, KIQ022, BMXBMI, PAQ665, ALQ101, DRQSPREP and DR1TPOTA. The response variable was BPQ020, which corresponds to hypertension. The same process was repeated to gather the 2015/2016 test data set. Each variable contained a question where the participants response or measurements were recorded. Table 1 reveals a summary of what the variables were renamed and the description or question corresponding to each variable. The entire 2011/2012 training data set had 5319 participants and the 2015/2016 test data set contained 5473 participants prior to any data cleaning processes. NHANES data are often coded according to their unique procedure, consequently it was essential to translate the variables using the function nhanesTranslate(). This meant that any categorical variables that were coded with values like 0 and 1 would be translated to responses participants filled out, for example "No and "Yes". This process allowed for a straightforward interpretation of all categorical variables.
+The 2011/2012 data was used as the training set to fit the model. To evaluate the fit of each model, the 2015/2016 data was used. At the start of the analysis, multiple variables were examined from the NHANES data on the cdc.gov website to assess their appropriateness to the data. Several variables were chosen for the data, however large quantities of missing values were identified within these variables. After a full examination of their appropriateness to the data some of these variables were disregarded. Subsequently, eleven explanatory variables were ultimately chosen to contribute to analysing hypertension. The data was gathered
+and imported in R (Version 1.4.1120) using the 'nhanesA' package (Endres, 2021). Using 'nhanesA', eight data files were imported from the 2011/2012 data. six out of the eight files came from the questionnaire data. These files were SMQ_G, DIQ_G, KIQ_G, BPQ_G, PAQ_G and ALQ_G. The remaining 2 came from the dietary and examination data. These files were DR1TOT_G and BMX_G. In addition to these imported files, a final table from the NHANES data was imported. This was the demographics table (DEMO_G), which contains some personal information about the candidate including age and ethnicity. All of these files were merged to form one data set. The eleven explanatory variables and one response variable were extracted from this data set to form the final data set. The explanatory variables were RIAGENDR, RIDAGEYR, RIDRETH1, SMQ020, DIQ010, KIQ022, BMXBMI, PAQ665, ALQ101, DRQSPREP and DR1TPOTA (table \ref{tbl:data0}). The response variable was BPQ020, which corresponds to hypertension. The same process was repeated to gather the 2015/2016 test data set. Each variable contained a question where the participants response or measurements were recorded. Table \ref{tbl:data0} summarises all eleven explanatory variables, what these variables were renamed and the description or question corresponding to each variable. The entire 2011/2012 training data set had 5319 participants and the 2015/2016 test data set contained 5473 participants prior to any data cleaning processes. NHANES data are often coded according to their unique procedure, consequently it was essential to translate the variables using the function nhanesTranslate(). This meant that any categorical variables that were coded with values like 0 and 1 would be translated to responses participants filled out, for example "No" and "Yes". This process allowed for a straightforward interpretation of all categorical variables.
 
 
  
@@ -111,7 +112,7 @@ Renamed <- factor(c("Hypertension","Smoking","Diabetes","KidneyF","PhysActivity"
 
 data=data.frame(Variables,Renamed,Description)
 
-kable(data, "latex", booktabs=TRUE, linesep="", caption="NHANES data\\label{tbl:data0}") %>%
+kable(data, "latex", booktabs=TRUE, linesep="", caption="NHANES variables selected.\\label{tbl:data0}") %>%
     kable_styling(latex_options=c("HOLD_position"))
 
 ```
@@ -121,62 +122,122 @@ kable(data, "latex", booktabs=TRUE, linesep="", caption="NHANES data\\label{tbl:
 
 ## 2.2. Data Exploration and Cleaning {#explor}
 
+To explore both the training and test data, data visualisation techniques were used to examine whether any patterns or relationships were present among the variables. Each explanatory variable was plotted with the response variable to assess if such patterns were present. After exploring the plots several issues with the data were discovered. Firstly, it was clear that there were a considerable amount of heavily skewed values and a few outliers present in Potassium for both the training and test data (Figure \ref{fig:pot}). Potassium had very few extremely large values, whereas the majority of values within this variable were considerably small, between a range of 0 and 5000. It was decided to log transform Potassium for both training and test data, to reduce the skewness from the data.
 
-To explore both the training and test data sets, data visualisation techniques were used to examine whether any patterns or relationships were present among the variables. Each explanatory variable was plotted with the response variable to assess if such patterns were present. After exploring the plots several issues with the data were discovered. Firstly, it was clear that Potassium contained heavily skewed values. Potassium had very few extremely large values, whereas the majority of values within this variable were considerably small. It was decided to log transform Potassium to reduce the skewness from the data. Furthermore, there were still a significant number of missing values present in the data (figure \ref{fig:hist0}). From the 2011/2012 training data there were a total of 1712 missing values, which were present in 903 rows of the data. From the 2015/2016 test data there were a total of 1453 missing values, which were present in 754 rows of the data. This quantity of missing values is a considerably large proportion of both the training and test data sets. Several options were explored on the procedure of dealing with missing values, these included dropping some variables, deleting rows with missing values and imputing the missing values. The method of dropping variables was previously employed in the earliest stages of variable selection, however at this phase the variables chosen were all suitable for the analysis so this was not a realistic option. It was evident 3 variables in particular stood out as having the greatest amount of missing values. These variables were alcohol, potassium and salt. 
 
-\pagebreak
 
-```{r, echo =FALSE}
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=1.8, fig.cap="Boxplot displaying the effect of potassium on hypertension for the training data.\\label{fig:pot}",fig.show='hold'}
 suppressMessages(library(naniar))
 suppressMessages(library(tidyverse))
+suppressMessages(library(gridExtra))
+suppressMessages(library(grid))
+suppressMessages(library(gtable))
+
 load("Data/all_dat.RData")
 load("Data/data_11.RData")
 
+ggplot(data_11) +
+      geom_boxplot(aes(x = Potassium, y = Hypertension),position = "dodge") + labs(x="Potassium", y ="Hypertension") + coord_flip()
 
+```
+
+
+Furthermore, there were still a significant number of missing values present in the data (figure \ref{fig:hist0}). From the 2011/2012 training data there were a total of 1712 missing values, which were present in 903 rows of the data. From the 2015/2016 test data there were a total of 1453 missing values, which were present in 754 rows of the data. This quantity of missing values is a considerable proportion of both the training data (0.322) and test data (0.265). Several options were explored on the procedure of dealing with missing values, these included deleting rows with missing values or imputing the missing values. It was evident three variables in particular stood out as having the greatest amount of missing values. These variables were alcohol, potassium and salt. 
+
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3.5, fig.cap="Missing values\\label{fig:hist0}"}
 x <- gg_miss_var(data_11) + theme_bw() + labs(title ="2011/2012 Data") #All data 2011/2012
 
 y <- gg_miss_var(all_dat) + theme_bw() + labs(title ="2015/2016 Data") #All data 2015/2016
 
-suppressMessages(library(gridExtra))
-suppressMessages(library(grid))
-suppressMessages(library(gtable))
 g2 <- ggplotGrob(x)
 g3 <- ggplotGrob(y)
 g <- rbind(g2, g3, size = "first")
 g$widths <- unit.pmax(g2$widths, g3$widths)
-```
 
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=4, fig.cap="Missing values\\label{fig:hist0}"}
 plot(g)
 ```
 
     
-The levels of all categorical variables were inspected through coding and by exploring the data visually. There were 2 levels present in some categorical variables that stood out. These levels were "Don't Know" and "Refused". Participants would have had the opportunity to respond with these such responses during the survey. Through further assessment, it was evident there were either no observations or very little observations in these levels. Thus these levels did not provide any useful information for modelling and also made interpretation difficult. Appendix \ref{app:smoke7} and appendix \ref{app:alco17} displays these levels and also highlights the presence of missing values in the data prior to any cleaning processes. After some consideration, the decision was made to remove the observations where participants responded either "Don't Know" or "Refused". Following the removal of these levels the remaining missing values from both the training and test sets were omitted. Now only 52 missing values from the 2011/2012 training data set were omitted and 45 missing values from the 2015/2016 test data set were omitted. Subsequent to this, it was verified that categorical variables were marked in R as factors and continuous variables as numeric. After all data cleaning, the training set now had a total of 4312 participants and the test set had a total of 4624 participants. In the training data, the response variable had a total of 1576 individuals diagnosed with hypertension and 2376 individuals who did not have hypertension. In the test data, the response variable had a total of 1711 individuals diagnosed with hypertension and 2913 individuals who did not have hypertension. The final step performed involved reordering the categorical variables using the relevel() function. This reordered the categorical response placing "No" first. All categorical variables were controlled in such a way that they were positively associated with the response variable Hypertension. 
+The levels of all categorical variables were inspected through coding and by exploring the data visually. There were two levels present in some of the categorical variables that stood out. These levels were "Don't Know" and "Refused". Participants would have had the opportunity to respond with these such responses during the survey. Through further assessment, it was evident there were either no observations or very little observations in these levels. Thus these levels did not provide any useful information for modelling and also made interpretation difficult. Figure \ref{fig:b4clean} displays these levels and also highlights the presence of missing values for the smoking, alcohol and salt variables, prior to any cleaning processes. 
+
+\pagebreak
+
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.cap="Bar charts displaying the effect of smoking, alcohol and salt use on hypertension for the training data.\\label{fig:b4clean}",fig.show='hold'}
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+x <- ggplot(data_11) +
+      geom_bar(aes(x = Smoking, fill = Hypertension),position = "dodge") + xlab("Smoking") + labs(fill= "Hypertension") + scale_fill_manual(values=cbPalette[c(3,4,5)])
+
+y <- ggplot(data_11) +
+      geom_bar(aes(x = Alcohol, fill = Hypertension),position = "dodge") + xlab("Alcohol") + labs(fill= "Hypertension") + scale_fill_manual(values=cbPalette[c(3,4,5)])
+
+z <- ggplot(data_11) +
+      geom_bar(aes(x = Salt, fill = Hypertension),position = "dodge") + labs(x="Salt",fill="Hypertension") + scale_fill_manual(values=cbPalette[c(3,4,5)])
+# it appears that the number of hypertension cases rise as the level of salt added to a meal increases. There is a clear difference for females with hypertension, that there are more cases for when salt used very often compared to never.
+
+g2 <- ggplotGrob(x)
+g3 <- ggplotGrob(y)
+g4 <- ggplotGrob(z)
+g <- rbind(g2, g3, g4,size = "first")
+g$widths <- unit.pmax(g2$widths, g3$widths,g4$widths)
+plot(g)
+```
 
 
-
-```{r, eval = F,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.cap="Bar chart displaying the effect of smoking on hypertension on the training data set.\\label{fig:smoke}",fig.show='hold'}
+```{r,eval=FALSE,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=1.8, fig.cap="Bar chart displaying the effect of smoking on hypertension on the training data set.\\label{fig:smoke}",fig.show='hold'}
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 ggplot(data_11) +
       geom_bar(aes(x = Smoking, fill = Hypertension),position = "dodge") + xlab("Smoking") + labs(fill= "Hypertension") + scale_fill_manual(values=cbPalette[c(3,4,5)])
 #in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
 ```
 
-
-
-```{r, eval=FALSE, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.cap="Bar chart displaying the effect of alcohol on hypertension on the training data set.\\label{fig:alco1}",fig.show='hold'}
+```{r, eval=FALSE,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=1.8, fig.cap="Bar chart displaying the effect of alcohol on hypertension on the training data set.\\label{fig:alco1}",fig.show='hold'}
 ggplot(data_11) +
       geom_bar(aes(x = Alcohol, fill = Hypertension),position = "dodge") + xlab("Alcohol") + labs(fill= "Hypertension") + scale_fill_manual(values=cbPalette[c(3,4,5)])
 #in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
 ```
 
+```{r, eval=FALSE,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=1.8, fig.cap="Bar chart displaying the effect of Salt use on hypertension.\\label{fig:salt}",fig.show='hold'}
+
+ggplot(data_11) +
+      geom_bar(aes(x = Salt, fill = Hypertension),position = "dodge") + labs(x="Salt",fill="Hypertension")
+# it appears that the number of hypertension cases rise as the level of salt added to a meal increases. There is a clear difference for females with hypertension, that there are more cases for when salt used very often compared to never.
+```
+
+
+After some consideration, the decision was made to remove the observations where participants responded either "Don't Know" or "Refused". Following the removal of these levels the remaining missing values from both the training and test sets were omitted. Now only 52 missing values from the 2011/2012 training data set were omitted and 45 missing values from the 2015/2016 test data set were omitted. Subsequent to this, it was verified in R that categorical variables were marked as factors and continuous variables as numeric. After all data cleaning, the training set now had a total of 4312 participants and the test set had a total of 4624 participants (Figure \ref{fig:after}). In the training data, the response variable had a total of 1576 individuals diagnosed with hypertension and 2376 individuals who did not have hypertension. In the test data, the response variable had a total of 1711 individuals diagnosed with hypertension and 2913 individuals who did not have hypertension. The final step performed involved reordering the categorical variables using the relevel() function. This reordered the categorical response placing "No" first. 
+
+
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.cap="Bar charts displaying the effect of smoking, alcohol and salt use on hypertension for the training data.\\label{fig:after}",fig.show='hold'}
+load("Data/data1_11a.RData")
+x <- ggplot(data_11a) +
+      geom_bar(aes(x = Alcohol, fill = Hypertension),position = "dodge") + xlab("Alcohol") + labs(fill= "Hypertension") + scale_fill_manual(values=cbPalette[c(3,4,5)])
+#in both cases where people smoke or do not smoke, the proportion of people that do not have hypertension is higher than those who do have it
+
+y <- ggplot(data_11a) +
+      geom_bar(aes(x = Alcohol, fill = Hypertension),position = "dodge") + xlab("Alcohol") + labs(fill= "Hypertension") + scale_fill_manual(values=cbPalette[c(3,4,5)])
+
+z <- ggplot(data_11a) +
+      geom_bar(aes(x = Salt, fill = Hypertension),position = "dodge") + labs(x="Salt",fill="Hypertension") + scale_fill_manual(values=cbPalette[c(3,4,5)])
+
+g2 <- ggplotGrob(x)
+g3 <- ggplotGrob(y)
+g4 <- ggplotGrob(z)
+g <- rbind(g2, g3, g4,size = "first")
+g$widths <- unit.pmax(g2$widths, g3$widths,g4$widths)
+plot(g)
+```
 
 
 
 ## 2.3. Data Modelling{#model}
 
 
-This analysis examined 3 machine learning classification techniques to investigate and predict hypertension. These techniques were logistic regression, random forest and neural network models. All statistical analysis were performed in RStudio (Version 1.4.1120). The 'tidymodels' package (Kuhn et al., 2020) was utilised to execute all 3 models, as tidymodels are more flexible and often make it easier to specify the models being assessed. The response variable Hypertension is binary taking on either "Yes" or "No" responses, however it was re-coded to take on values of either 0 or 1 as numerical responses are further recognised in all model forms.\ 
+This analysis examined three machine learning classification techniques to investigate and predict hypertension. These techniques were logistic regression, random forest and neural network models. All statistical analysis were performed in R (Version 1.4.1120). The 'tidymodels' package (Kuhn et al., 2020) was utilised to execute all three models, as tidymodels are more flexible and often make it easier to specify the models being assessed. The response variable Hypertension is binary taking on either "Yes" or "No" responses, however it was re-coded to take on values of either 0 or 1 as numerical responses are further recognised in all model forms.
+
+**Tidymodels Framework**
+
 
 ### 2.3.1 Logistic Regression{#logreg}
 
@@ -184,10 +245,10 @@ This analysis examined 3 machine learning classification techniques to investiga
 Logistic regression models are such models that generally deal with binary dependent variables (Hall and Round, 1994). This model will always produce probabilities between 0 and 1. Odds ratios which are the ratios of the probability of the event occurring to the probability of the event not occurring, are utilised for logistic regression models (Hall and Round, 1994). The equation for logistic regression is defined below:
 
 \begin{center}
-\[P(Y=1|X=x) = \dfrac{e^{\small \eta}}{1+e^{\small \eta}}\]\ 
+\[P(Y=1|X=x) = \dfrac{e^{\small \eta}}{1+e^{\small \eta}},\]\ 
 \end{center}
 
-Where ${\small \eta}$ is the systematic component of the model, eg. ${\small \eta} = \beta_0 + \beta_1x_1 + . . . +\beta_kx_k$. Several logistic regression models were fitted to the data to determine the most satisfactory model in predicting hypertension. Base R was initially used to determine a good logistic regression model. The function residualPlots() from the 'car' package (Fox and Sanford, 2019) was used to examine the appropriateness of each variable fit in the model. Initially, a model was fit which included all explanatory variables. Through inspection of the residualPlots to determine how well each variable fit, it was clear that 2 variables Age and BMI did not fit the data well. Consequently, the addition of a quadratic term to both Age and BMI were adjoined to the existing model. Unfortunately, residualPlots() was not effective in portraying a significant difference in the 2 models to determine a more suitable model. Alternatively, anova() was used to establish the best model. The model which included the quadratic terms presented to be a better fit model. As differences in gender had been reported to have increased cases of hypertension, interactions between gender and the remaining variables were examined.  A model was fit where all variables, inclusive of the quadratic terms had an interaction with Gender. With the use of Anova(), it was established that the quadratic terms Age^2^ and BMI^2^ had the most significant interaction with Gender. A fourth model was fit, in this case Gender only had an interaction with Age, Age^2^, BMI and BMI^2^. Following this, anova() was used to determine the best model. The best model evidently was the fourth model where Gender had an interaction with Age, Age^2^, BMI and BMI^2^. The final model fitted was an extension to the previous model as one more interaction term with Age and Diabetes was added. The model fit was assessed using Anova(). It was evident that this additional interaction was significant. Using anova() it was apparent that this final model was the most satisfactory model. The final model chosen for the logistic regression model is defined below:
+where ${\small \eta}$ is the systematic component of the model, eg. ${\small \eta} = \beta_0 + \beta_1x_1 + . . . +\beta_kx_k$. Several logistic regression models were fitted to the data to determine the most satisfactory model in predicting hypertension. Base R was initially used to determine a good logistic regression model. The function residualPlots() from the 'car' package (Fox and Sanford, 2019) was used to examine the appropriateness of each variable fit in the model. Initially, a model was fit which included all explanatory variables. Through inspection of the residualPlots to determine how well each variable fit, it was clear that 2 variables Age and BMI did not fit the data well. Consequently, the addition of a quadratic term to both Age and BMI were adjoined to the existing model. Unfortunately, residualPlots() was not effective in portraying a significant difference in the 2 models to determine a more suitable model. Alternatively, anova() was used to perform a likelihood ratio test between the two nested models to establish the best model. The model which included the quadratic terms presented to be a better fit model. As differences in gender had been reported to have increased cases of hypertension, interactions between gender and the remaining variables were examined.  A model was fit where all variables, inclusive of the quadratic terms had an interaction with Gender. With the use of Anova(), it was established that the quadratic terms Age^2^ and BMI^2^ had the most significant interaction with Gender. A fourth model was fit, in this case Gender only had an interaction with Age, Age^2^, BMI and BMI^2^. Following this, anova() was used to determine the best model by performing a likelihood ratio test. The best model evidently was the fourth model where Gender had an interaction with Age, Age^2^, BMI and BMI^2^. The final model fitted was an extension to the previous model as one more interaction term with Age and Diabetes was added. The model fit was assessed using Anova(). It was evident that this additional interaction was significant. Using anova() to perform a likelihood ratio test, it was apparent that this final model was the most satisfactory model. The final model chosen for the logistic regression model is defined below:
 
 
 \begin{center}
@@ -202,12 +263,12 @@ This model was then fit using tidymodels, using the function logistic_reg(). The
 
 ### 2.3.2 Random Forest{#rf}
 
-A random forest model (Ho, 1995) is a classification algorithm that operates by producing a large number of decision trees at training (Sakr et al., 2018). Random forest models were created to generate accurate predictions for a model that do not over-fit the data (Breiman 2001, 2002). Random forest models use bootstrap samples to construct multiple trees, although each tree is created with a randomised subset of predictors (Prasad, Iverson and Liaw, 2006). The quantity of trees utilised in random forest models is controlled by the user, the default number of trees used is 500. A random forest model was fit using tidymodels, using the rand_forest() function with the mode set to "classification". The engine was set to "ranger" and importance set to "impurity". The "impurity" measure is the Gini index for classification. The model fit comprised of the response variable and all explanatory variables.\ 
+A random forest model is a classification algorithm that operates by producing a large number of decision trees at training (Breiman, 2001). Random forest models were created to generate accurate predictions for a model that do not over-fit the data (Breiman, 2001, 2002). The quantity of trees utilised in random forest models is controlled by the user, the default number of trees used is 500. A random forest model was fit using tidymodels, using the rand_forest() function with the mode set to "classification". The engine was set to "ranger" (Wright and Ziegler, 2017) and importance set to "impurity". The "impurity" measure is the Gini index for classification. Random forest models use bootstrap samples to construct multiple trees, although each tree is created with a randomised subset of predictors (Prasad, Iverson and Liaw, 2006). The model fit comprised of the response variable and all explanatory variables.\ 
 
 
 ### 2.3.3 Neural Network{#nn}
 
-A neural network model is called a network as they can be associated with a directed acyclic graph describing how the functions are composed together. Neural network models are typically trained to treat the non-linearity of explanatory variables due to the non-linear nature of them, making the model more flexible compared to logistic regression (López-Martínez et al, 2020). Each node produced by neural networks are known as a unit. A neuron unit $u$ first takes a linear combination of the explanatory variables and applies a non-linear function $f$, called an activation function. The neural network model was fit with tidymodels, using the mlp() function with the mode set to "classification". The engine was set to "nnet". The model fit comprised of the response variable and all explanatory variables. 
+A neural network model is called a network as they can be associated with a directed acyclic graph describing how the functions are composed together. Neural networks contain an input layer, one or more hidden layers, and an output layer. More than often these models are more flexible than the logistic regression models (López-Martínez et al, 2020). Each node produced by neural networks is known as a unit. Each unit connects to another and has an associated weight and threshold. A neuron unit $u$ first takes a linear combination of the explanatory variables and applies a non-linear function $f$, called an activation function. The neural network model was fit with tidymodels, using the mlp() function with the mode set to "classification". The engine was set to "nnet" (Venables and Ripley, 2002). The model fit comprised of the response variable and all explanatory variables. 
 
 
 The neural network model required further tuning using tidymodels, as its fit was not satisfactory. The model fit was updated specifying tune() for the the hidden_units, penalty and epochs. A grid was created using the grid_regular() function and the range for tuning each argument was specified. A range from 0 to 20 was defined for the hidden_units, 0.5 to 0.0000001 for the penalty and 10 to 10000 for the epochs. The best model was chosen based of the best "roc_auc" value. The best and final neural network model contained 20 hidden units, a penalty of	1.77828 and 5005 epochs.
@@ -218,15 +279,15 @@ The neural network model required further tuning using tidymodels, as its fit wa
 ## 2.4. Comparing Models{#comparemodels}
 
 
-Several methods were employed to evaluate the fit of all models with the test data. These methods included examining the confusion matrix, the ROC (receiver operating characteristic) curve, the AUC (area under the curve), partial dependent profiles and performances and the application of the condvis() function in the 'condvis2' package (Hurley, O'Connell and Domijan, 2020). All measures were used to examine accuracy measures of all models by utilising the test data set.
+Several methods including graphical and numerical comparisons were employed to evaluate the fit of all models with the test data. The following were examined: the confusion matrix, the ROC (receiver operating characteristic) curve, the AUC (area under the curve), partial dependent profiles and performances and the application of the condvis() function in the 'condvis2' package (Hurley, O'Connell and Domijan, 2020). All measures were used to examine accuracy measures of all models by utilising the test data set.
  
 
 Confusion matrices were examined to investigate the performance of classification models on the test data by calculating key measures which included sensitivity, specificity, type 1 error rate, type 2 error rate, accuracy and precision. TP refers to true positive where both actual and predicted values are positive. TN refers to true negative where both actual and predicted values are negative. FP refers to false positive where the predicted value is positive however the actual value is negative. FN refers to false negative where the predicted value is negative however the actual value is positive. N refers to the sum of all negative actual values and P refers to the sum of all positive actual values. Sensitivity is the true positive rate (TPR), which is calculated by TP/P. Specificity is the true negative rate (TNR), which is calculated by TN/N. Type 1 error is the false positive rate (FPR), which is calculated by FP/N. Type 2 error is the false negative rate (FNR), which is calculated by FN/P. Accuracy is calculated by (TP + TN)/N. Finally, precision is the positive predictive value, which is calculated by TP/(TP + FP). 
 
 
-The ROC curve evaluates the accuracy of models. This curve is the plot of sensitivity versus 1-specificity , also known as type 1 error. It reveals the trade off between the FPR and TPR as one change the criterion for positivity (Swets, 1979; Metz, 1986). The AUC and ROC curve work hand in hand. The AUC is another technique to measure the accuracy of models. The ROC curve is a more visual representation of how accurate the model is, whereas the AUC is the measure of the area under the ROC curve and will produce a figure between 0 and 1. An AUC value of 1 is a model that is perfectly accurate. The AUC value produces a summary of the entire location of the ROC curve instead of depending on a specific operating point (Swets, 1979; Hanley and McNeill, 1982).
+The ROC curve evaluates the accuracy of models. This curve is the plot of sensitivity versus 1-specificity , also known as type 1 error. It reveals the trade off between the FPR and TPR as one change the criterion for positivity (Swets, 1979). The AUC and ROC curve work hand in hand. The AUC is another technique to measure the accuracy of models. The ROC curve provides a visual representation of how accurate the model is, whereas the AUC is the measure of the area under the ROC curve and will produce a figure between 0 and 1. An AUC value of 1 is a model that is perfectly accurate. The AUC value produces a summary of the entire location of the ROC curve instead of depending on a specific operating point (Swets, 1979).
 
-The partial dependence plots are produced using the 'DALEX' package (Biecek, 2018). The main point of partial dependence profiles is to investigate how the expected value of model prediction will behave as a function of a selected explanatory variable (Biecek and Burzykowski, 2021). Partial dependence profiles are beneficial for comparisons of different models. Partial dependence profiles use the mean of ceteris-paribus profiles (Biecek and Burzykowski, 2021). Ceteris-paribus profiles display the dependence of an instance-level prediction on any explanatory variable, therefore the partial dependence profile is estimated by the mean of the ceteris-paribus profiles for all observations from a data set (Biecek and Burzykowski, 2021). The value of the partial dependence profile for model $f()$ and explanatory variables $\underbar{x}_i^{j}$ at $z$, where $z$ is fixed over the marginal distribution of $\underbar{x}$ is defined below:
+The partial dependence plots are produced using the 'DALEX' package (Biecek, 2018). The main point of partial dependence profiles is to investigate how the expected value of model prediction will behave as a function of a selected explanatory variable (Friedman, 2001). Partial dependence profiles are beneficial for comparisons of different models. Partial dependence profiles use the mean of ceteris-paribus profiles (Friedman, 2001). Ceteris-paribus profiles display the dependence of an instance-level prediction on any explanatory variable, therefore the partial dependence profile is estimated by the mean of the ceteris-paribus profiles for all observations from a data set (Friedman, 2001). The value of the partial dependence profile for model $f()$ and explanatory variables $\underbar{x}_i^{j}$ at $z$, where $z$ is fixed over the marginal distribution of $\underbar{x}$ is defined below:
 
 \[\hat{g}^j _{PD} (z) = \dfrac{1}{n}\sum_{i=1}^{n}f(\underbar{x}_i^{j|=z})\]
 
@@ -234,7 +295,7 @@ Explainers were produced for each model using the explain() function from the 'D
 
 
 
-The final method employed to compare the 3 models was the use of the condvis() function. Using this function several plots were examined to explore and compare the predicted probability of the explanatory variables and potential interactions with other explanatory variables.
+The final method employed to compare the three models was the use of the condvis() function. Using this function several plots were examined to explore and compare the predicted probability of the explanatory variables and potential interactions with other explanatory variables.
 
 </body>
 
@@ -300,19 +361,45 @@ ex_nn_test <-  DALEX::explain(final_nn, data = Test, y = hypn1, type = "classifi
 
 
 
-Race_hispanic <- tidy(glm_fit)$estimate[7] %>% exp() %>% round(digits = 3)
-Race_white <- tidy(glm_fit)$estimate[8] %>% exp() %>% round(digits = 3)
-Race_black <- tidy(glm_fit)$estimate[9] %>% exp() %>% round(digits = 3)
-Race_other <- tidy(glm_fit)$estimate[10] %>% exp() %>% round(digits = 3)
-Smoke <- tidy(glm_fit)$estimate[11] %>% exp() %>% round(digits = 3)
-Kidn <- tidy(glm_fit)$estimate[14] %>% exp() %>% round(digits = 3)
-pactivity <- tidy(glm_fit)$estimate[15] %>% exp() %>% round(digits = 3)
-alco <- tidy(glm_fit)$estimate[16] %>% exp() %>% round(digits = 3)
-salt_rarely <- tidy(glm_fit)$estimate[17] %>% exp() %>% round(digits = 3)
-salt_occ <- tidy(glm_fit)$estimate[18] %>% exp() %>% round(digits = 3)
-salt_voften <- tidy(glm_fit)$estimate[19] %>% exp() %>% round(digits = 3)
-pota <- tidy(glm_fit)$estimate[20] %>% exp() %>% round(digits = 3)
+tbl <- tidy(glm_fit, conf.int = TRUE)
+Race_hispanic <- tbl$estimate[7] %>% exp() %>% round(digits = 3)
+Race_white <- tbl$estimate[8] %>% exp() %>% round(digits = 3)
+Race_black <- tbl$estimate[9] %>% exp() %>% round(digits = 3)
+Race_other <- tbl$estimate[10] %>% exp() %>% round(digits = 3)
+Smoke <- tbl$estimate[11] %>% exp() %>% round(digits = 3)
+Kidn <- tbl$estimate[14] %>% exp() %>% round(digits = 3)
+pactivity <- tbl$estimate[15] %>% exp() %>% round(digits = 3)
+alco <- tbl$estimate[16] %>% exp() %>% round(digits = 3)
+salt_rarely <- tbl$estimate[17] %>% exp() %>% round(digits = 3)
+salt_occ <- tbl$estimate[18] %>% exp() %>% round(digits = 3)
+salt_voften <- tbl$estimate[19] %>% exp() %>% round(digits = 3)
+pota <- tbl$estimate[20] %>% exp() %>% round(digits = 3)
 
+
+Race_hispanic_ci <- c(tbl$conf.low[7], tbl$conf.high[7]) %>% exp() %>% round(digits = 3)
+Race_hispanic_ci <- (paste(Race_hispanic_ci[1],"-", Race_hispanic_ci[2]))
+Race_white_ci <- c(tbl$conf.low[8], tbl$conf.high[8] ) %>% exp() %>% round(digits = 3)
+Race_white_ci  <- (paste(Race_white_ci[1],"-", Race_white_ci [2]))
+Race_black_ci <- c(tbl$conf.low[9],tbl$conf.high[9]) %>% exp() %>% round(digits = 3)
+Race_black_ci  <- (paste(Race_black_ci[1],"-", Race_black_ci [2]))
+Race_other_ci <- c(tbl$conf.low[10],tbl$conf.high[10]) %>% exp() %>% round(digits = 3)
+Race_other_ci <- (paste(Race_other_ci[1],"-", Race_other_ci [2]))
+Smoke_ci <- c(tbl$conf.low[11],tbl$conf.high[11]) %>% exp() %>% round(digits = 3)
+Smoke_ci <- (paste(Smoke_ci[1],"-", Smoke_ci [2]))
+Kidn_ci <- c(tbl$conf.low[14],tbl$conf.high[14]) %>% exp() %>% round(digits = 3)
+Kidn_ci <- (paste(Kidn_ci[1],"-", Kidn_ci [2]))
+pactivity_ci <- c(tbl$conf.low[15],tbl$conf.high[15]) %>% exp() %>% round(digits = 3)
+pactivity_ci <- (paste(pactivity_ci[1],"-", pactivity_ci [2]))
+alco_ci <- c(tbl$conf.low[16],tbl$conf.high[16]) %>% exp() %>% round(digits = 3)
+alco_ci <- (paste(alco_ci[1],"-", alco_ci [2]))
+salt_rarely_ci <- c(tbl$conf.low[17],tbl$conf.high[17]) %>% exp() %>% round(digits = 3)
+salt_rarely_ci <- (paste(salt_rarely_ci[1],"-", salt_rarely_ci [2]))
+salt_occ_ci <- c(tbl$conf.low[18],tbl$conf.high[18]) %>% exp() %>% round(digits = 3)
+salt_occ_ci <- (paste(salt_occ_ci[1],"-", salt_occ_ci[2]))
+salt_voften_ci <- c(tbl$conf.low[19],tbl$conf.high[19]) %>% exp() %>% round(digits = 3)
+salt_voften_ci <- (paste(salt_voften_ci[1],"-", salt_voften_ci[2]))
+pota_ci <- c(tbl$conf.low[20],tbl$conf.high[20]) %>% exp() %>% round(digits = 3)
+pota_ci <- (paste(pota_ci[1],"-", pota_ci[2]))
 
 
 
@@ -332,35 +419,36 @@ tidy(glm_fit, exponentiate = TRUE)  %>%
 ```
 
 
-This analysis used a logistic regression model to predict hypertension. The odds ratios produced from this model were examined and revealed some significant increases and decreases in the odds of having hypertension across all explanatory variables (figure \ref{fig:hist1}). The green dots indicate increased odds ratios and the blue dots indicate decreased odds ratios of hypertension. Unfortunately, figure \ref{fig:hist1} does not produce a sufficient representation of the odds ratios of Age, Age^2^, BMI, BMI^2^ and Diabetes and the interaction terms associated with these variables.
+This analysis used a logistic regression model to predict hypertension. The odds ratios produced from this model were examined and revealed some significant increases and decreases in the odds of having hypertension across all explanatory variables (Figure \ref{fig:hist1}). The green dots indicate increased odds ratios and the blue dots indicate decreased odds ratios of hypertension. Unfortunately, figure \ref{fig:hist1} does not produce a sufficient representation of the odds ratios of Age, Age^2^, BMI, BMI^2^ and Diabetes and the interaction terms associated with these variables.
 
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.width=6,fig.cap="The odds ratios for the logistic regression.\\label{fig:hist1}",fig.show='hold'}
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 plot_model(glm_fit, vline.color = "black", sort.est = TRUE,colors = cbPalette[c(3,4)], title = "") + labs(x = "Explanatory Variables")
 ```
 
-The odds ratios for the explanatory variables that did not have an interaction with another variable are summarised in table \ref{tbl:data3}. All categorical levels within the Race variable were estimated to have increased odds of having hypertension relative to the baseline race, Mexican American. The highest odds ratio within Race was for non-Hispanic black individuals. When you move from individuals who are American Mexican to Non-Hispanic black, the odds of having hypertension were estimated to be 2.3 times higher. The other categorical levels in Race, include individuals who are classed as other Hispanic, non-Hispanic white and other race all had increased odds of having hypertension which range between 27% to 40% times higher relative to individuals who are American Mexican. Individuals who smoked more than 100 cigarettes in their lifetime had a 26% increase in their odds of having hypertension in comparison to individuals who have not smoked more than 100 cigarettes in their life. For individuals who were diagnosed with kidney disease or failing kidneys, the odds of them having hypertension were estimated to be almost 3 times higher than those who were not diagnosed with such renal complications. For individuals who were physically active, their odds of having hypertension were estimated to decrease by 10%. For individuals who have had more than 12 alcoholic drinks in a year, the odds of having hypertension were estimated to increase by 4%. An unexpected result included the odds ratios for some categorical levels of salt relative to the baseline salt use "Never". Salt used "Rarely" compared to "Never" was estimated to decrease the odds of having hypertension by 14%. Salt used "Occasionally" was seen to increase the odds of having hypertension by 3%, whereas salt used "Very Often" was estimated to decrease the odds of having hypertension by 2%, both levels relative to "Never" using salt. The extensive use of salt on food at the table was not portrayed to have a significant increase on the effect of hypertension as might be expected. Finally, for a one unit increase in potassium levels the odds of having hypertension were estimated to decrease by 6%. 
+The odds ratios for the explanatory variables that did not have an interaction with another variable are summarised in table \ref{tbl:data3}. All categorical levels within the Race variable were estimated to have increased odds of having hypertension relative to the baseline race, Mexican American. The highest odds ratio within Race was for non-Hispanic black individuals. When you move from individuals who are American Mexican to Non-Hispanic black, the odds of having hypertension were estimated to be two times higher. The other categorical levels in Race, include individuals who are classed as other Hispanic, non-Hispanic white and other race all had increased odds of having hypertension which range between 27% to 40% times higher relative to individuals who are American Mexican. Individuals who smoked more than 100 cigarettes in their lifetime had a 26% increase in their odds of having hypertension in comparison to individuals who have not smoked more than 100 cigarettes in their life. For individuals who were diagnosed with kidney disease or failing kidneys, the odds of them having hypertension were estimated to be almost three times higher than those who were not diagnosed with such renal complications. For individuals who were physically active, their odds of having hypertension were estimated to decrease by 10%. For individuals who have had more than 12 alcoholic drinks in a year, the odds of having hypertension were estimated to increase by 4%. An unexpected result included the odds ratios for some categorical levels of salt relative to the baseline salt use "Never". Salt used "Rarely" compared to "Never" was estimated to decrease the odds of having hypertension by 14%. Salt used "Occasionally" was seen to increase the odds of having hypertension by 3%, whereas salt used "Very Often" was estimated to decrease the odds of having hypertension by 2%, both levels relative to "Never" using salt. The extensive use of salt on food at the table was not portrayed to have a significant increase on the effect of hypertension as might be expected. Finally, for a one unit increase in potassium levels the odds of having hypertension were estimated to decrease by 6%. 
 
 
 ```{r, echo = FALSE, include=TRUE,message=FALSE}
 
 Var = factor(c("Race - Other Hispanic","Race - Non-Hispanic White", "Race - Non-Hispanic Black", "Race - Other Race","Smoking - Yes", "Kidney Disease - Yes","Physical Activity - Yes", "Alcohol - Yes", "Salt - Rarely", "Salt - Occasionally", "Salt - Very Often", "Potassium"))
 Odds_Ratio = c(Race_hispanic,Race_white,Race_black,Race_other,Smoke,Kidn,pactivity,alco,salt_rarely,salt_occ,salt_voften,pota)
-data3=data.frame(Var,Odds_Ratio)
+CI = c(Race_hispanic_ci,Race_white_ci,Race_black_ci,Race_other_ci,Smoke_ci,Kidn_ci,pactivity_ci,alco_ci,salt_rarely_ci,salt_occ_ci,salt_voften_ci,pota_ci)
+data3=data.frame(Var,Odds_Ratio,CI)
 
-kable(data3, "latex", col.names =c("Variables","Odds Ratios"), booktabs=TRUE, linesep="", caption="Odds ratios for logistic regression model\\label{tbl:data3}") %>%
+kable(data3, "latex", col.names =c("Variables","Odds Ratios","95% CI"), booktabs=TRUE, linesep="", caption="Odds ratios for logistic regression model\\label{tbl:data3}") %>%
     kable_styling(latex_options=c("HOLD_position"))
 ```
 
 
 
 
-The partial dependence plot (figure \ref{fig:hist2}) for the logistic regression model represents the average prediction of the 3 continuous variables for both males and females. This plot revealed how the average prediction of hypertension continues to increase for a one unit increase in age for both males and females. Similarly, the average prediction of hypertension continued to increase for a one unit increase in BMI for females, however, it is evident there was a sharp decrease in the prediction of hypertension for males when BMI reaches 40. Potassium had a very steady, however minor decrease in the prediction for hypertension for both genders.
+The partial dependence plot (figure \ref{fig:hist2}) for the logistic regression model represents the average prediction of the three continuous variables for both males and females. This plot revealed how the average prediction of hypertension continues to increase for a one unit increase in age for both males and females. Similarly, the average prediction of hypertension continued to increase for a one unit increase in BMI for females, however, it is evident there was a sharp decrease in the prediction of hypertension for males when BMI reaches 40. This is a direct consequence of the lack of male participants with a BMI value greater than 40. There are just over double the amount of females than males who have a BMI greater than 40. Potassium had a very steady, however minor decrease in the prediction for hypertension for both genders.
 
 
 
 
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.width=5,fig.cap="Partial dependence plot on the training data for the logistic regression model, for Age, BMI and Potassium with males and females separately.\\label{fig:hist2}",fig.show='hold'}
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7, fig.width=5,fig.cap="Partial dependence plot on the training data for the logistic regression model, for Age, BMI and Potassium with males and females separately.\\label{fig:hist2}",fig.show='hold'}
 plot(model_profile(ex_log,groups="Gender")) + labs(title ="", subtitle = "", x = "Continuous Variables",color = NULL) + theme(plot.title = element_text(size = 10))
 ```
 
@@ -369,7 +457,7 @@ Figure \ref{fig:log_gen_smoke} shows the average prediction of hypertension for 
 
 
 
-```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3,fig.width=4,fig.cap="Partial dependence plot on the training data for the logistic regression model, for Gender and Smoking.\\label{fig:log_gen_smoke}",fig.show='hold'}
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=4,fig.cap="Partial dependence plot on the training data for the logistic regression model, for Gender and Smoking.\\label{fig:log_gen_smoke}",fig.show='hold'}
 
 pdp_log <- model_profile(ex_log, N = NULL, 
                         variables = c("Gender","Smoking"))
@@ -383,7 +471,7 @@ Figure \ref{fig:log_dia_kid} reveals the average prediction of hypertension for 
 
 \pagebreak
 
-```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3,fig.width=4,fig.cap="Partial dependence plot on the training data for the logistic regression model, for Diabetes and KidneyF.\\label{fig:log_dia_kid}",fig.show='hold'}
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=4,fig.cap="Partial dependence plot on the training data for the logistic regression model, for Diabetes and KidneyF.\\label{fig:log_dia_kid}",fig.show='hold'}
 pdp_log <- model_profile(ex_log, N = NULL, 
                         variables = c("Diabetes","KidneyF"))
 
@@ -396,9 +484,23 @@ Figure \ref{fig:log_alco_pact} shows the average prediction of Alcohol and PhysA
 
 
 
-```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3,fig.width=4,fig.cap="Partial dependence plot on the training data for the logistic regression model, for Alcohol and PhysActivity.\\label{fig:log_alco_pact}",fig.show='hold'}
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=4,fig.cap="Partial dependence plot on the training data for the logistic regression model, for Alcohol and PhysActivity.\\label{fig:log_alco_pact}",fig.show='hold'}
 pdp_log <- model_profile(ex_log, N = NULL, 
                         variables = c("PhysActivity", "Alcohol"))
+
+pdp_log$color = "#56B4E9"
+
+plot(pdp_log) + labs(title ="", subtitle = "") + theme(axis.text.x = element_text(angle = -30)) 
+```
+
+
+Figure \ref{fig:log_salt} shows the average prediction of Race for the logistic regression model. The plot illustrates the average prediction of hypertension is very similar across all levels of Salt. Occasionally and never using salt appear to have the same average prediction. There is evidently no obvious difference between the levels of salt used on a meal.
+
+\pagebreak
+
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=4,fig.cap="Partial dependence plot on the training data for the logistic regression model, for Race.\\label{fig:log_salt}",fig.show='hold'}
+pdp_log <- model_profile(ex_log, N = NULL, 
+                        variables = c("Salt"))
 
 pdp_log$color = "#56B4E9"
 
@@ -409,7 +511,7 @@ plot(pdp_log) + labs(title ="", subtitle = "") + theme(axis.text.x = element_tex
 Figure \ref{fig:log_race} shows the average prediction of Race for the logistic regression model. The plot illustrates the average prediction of hypertension is prominent for non-Hispanic black individuals. Non-Hispanic black individuals had the highest average prediction of hypertension in contrast to the other ethnic groups. Mexican American individuals was used as the baseline category for the logistic regression model, it was evident Mexican Americans have the lowest average prediction of hypertension under the logistic regression model.
 
 
-```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3,fig.width=4,fig.cap="Partial dependence plot on the training data for the logistic regression model, for Race.\\label{fig:log_race}",fig.show='hold'}
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=4,fig.cap="Partial dependence plot on the training data for the logistic regression model, for Race.\\label{fig:log_race}",fig.show='hold'}
 pdp_log <- model_profile(ex_log, N = NULL, 
                         variables = c("Race"))
 
@@ -419,7 +521,7 @@ plot(pdp_log) + labs(title ="", subtitle = "") + theme(axis.text.x = element_tex
 ```
 
 
-```{r, eval=FALSE,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.width=5, fig.cap="Variable importance on the training data for the logistic regression model.\\label{fig:rf_var_log}",fig.show='hold'}
+```{r, eval=FALSE,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2.7, fig.width=5, fig.cap="Variable importance on the training data for the logistic regression model.\\label{fig:rf_var_log}",fig.show='hold'}
 suppressMessages(library(vip))
 
 vip(glm_fit, num_features = 20, aesthetics = list(fill = "#56B4E9", size = 1)) + labs(x = "Exaplantory Variables")
@@ -428,24 +530,22 @@ vip(glm_fit, num_features = 20, aesthetics = list(fill = "#56B4E9", size = 1)) +
 
 ## 3.2. Random Forest{#resultsrf}
 
-This analysis used a random forest model to predict hypertension. The partial dependence plot for the random forest model (figure \ref{fig:rf_gender}) revealed how the average prediction of hypertension continued to increase for a one unit increase in age for both males and females. In contrast to the logistic regression model, the average prediction of hypertension here continued to increase for a one unit increase in BMI for both females and males. The increasing trend for BMI begins to level off around a BMI of 50. Potassium appeared to have a comparable trend to the logistic regression model, the predictions for hypertension for both genders for a one unit increase in potassium levels proved to also have a slight decreasing trend. However, it is important to consider, in all 3 plots there is a substantial amount of over-fitting accounted for by the random forest model on the training data.
+This analysis used a random forest model to predict hypertension. The partial dependence plot for the random forest model (figure \ref{fig:rf_gender}) revealed how the average prediction of hypertension continued to increase for a one unit increase in age for both males and females. In contrast to the logistic regression model, the average prediction of hypertension here continued to increase for a one unit increase in BMI for both females and males. The increasing trend for BMI begins to level off around a BMI of 50. Potassium appeared to have a comparable trend to the logistic regression model, the predictions for hypertension for both genders for a one unit increase in potassium levels proved to also have a slight decreasing trend. However, it is important to consider, in all three plots there is a substantial amount of over-fitting accounted for by the random forest model on the training data. It is evident that the random forest model is following the data very closely in figure \ref{fig:rf_gender}.
 
 
 
 
-```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3,fig.width=5,fig.cap="Partial dependence plot on the training data for the random forest model, for Age, BMI and Potassium with males and females separately.\\label{fig:rf_gender}",fig.show='hold'}
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=5,fig.cap="Partial dependence plot on the training data for the random forest model, for Age, BMI and Potassium with males and females separately.\\label{fig:rf_gender}",fig.show='hold'}
 plot(model_profile(ex_rf,groups="Gender")) + labs(title ="", subtitle = "", x = "Continuous Variables") + theme(plot.title = element_text(size = 10))
 ```
 
 
 
-\pagebreak
-
 Figure \ref{fig:rf_gen_smok} displays the average prediction of Gender and Smoking for the random forest model. This plot revealed the average prediction of hypertension was estimated to be approximately similar for both males and females. The average prediction of hypertension was exhibited to be slightly higher for individuals who smoke excessively in comparison to those that do not, similar to the logistic regression model. 
 
 
 
-```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3,fig.width=4,fig.cap="Partial dependence plot on the training data for the random forest model, for Gender and Smoking.\\label{fig:rf_gen_smok}",fig.show='hold'}
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=4,fig.cap="Partial dependence plot on the training data for the random forest model, for Gender and Smoking.\\label{fig:rf_gen_smok}",fig.show='hold'}
 pdp_rf <- model_profile(ex_rf, N = NULL, 
                         variables = c("Gender", "Smoking"))
 
@@ -457,9 +557,9 @@ plot(pdp_rf) + labs(title ="", subtitle = "") + theme(axis.text.x = element_text
 
 Figure \ref{fig:rf_dia_kid} illustrates the average prediction of Diabetes and KidneyF for the random forest model. This plot revealed the average prediction of hypertension to be reasonably higher for individuals who have been diagnosed with diabetes or are borderline diagnosed with diabetes. Similarly, the average prediction of hypertension was seen to be evidently higher for individuals who were diagnosed with kidney disease or failing kidneys. These results are comparable to the logistic regression model.
 
+\pagebreak
 
-
-```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3,fig.width=4,fig.cap="Partial dependence plot on the training data for the random forest model, for Diabetes and KidneyF.\\label{fig:rf_dia_kid}",fig.show='hold'}
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=4,fig.cap="Partial dependence plot on the training data for the random forest model, for Diabetes and KidneyF.\\label{fig:rf_dia_kid}",fig.show='hold'}
 pdp_rf <- model_profile(ex_rf, N = NULL, 
                         variables = c("Diabetes","KidneyF"))
 
@@ -474,7 +574,7 @@ Figure \ref{fig:rf_alco_pact} shows the average prediction of Alcohol and PhysAc
 
 
 
-```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3,fig.width=4,fig.cap="Partial dependence plot on the training data for the random forest model, for Alcohol and PhysActivity.\\label{fig:rf_alco_pact}",fig.show='hold'}
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=4,fig.cap="Partial dependence plot on the training data for the random forest model, for Alcohol and PhysActivity.\\label{fig:rf_alco_pact}",fig.show='hold'}
 
 pdp_rf <- model_profile(ex_rf, N = NULL, 
                         variables = c("PhysActivity", "Alcohol"))
@@ -485,11 +585,27 @@ plot(pdp_rf) + labs(title ="", subtitle = "") + theme(axis.text.x = element_text
 ```
 
 
+
+Figure \ref{fig:rf_salt} shows the average prediction of Race for the random forest model. The plot illustrates the average prediction of hypertension is very similar across three levels of Salt. Never using salt has the highest average prediction of hypertension, albeit the difference is negligible.
+
+\pagebreak
+
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=4,fig.cap="Partial dependence plot on the training data for the logistic regression model, for Race.\\label{fig:rf_salt}",fig.show='hold'}
+pdp_log <- model_profile(ex_rf, N = NULL, 
+                        variables = c("Salt"))
+
+pdp_log$color = "#56B4E9"
+
+plot(pdp_log) + labs(title ="", subtitle = "") + theme(axis.text.x = element_text(angle = -30)) 
+```
+
+
+
 Figure \ref{fig:rf_race} reveals the average prediction of Race for the random forest model. The average prediction of hypertension illustrated non-Hispanic black individuals have the highest average prediction of hypertension in contrast to the other ethnic groups. Non-Hispanic white individuals and individuals who belong to other ethnic groups had the same estimated average prediction of hypertension. Mexican American individuals evidently had the lowest average prediction of hypertension.
 
 
 
-```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3,fig.width=4,fig.cap="Partial dependence plot on the training data for the random forest model, for Race.\\label{fig:rf_race}",fig.show='hold'}
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=4,fig.cap="Partial dependence plot on the training data for the random forest model, for Race.\\label{fig:rf_race}",fig.show='hold'}
 pdp_rf <- model_profile(ex_rf, N = NULL, 
                         variables = c("Race"))
 
@@ -500,11 +616,11 @@ plot(pdp_rf) + labs(title ="", subtitle = "") + theme(axis.text.x = element_text
 
 
 
-Figure \ref{fig:rf_var} illustrates the variable importance for the random forest model on the training data set. The  higher the variable is on this plot the more important the variable is and the more the variable improves the prediction of the model. The 3 continuous variables Age, BMI and Potassium are all shown to be the most important variables in this model. Age in particular proved to be the most significant contributor to Hypertension. Diabetes, Race and Salt are shown to have a considerable importance in this model and effect on Hypertension. Smoking, Gender, PhysActivity, KidneyF and Alcohol all have similar importance in this model, however their importance does not indicate to be significant in this model to predict hypertension.
+Figure \ref{fig:rf_var} illustrates the variable importance for the random forest model on the training data set. The  higher the variable is on this plot the more important the variable is and the more the variable improves the prediction of the model. The three continuous variables Age, BMI and Potassium are all shown to be the most important variables in this model. Age in particular proved to be the biggest contributor to Hypertension. Diabetes, Race and Salt are shown to have a considerable importance in this model and effect on Hypertension. Smoking, Gender, PhysActivity, KidneyF and Alcohol all have similar importance in this model, however their importance does not indicate to be significant in this model to predict hypertension.
 
 
 
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.width=5, fig.cap="Variable importance on the training data for the random forest model.\\label{fig:rf_var}",fig.show='hold'}
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2.7, fig.width=5, fig.cap="Variable importance on the training data for the random forest model.\\label{fig:rf_var}",fig.show='hold'}
 suppressMessages(library(vip))
 
 vip(rf_fit, num_features = 11, aesthetics = list(fill = "#56B4E9", size = 1)) + labs(x = "Exaplantory Variables")
@@ -518,11 +634,7 @@ This analysis used a neural network model to predict hypertension. The partial d
 
 
 
-\pagebreak
-
-
-
-```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=3,  fig.width=5,fig.cap="Partial dependence plot on the training data for the neural network model, for Age, BMI and Potassium with males and females separately.\\label{fig:hist4}",fig.show='hold'}
+```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2.7,  fig.width=5,fig.cap="Partial dependence plot on the training data for the neural network model, for Age, BMI and Potassium with males and females separately.\\label{fig:hist4}",fig.show='hold'}
 plot(model_profile(ex_nn,groups="Gender")) + labs(title ="", subtitle = "", x = "Continuous Variables") + theme(plot.title = element_text(size = 10))
 ```
 
@@ -532,7 +644,7 @@ Figure \ref{fig:nn_gen_smo} shows the average prediction of Gender and Smoking f
 
 
 
-```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3,fig.width=4,fig.cap="Partial dependence plot on the training data for the neural network model, for Gender and Smoking.\\label{fig:nn_gen_smo}",fig.show='hold'}
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=4,fig.cap="Partial dependence plot on the training data for the neural network model, for Gender and Smoking.\\label{fig:nn_gen_smo}",fig.show='hold'}
 pdp_nn <- model_profile(ex_nn, N = NULL, 
                         variables = c("Gender", "Smoking"))
 
@@ -547,7 +659,7 @@ Figure \ref{fig:nn_dia_kid} displays the average prediction of Diabetes and Kidn
 
 
 
-```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3,fig.width=4,fig.cap="Partial dependence plot on the training data for the neural network model, for Diabetes and KidneyF.\\label{fig:nn_dia_kid}",fig.show='hold'}
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=4,fig.cap="Partial dependence plot on the training data for the neural network model, for Diabetes and KidneyF.\\label{fig:nn_dia_kid}",fig.show='hold'}
 pdp_nn <- model_profile(ex_nn, N = NULL, 
                         variables = c("Diabetes","KidneyF"))
 
@@ -561,7 +673,7 @@ Figure \ref{fig:nn_alco_pact} reveals the average prediction of Alcohol and Phys
 
 
 
-```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3,fig.width=4,fig.cap="Partial dependence plot on the training data for the neural network model, for Alcohol and PhysActivity.\\label{fig:nn_alco_pact}",fig.show='hold'}
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=4,fig.cap="Partial dependence plot on the training data for the neural network model, for Alcohol and PhysActivity.\\label{fig:nn_alco_pact}",fig.show='hold'}
 pdp_nn <- model_profile(ex_nn, N = NULL, 
                         variables = c("PhysActivity", "Alcohol"))
 
@@ -572,11 +684,26 @@ plot(pdp_nn) + labs(title ="", subtitle = "") + theme(axis.text.x = element_text
 ```
 
 
+
+Figure \ref{fig:nn_salt} shows the average prediction of Race for the neural network model. The plot illustrates the average prediction of hypertension is almost identical for all levels of Salt. There is no major variance among the average predictions of hypertension for Salt.
+
+
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=4,fig.cap="Partial dependence plot on the training data for the logistic regression model, for Race.\\label{fig:nn_salt}",fig.show='hold'}
+pdp_log <- model_profile(ex_nn, N = NULL, 
+                        variables = c("Salt"))
+
+pdp_log$color = "#56B4E9"
+
+plot(pdp_log) + labs(title ="", subtitle = "") + theme(axis.text.x = element_text(angle = -30)) 
+```
+
+
+
 Figure \ref{fig:nn_race} shows the average prediction of Race for the neural network model. The average prediction of hypertension revealed non-Hispanic black individuals have the highest average prediction of hypertension in contrast to the other ethnic groups. However, the average prediction of all ethnic groups appeared to be higher to a degree for the neural network model. In particular, the ethnic groups disregarding non-Hispanic black individuals, have had moderately greater average predictions of hypertension and it is not apparent there is any major differences between these groups on the prediction for hypertension.
 
 
 
-```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3,fig.width=4,fig.cap="Partial dependence plot on the training data for the neural network model, for Race.\\label{fig:nn_race}",fig.show='hold'}
+```{r,include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.7,fig.width=4,fig.cap="Partial dependence plot on the training data for the neural network model, for Race.\\label{fig:nn_race}",fig.show='hold'}
 pdp_nn <- model_profile(ex_nn, N = NULL, 
                         variables = c("Race"))
 
@@ -740,7 +867,7 @@ accuracy_nn *100 # 74%
 ```
 
 
-All 3 models produced very similar average predictions of hypertension for all explanatory variables. With the application of the test data to evaluate the fit of all model, all 3 confusion matrices were created to examine the summary of predicted results for all models (figures \ref{fig:cf1}, \ref{fig:cf2}, \ref{fig:cf3}). The confusion matrix yielded from the test data and the logistic regression model (figure \ref{fig:cf1}), revealed an estimated sensitivity of `r sensitivity_lr %>% round(digits = 2) *100`%, which are values of hypertension correctly positively classified as 1 or "Yes" and an estimated specificity of `r specificity_lr %>% round(digits = 2) *100`%, which are values of hypertension correctly negatively classified as 0 or "No". The logistic regression model produced an estimated positive predicted value of `r precision_lr %>% round(digits = 2) *100`%, and a negative predictive value of `r neg_pred_lr %>% round(digits = 2) *100`%. The model produced an estimated false negative rate of `r type2_error_lr %>% round(digits = 2) *100`%, and a false positive rate of `r type1_error_lr %>% round(digits = 2) *100`%.
+All three models produced very similar average predictions of hypertension for all explanatory variables. With the application of the test data to evaluate the fit of all model, all three confusion matrices were created to examine the summary of predicted results for all models (figures \ref{fig:cf1}, \ref{fig:cf2}, \ref{fig:cf3}). The confusion matrix yielded from the test data and the logistic regression model (figure \ref{fig:cf1}), revealed an estimated sensitivity of `r sensitivity_lr %>% round(digits = 2) *100`%, which are values of hypertension correctly positively classified as 1 or "Yes" and an estimated specificity of `r specificity_lr %>% round(digits = 2) *100`%, which are values of hypertension correctly negatively classified as 0 or "No". The logistic regression model produced an estimated positive predicted value of `r precision_lr %>% round(digits = 2) *100`%, and a negative predictive value of `r neg_pred_lr %>% round(digits = 2) *100`%. The model produced an estimated false negative rate of `r type2_error_lr %>% round(digits = 2) *100`%, and a false positive rate of `r type1_error_lr %>% round(digits = 2) *100`%.
 
 
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2, fig.width=4,, fig.cap="Logistic regression confusion matrix.\\label{fig:cf1}",fig.show='hold'}
@@ -785,7 +912,7 @@ autoplot(cm, type = "heatmap") +
 ```
 
 
-From further examination of the  measures produced from the evaluation of the test data, it was evident that all models performed quite similarly. Table \ref{tbl:data2} presents the model performances with measures including accuracy and AUC values. The logistic regression and neural network models in particular produced very similar measures of both accuracy and AUC values. For 3 out of 5 of the measures displayed in \ref{tbl:data2}, the neural network model and the logistic regression model performed identically. They both produced the same value for the TPR, TNR and accuracy. The logistic regression model produced an AUC value 0.01 higher the AUC value produced by the neural network model, however this difference is marginal. The neural network model yielded the highest precision value. 
+From further examination of the  measures produced from the evaluation of the test data, it was evident that all models performed quite similarly. Table \ref{tbl:data2} presents the model performances with measures including accuracy and AUC values. The logistic regression and neural network models in particular produced very similar measures of both accuracy and AUC values. For three out of five of the measures displayed in \ref{tbl:data2}, the neural network model and the logistic regression model performed identically. They both produced the same value for the TPR, TNR and accuracy. The logistic regression model produced an AUC value 0.01 higher the AUC value produced by the neural network model, however this difference is marginal. The neural network model yielded the highest precision value. 
 
 
 
@@ -812,7 +939,7 @@ kable(data2, "latex", col.names =c("Model", "Specificity","Sensitivity",
 
 
 
-Figure \ref{fig:roc} shows the ROC curve of all models using the test data set. The ROC curve was generated by plotting all model performances using the 'DALEX' package and setting geom to "roc". This ROV curve displays the the similarities between all 3 models. It is extremely clear there is very little variance between these models when predicting hypertension. 
+Figure \ref{fig:roc} shows the ROC curve of all models using the test data set. The ROC curve was generated by plotting all model performances using the 'DALEX' package and setting geom to "roc". This ROV curve displays the the similarities between all three models. It is extremely clear there is very little variance between these models when predicting hypertension. 
 
 
 
@@ -844,7 +971,7 @@ print(paste("F score of the neural network model:", round(f1_nn,3)))
 \newpage
 # 4. Discussion{#diss}
 
-To date there has been several studies that have taken various approaches to predict hypertension by means of utilising alternative models with the use of diverse data sources. This project took a machine learning approach for predicting hypertension using data from the NHANES. The analysis focused on assessing 3 alternative models. The models implemented were logistic regression, random forest and neural network. Each model was examined to determine the most appropriate model in predicting hypertension. Additionally, each variable was investigated to determine the most important variables when predicting hypertension. The findings are considered below.
+To date there has been several studies that have taken various approaches to predict hypertension by means of utilising alternative models with the use of diverse data sources. This project took a machine learning approach for predicting hypertension using data from the NHANES. The analysis focused on assessing three alternative models. The models implemented were logistic regression, random forest and neural network. Each model was examined to determine the most appropriate model in predicting hypertension. Additionally, each variable was investigated to determine the most important variables when predicting hypertension. The findings are considered below.
 
 
 The best fitting model was selected based on measures obtained through evaluating the models with the use of the test data. These measures included accuracy, precision, specificity, sensitivity, type 1 error rate, type 2 error rate and the AUC value. The logistic regression model achieved an AUC of `r tm_log_auc_test %>% round(digits = 2)` and an accuracy of `r tm_log_acc_test %>% round(digits = 2) *100`%. The neural network model achieved an AUC of `r tm_nn_auc_test %>% round(digits = 2)` and an accuracy of `r tm_nn_acc_test %>% round(digits = 2) *100`%. The random forest model achieved an AUC of `r tm_rf_auc_test %>% round(digits = 2)` and an accuracy of `r tm_rf_acc_test %>% round(digits = 2) *100`%. With a sensitivity of `r sensitivity_lr %>% round(digits = 2) *100`% and specificity of `r specificity_lr %>% round(digits = 2) *100`%, the logistic regression and neural network model illustrate that they can be reasonably effective in detecting positive occurrences of conditions such as hypertension, additionally the TNR demonstrates that both models are more effective at classifying non-hypertensive patients. It is worth noting the neural network model showed a greater precision in predicting hypertension (`r precision_nn %>% round(digits=2) *100`%), than the logistic regression model (`r precision_lr %>% round(digits=2) *100`%). However, the compilation of results indicate both the logistic regression model and neural network model are the most powerful models in predicting hypertension with the use of the NHANES data. The results from this analysis shows contrast to a previous study (Sakr et al., 2018), that saw the random forest model outperform 5 other machine learning models including a neural network model. This thesis demonstrated that the random forest model did not perform as successfully as the previous papers. However, it has shown that the random forest model did perform to a satisfactory degree as its performance measures were just below those of the logistic regression and neural network models. 
@@ -876,8 +1003,12 @@ Although in this analysis the neural network model produced the same performance
 
 Globally, cardiovascular diseases are responsible for one-third of mortality (Global health estimates, 2014) and in Ireland, they account for an almost identical proportion of deaths (Vital Statistics Fourth Quarter and Yearly Summary 2011, 2012). Although there was a dramatic drop in mortality rates since 1998, cardiovascular diseases still remain the leading cause of death in Ireland (Bennett, et al., 2006). A significant statistic has reported hypertension as a leading modifiable risk factor for cardiovascular diseases and has been estimated to be responsible for no less than 45% of ischaemic heart disease mortality and 51% of total stroke mortality globally (Global health estimates, 2014). The impact of hypertension is increasing around the world (Zhao, et al., 2013). It was estimated that there were approximately 972 million adults worldwide diagnosed with hypertension in 2000 alone, in the context of an aging population, the number of people diagnosed with hypertension is anticipated to increase by up to 60% to reach 1.5 billion people by 2025 (Kearney, et al., 2005). The need for model based prediction analysis for hypertension is colossal. Predicting hypertension can help establish leading causing of hypertension and assist with prevention measures to decrease the vast amount of people being diagnosed with hypertension every year. The repercussions of hypertension can be detrimental and the need for prevention is now.
 
-By analysing the prediction of hypertension with 3 alternative machine learning models utilising NHANES data, this thesis has shown how neural network and logistic regression models are best at predicting hypertension. This study has revealed some contrast to previous studies (López-Martínez et al, 2020) that explored several machine learning models that included the random forest and neural network model. However, this analysis has further supported that there are multiple reliable and adequate models that can assist in the prediction of conditions and diseases. This type of analysis can be so beneficial to humans all over the world. It has the capability to prevent some of these conditions from transpiring and further preventing extensive cardiovascular deaths globally. 
+By analysing the prediction of hypertension with three alternative machine learning models utilising NHANES data, this thesis has shown how neural network and logistic regression models are best at predicting hypertension. This study has revealed some contrast to previous studies (López-Martínez et al, 2020) that explored several machine learning models that included the random forest and neural network model. However, this analysis has further supported that there are multiple reliable and adequate models that can assist in the prediction of conditions and diseases. This type of analysis can be so beneficial to humans all over the world. It has the capability to prevent some of these conditions from transpiring and further preventing extensive cardiovascular deaths globally. 
 
+
+
+
+Currently, logistic regression and artificial neural networks are the most widely used models in biomedicine (Dreiseitl and Ohno-Machado, 2002). - https://www.sciencedirect.com/science/article/pii/S1532046403000340
 
 
 
@@ -900,36 +1031,47 @@ By analysing the prediction of hypertension with 3 alternative machine learning 
 9. Centers for Disease Control and Prevention. 2021. The Role of Potassium and Sodium in Your Diet. [online] Available at: <https://www.cdc.gov/salt/potassium.htm> [Accessed 13 July 2021].
 10. Go, A.S., Mozaffarian, D., Roger, V.L., Benjamin, E.J., Berry, J.D., Borden, W.B., Bravata, D.M., Dai, S., Ford, E.S., Fox, C.S. and Franco, S., 2013. Heart disease and stroke statistics—2013 update: a report from the American Heart Association. *Circulation*, 127(1), pp.e6-e245.
 11. López-Martínez, F., Núñez-Valdez, E., Crespo, R. and García-Díaz, V., 2020. An artificial neural network approach for predicting hypertension using NHANES data. *Scientific Reports*, 10(1).
-12. Alpaydin, E., 2014. *Introduction to machine learning*. MIT press.
-13. Marsland, S., 2015.  *Machine learning: an algorithmic perspective*. CRC press.
+
+
+
+
+
+
+
 14. Kononenko, I., 2001. Machine learning for medical diagnosis: history, state of the art and perspective. *Artificial Intelligence in medicine*, 23(1), pp.89-109.
-15. Deo, R.C., 2015. Machine learning in medicine. *Circulation*, 132(20), pp.1920-1930.
-16. Obermeyer, Z. and Emanuel, E.J., 2016. Predicting the future—big data, machine learning, and clinical medicine. *The New England journal of medicine*, 375(13), p.1216.
-17. Darcy, A.M., Louie, A.K. and Roberts, L.W., 2016. Machine learning and the profession of medicine. Jama, 315(6), pp.551-552.
+
+
 18. Elshawi, R., Al-Mallah, M.H. and Sakr, S., 2019. On the interpretability of machine learning-based model for predicting hypertension. *BMC medical informatics and decision making*, 19(1), pp.1-32.
-19. Singal, A.G., Rahimi, R.S., Clark, C., Ma, Y., Cuthbert, J.A., Rockey, D.C. and Amarasingham, R., 2013. An automated model using electronic medical record data identifies patients with cirrhosis at high risk for readmission. *Clinical Gastroenterology and Hepatology*, 11(10), pp.1335-1341.
-20. He, D., Mathews, S.C., Kalloo, A.N. and Hutfless, S., 2014. Mining high-dimensional administrative claims data to predict early hospital readmissions. *Journal of the American Medical Informatics Association*, 21(2), pp.272-279.
-21. Pederson, J.L., Majumdar, S.R., Forhan, M., Johnson, J.A., McAlister, F.A. and PROACTIVE Investigators, 2016. Current depressive symptoms but not history of depression predict hospital readmission or death after discharge from medical wards: a multisite prospective cohort study. *General hospital psychiatry*, 39, pp.80-85.
-22. Futoma, J., Morris, J. and Lucas, J., 2015. A comparison of models for predicting early hospital readmissions. *Journal of biomedical informatics*, 56, pp.229-238.
-23.Chang, C.D., Wang, C.C. and Jiang, B.C., 2011. Using data mining techniques for multi-diseases prediction modeling of hypertension and hyperlipidemia by common risk factors. *Expert systems with applications*, 38(5), pp.5507-5513.
-24. Abdullah, A.A., Zakaria, Z. and Mohamad, N.F., 2011. Design and development of fuzzy expert system for diagnosis of hypertension. *Second international conference on intelligent systems, modelling and simulation*, pp. 113-117.
-25. Farran, B., Channanath, A.M., Behbehani, K. and Thanaraj, T.A., 2013. Predictive models to assess risk of type 2 diabetes, hypertension and comorbidity: machine-learning algorithms and validation using national health data from Kuwait—a cohort study. *BMJ open*, 3(5), pp.e002457.
+
+
 26. López-Martínez, F., Schwarcz, A., Núñez-Valdez, E.R. and Garcia-Diaz, V., 2018. Machine learning classification analysis for a hypertensive population as a function of several risk factors. *Expert Systems with Applications*, 110, pp.206-215.
-27. Cdc.gov. 2021. NHANES - About the National Health and Nutrition Examination Survey. [online] Available at: <https://www.cdc.gov/nchs/nhanes/about_nhanes.htm> [Accessed 31 May 2021].
+27. cdc.gov. 2021. About the NHANES. [online] Available at: <https://www.cdc.gov/nchs/nhanes/about_nhanes.htm> [Accessed 31 May 2021].
 28. Christopher J. Endres (2021). nhanesA: NHANES Data Retrieval. R package version 0.6.5.3. https://CRAN.R-project.org/package=nhanesA
 29. Hall, G.H. and Round, A.P., 1994. Logistic regression—explanation and use. Journal of the Royal College of Physicians of London, 28(3), p.242.
 30. John Fox and Sanford Weisberg (2019). An {R} Companion to Applied Regression, Third Edition. Thousand Oaks CA: Sage. URL:https://socialsciences.mcmaster.ca/jfox/Books/Companion.
 31. Kuhn et al., (2020). Tidymodels: a collection of packages for modeling and machine learning using tidyverse principles. https://www.tidymodels.org
-32. Ho, T.K., 1995, August. Random decision forests. *In Proceedings of 3rd international conference on document analysis and recognition*, 1, pp. 278-282.
+
+
 33. Breiman, L., 2001. Random forests. *Machine learning*, 45(1), pp.5-32.
 34. Breiman, L., 2002. Using models to infer mechanisms. *IMS Wald Lecture*, 2, pp.59-71.
+
+
+35. Wright, M.N. and Ziegler, A., 2017. ranger: A Fast Implementation of Random Forests for High Dimensional Data in C++ and R. Journal of Statistical Software, 77(1), 1-17. doi:10.18637/jss.v077.i01
+36. Venables, W. N. & Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth Edition. Springer, New York. ISBN 0-387-95457-0
+
+
 35. Prasad, A.M., Iverson, L.R. and Liaw, A., 2006. Newer classification and regression tree techniques: bagging and random forests for ecological prediction. *Ecosystems*, 9(2), pp.181-199.
-36. Catherine Hurley, Mark O'Connell and Katarina Domijan (2020). condvis2: Interactive Conditional Visualization for Supervised and Unsupervised Models in Shiny. R package version 0.1.1. https://CRAN.R-project.org/package=condvis2
+
+36. Hurley, C., O'Connell, M. and Domijan K., 2020. condvis2: Interactive Conditional Visualization for Supervised and Unsupervised Models in Shiny. R package version 0.1.1. https://CRAN.R-project.org/package=condvis2
 37. Swets, J.A., 1979. ROC analysis applied to the evaluation of medical imaging techniques. *Investigative radiology*, 14(2), pp.109-121.
-38. Metz, C.E., 1986. ROC methodology in radiologic imaging. *Investigative radiology*, 21(9), pp.720-733.
-39. Hanley, J.A. and McNeil, B.J., 1982. The meaning and use of the area under a receiver operating characteristic (ROC) curve. *Radiology*, 143(1), pp.29-36.
+
+40. Friedman, J.H., 2001. Greedy function approximation: a gradient boosting machine. *Annals of statistics*, pp.1189-1232.
+
 40. Biecek, P. and Burzykowski, T., 2021. *Explanatory model analysis: explore, explain, and examine predictive models*. CRC Press.
 41. Biecek P (2018). “DALEX: Explainers for Complex Predictive Models in R.” _Journal of Machine Learning Research_, 19(84), 1-5. <URL: https://jmlr.org/papers/v19/18-416.html>.
+
+
+
 41. Maksymiuk S, Gosiewska A, Biecek P (2020). “Landscape of R packages for eXplainable Artificial Intelligence.” _arXiv_. Pages 6, 7, 11, 15, <URL: https://arxiv.org/abs/2009.13248>.
 42. Kayame, R. and Mallongi, A., 2018. Relationships between Smoking Habits and the Hypertension Occurrence among the Adults of Communities in Paniai Regency, Papua Indonesia. *Indian Journal of Public Health Research & Development*, 9(1).
 43. Suter, P.M., 1998. Potassium and hypertension. *Nutrition reviews*, 56(5), pp.151-153.
@@ -940,7 +1082,7 @@ By analysing the prediction of hypertension with 3 alternative machine learning 
 48. Kearney, P.M., Whelton, M., Reynolds, K., Muntner, P., Whelton, P.K. and He, J., 2005. Global burden of hypertension: analysis of worldwide data. *The Lancet*, 365(9455), pp.217-223.
 
 
-
+50. Dreiseitl, S. and Ohno-Machado, L., 2002. Logistic regression and artificial neural network classification models: a methodology review. *Journal of biomedical informatics*, 35(5-6), pp.352-359.
 
 
 
