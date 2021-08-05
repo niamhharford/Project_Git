@@ -623,7 +623,15 @@ Figure \ref{fig:rf_var} illustrates the variable importance for the random fores
 ```{r, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE,fig.height=2.7, fig.width=5, fig.cap="Variable importance on the training data for the random forest model.\\label{fig:rf_var}",fig.show='hold'}
 suppressMessages(library(vip))
 
-vip(rf_fit, num_features = 11, aesthetics = list(fill = "#56B4E9", size = 1)) + labs(x = "Exaplantory Variables")
+vip(glm_fit, num_features = 20, aesthetics = list(fill = "#56B4E9", size = 1)) + labs(x = "Exaplantory Variables")
+vip(final_nn, num_features = 11, method = "permute",aesthetics = list(fill = "#56B4E9", size = 1)) + labs(x = "Exaplantory Variables")
+
+class(final_nn)
+class(glm_fit)
+y <-pull_workflow_fit(final_nn)
+class(y)
+vip(y, method = "permute", train = data_11a, target = "Hypertension", metric = "auc", pred_wrapper = CVpredict)
+library(condvis2)
 ```
 
 
